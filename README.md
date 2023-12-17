@@ -16,14 +16,12 @@ Features:
 *** Customer Management: Add, edit, and track customer information for loyalty programs and targeted promotions.
 
 *** Reports Generation: Generate reports on sales, inventory, and customer activities to gain valuable insights.
-
-
+___________________________________________
 Developed by:
     Designer/Documentation : Ana Capunol             
     Designer : Javier Fernandez                      
-    Programmer : Keshley Nitz T. Martinez            
-
-
+    Programmer : Keshley Nitz T. Martinez          
+__________________________________________
 Feedback:
 
 We appreciate your feedback! Feel free to create issues or open discussions in the repository to share your thoughts and suggestions.
