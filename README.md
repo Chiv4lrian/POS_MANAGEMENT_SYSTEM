@@ -4,14 +4,6 @@ Welcome to the repository for our POS Management System for small sari-sari stor
 
 This system is designed to help sari-sari store owners easily manage their inventory, sales, and customers. Developed in Java using IntelliJ IDEA JetBrains IDE and utilizing MySQL Workbench for the database, this system offers a user-friendly interface and efficient functionalities.
 
--------------------------------------------------------
-| Developed by:                                       |
-|                                                     |
-|    Designer/Documentation : Ana Capunol             |
-|    Designer : Javier Fernandez                      |
-|    Programmer : Keshley Nitz T. Martinez            |
-|                                                     |
--------------------------------------------------------
 
 Features:
 
@@ -25,6 +17,14 @@ Features:
 
 *** Reports Generation: Generate reports on sales, inventory, and customer activities to gain valuable insights.
 
+-------------------------------------------------------
+| Developed by:                                       |
+|                                                     |
+|    Designer/Documentation : Ana Capunol             |
+|    Designer : Javier Fernandez                      |
+|    Programmer : Keshley Nitz T. Martinez            |
+|                                                     |
+-------------------------------------------------------
 
 Feedback:
 
