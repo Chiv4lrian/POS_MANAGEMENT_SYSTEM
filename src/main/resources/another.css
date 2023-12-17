@@ -1,0 +1,27 @@
+
+.button {
+    -fx-background-color: #000000;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 9px;
+    -fx-font-weight: bold;
+    -fx-font-family: 'Bebas Neue', sans-serif;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-padding: 5px 10px;
+}
+.choice-box .label {
+    -fx-alignment: center;
+    -fx-font-family: 'Bebas Neue', sans-serif;
+    -fx-font-size: 15px;
+    -fx-font-weight:bold;
+}
+.choice-box .menu-item > .label {
+    -fx-pref-width: 160;
+    -fx-alignment: center;
+}
+.label{
+    -fx-font-family: 'Bebas Neue', sans-serif;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+}

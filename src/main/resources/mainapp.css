@@ -1,0 +1,25 @@
+@font-face {
+    font-family: 'Bebas Neue', sans-serif;
+    src: url('Oswald-VariableFont_wght.ttf');
+}
+
+.button {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #000000;
+    -fx-font-size: 20px;
+    -fx-font-weight:bold;
+    -fx-font-family: 'Bebas Neue', sans-serif;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-padding: 5px 10px;
+}
+.button:hover{
+    -fx-background-color: linear-gradient(to right,#feac5e,#c779d0,#4bc0c8);
+    -fx-cursor: hand;
+}
+.label{
+    -fx-font-size: 20px;
+    -fx-text-alignment: center;
+    -fx-font-weight: bolder;
+    -fx-font-family: 'Bebas Neue',sans-serif;
+}
