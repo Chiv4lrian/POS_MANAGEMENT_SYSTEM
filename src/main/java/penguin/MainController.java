@@ -421,73 +421,64 @@ public class MainController implements Initializable {
     //logout_end
     @FXML
     public void keyPressed(KeyEvent e) {
-        switch (e.getCode()) {
-            case L:
-                loggy();
-                break;
-            case F9:
-                inv_vis_butt();
-                break;
-            case F10:
-                pos_vis_butt();
-                break;
-            case F11:
-                rep_vis_butt();
-                break;
-            case F12:
-                user_vis_butt();
-                break;
+        if (e.getCode() == KeyCode.L) {
+            loggy();
+        } else if (!inventory_pane.isVisible() && e.getCode() == KeyCode.F1) {
+            inv_vis_butt();
+        } else if (!pos_pane.isVisible() && e.getCode() == KeyCode.F2) {
+            pos_vis_butt();
+        } else if (!reports_pane.isVisible() && e.getCode() == KeyCode.F3) {
+            rep_vis_butt();
+        } else if (!user_pane.isVisible() && e.getCode() == KeyCode.F4) {
+            user_vis_butt();
         }
     }
 
+
     @FXML
     public void keyPressed_2(KeyEvent e) {
-        switch (e.getCode()) {
-            case ESCAPE:
-                inv_vis_wan();
-                pos_vis_wan();
-                rep_vis_wan();
-                user_vis_wan();
-                add_pane.setVisible(false);
-                edit_pane.setVisible(false);
-                sales_add.setVisible(false);
-                invent_levels.setVisible(false);
-                invent_app.setVisible(false);
-                sales_hist.setVisible(false);
-                break;
-            case CONTROL:
-                toggle_tab();
-                break;
-            case F1:
-                add_product_evt();
-                sales_add.setVisible(true);
-                break;
-            case F2:
-                edit_pane.setVisible(true);
-                add_pane.setVisible(false);
-                break;
-            case F8:
-                add_pane.setVisible(false);
-                edit_pane.setVisible(false);
-                sales_add.setVisible(false);
-                break;
-            case F5:
-                invent_levels.setVisible(false);
-                invent_app.setVisible(true);
-                sales_hist.setVisible(false);
-                break;
-            case F6:
-                invent_levels.setVisible(true);
-                invent_app.setVisible(false);
-                sales_hist.setVisible(false);
-                break;
-            case F7:
-                invent_levels.setVisible(false);
-                invent_app.setVisible(false);
-                sales_hist.setVisible(true);
-                break;
+        if ((add_pane.isVisible() || edit_pane.isVisible() || sales_add.isVisible() || invent_levels.isVisible() || invent_app.isVisible() || sales_hist.isVisible()) && e.getCode() == KeyCode.ESCAPE) {
+            add_pane.setVisible(false);
+            edit_pane.setVisible(false);
+            sales_add.setVisible(false);
+            invent_levels.setVisible(false);
+            invent_app.setVisible(false);
+            sales_hist.setVisible(false);
+        } else if  ((!add_pane.isVisible() || !edit_pane.isVisible() || !sales_add.isVisible() || !invent_levels.isVisible() || !invent_app.isVisible() || !sales_hist.isVisible()) && e.getCode() == KeyCode.ESCAPE) {
+            inv_vis_wan();
+            pos_vis_wan();
+            rep_vis_wan();
+            user_vis_wan();
+        }
+        else if (e.getCode() == KeyCode.CONTROL) {
+            toggle_tab();
+        } else if (inventory_pane.isVisible() && e.getCode() == KeyCode.F1) {
+            add_product_evt();
+        } else if (add_pane.isVisible() && e.getCode() == KeyCode.F2) {
+            edit_pane.setVisible(true);
+            add_pane.setVisible(false);
+        } else if ((add_pane.isVisible() || edit_pane.isVisible()) && e.getCode() == KeyCode.ESCAPE) {
+            add_pane.setVisible(false);
+            edit_pane.setVisible(false);
+        } else if (pos_pane.isVisible() && e.getCode() == KeyCode.F1){
+            sales_add.setVisible(true);
+        } else if (sales_add.isVisible() && e.getCode() == KeyCode.ESCAPE){
+            sales_add.setVisible(false);
+        } else if (reports_pane.isVisible() && e.getCode() == KeyCode.F1) {
+            invent_levels.setVisible(false);
+            invent_app.setVisible(true);
+            sales_hist.setVisible(false);
+        } else if (reports_pane.isVisible() && e.getCode() == KeyCode.F2) {
+            invent_levels.setVisible(true);
+            invent_app.setVisible(false);
+            sales_hist.setVisible(false);
+        } else if (reports_pane.isVisible() && e.getCode() == KeyCode.F3) {
+            invent_levels.setVisible(false);
+            invent_app.setVisible(false);
+            sales_hist.setVisible(true);
         }
     }
+
 
 
     //key_pressed_methods_end
