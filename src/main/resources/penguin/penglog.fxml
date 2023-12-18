@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -17,7 +18,7 @@
          </font>
       </Text>
       <TextField fx:id="user" layoutX="72.0" layoutY="137.0" onKeyPressed="#loginformie" prefHeight="45.0" prefWidth="166.0" promptText="Username" style="-fx-border-color: black; -fx-background-radius: 20; -fx-border-radius: 20;" />
-      <TextField fx:id="password" layoutX="72.0" layoutY="192.0" onAction="#focus" onKeyPressed="#loginformie" prefHeight="45.0" prefWidth="166.0" promptText="Password" style="-fx-border-color: black; -fx-background-radius: 20; -fx-border-radius: 20;" />
+      <PasswordField fx:id="password" layoutX="72.0" layoutY="192.0" onAction="#focus" onKeyPressed="#loginformie" prefHeight="45.0" prefWidth="166.0" promptText="Password" style="-fx-border-color: black; -fx-background-radius: 20; -fx-border-radius: 20;" /> <!-- Change TextField to PasswordField -->
       <ImageView fx:id="logo" fitHeight="57.0" fitWidth="61.0" layoutX="116.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../img/pengui.png" />

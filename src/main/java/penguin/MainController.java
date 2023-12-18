@@ -34,6 +34,8 @@ public class MainController implements Initializable {
     ObservableList<String> checkbox1_list = FXCollections.observableArrayList("Beverages","Condiments");
     ObservableList<String> checkbox2_list = FXCollections.observableArrayList("₱1 - ₱5", "₱6 - ₱10", "₱11 - ₱20","₱21 - ₱50","₱51 - ₱100", "₱101 - ₱200");
     ObservableList<String> checkbox3_list = FXCollections.observableArrayList("Lowest","Highest");
+    ObservableList<String> check_age = FXCollections.observableArrayList("Newest","Oldest");
+
     //ChoiceBox Arrays End
 
     //new added
@@ -91,7 +93,12 @@ public class MainController implements Initializable {
     private AnchorPane user_pane;
     @FXML
     private Button log_out;
-    
+    @FXML
+    private Button cancel_add_user;
+    @FXML
+    private Pane add_users;
+    @FXML
+    private Button add_account_butt;
     //name
     @FXML
     private Label account_name;
@@ -116,6 +123,24 @@ public class MainController implements Initializable {
     private ChoiceBox<String> checkbox5;
     @FXML
     private ChoiceBox<String> checkbox6;
+    @FXML
+    private ChoiceBox<String> level_cat;
+    @FXML
+    private ChoiceBox<String> level_price;
+    @FXML
+    private ChoiceBox<String> level_sort;
+    @FXML
+    private ChoiceBox<String> val_choice1;
+    @FXML
+    private ChoiceBox<String> val_choice2;
+    @FXML
+    private ChoiceBox<String> val_choice3;
+    @FXML
+    private ChoiceBox<String> sales_cat;
+    @FXML
+    private ChoiceBox<String> sales_price;
+
+
     //checkbox_end
 
     //inventory buttons/panes
@@ -215,6 +240,8 @@ public class MainController implements Initializable {
         level_butt.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> rep_levels());
         appraisal_butt.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> rep_app());
         history_butt.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> log_hist());
+        add_account_butt.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> add_users.setVisible(true));
+        cancel_add_user.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> add_users.setVisible(false));
     }
     //ButtonsOnActions_End
 
@@ -227,7 +254,7 @@ public class MainController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-       // productID_col.setCellValueFactory(new PropertyValueFactory<>("id"));
+        //productID_col.setCellValueFactory(new PropertyValueFactory<>("id"));
         productname_col.setCellValueFactory(new PropertyValueFactory<>("name"));
         category_col.setCellValueFactory(new PropertyValueFactory<>("category"));
         price_col.setCellValueFactory(new PropertyValueFactory<>("price"));
@@ -251,6 +278,22 @@ public class MainController implements Initializable {
         checkbox5.setValue("PRICE");
         checkbox6.setItems(checkbox3_list);
         checkbox6.setValue("SORT");
+        level_cat.setItems(checkbox1_list);
+        level_cat.setValue("CATEGORIES");
+        level_price.setItems(checkbox2_list);
+        level_price.setValue("PRICE");
+        level_sort.setItems(check_age);
+        level_sort.setValue("");
+        val_choice1.setItems(checkbox1_list);
+        val_choice1.setValue("CATEGORIES");
+        val_choice2.setItems(checkbox2_list);
+        val_choice2.setValue("PRICE");
+        val_choice3.setItems(check_age);
+        val_choice3.setValue("");
+        sales_cat.setItems(checkbox1_list);
+        sales_cat.setValue("CATEGORIES");
+        sales_price.setItems(checkbox2_list);
+        sales_price.setValue("PRICE");
     }
     
     //system_methods_all
@@ -437,14 +480,15 @@ public class MainController implements Initializable {
 
     @FXML
     public void keyPressed_2(KeyEvent e) {
-        if ((add_pane.isVisible() || edit_pane.isVisible() || sales_add.isVisible() || invent_levels.isVisible() || invent_app.isVisible() || sales_hist.isVisible()) && e.getCode() == KeyCode.ESCAPE) {
+        if ((add_pane.isVisible() || edit_pane.isVisible() || sales_add.isVisible() || invent_levels.isVisible() || invent_app.isVisible() || sales_hist.isVisible() || add_users.isVisible()) && e.getCode() == KeyCode.ESCAPE) {
             add_pane.setVisible(false);
             edit_pane.setVisible(false);
             sales_add.setVisible(false);
             invent_levels.setVisible(false);
             invent_app.setVisible(false);
             sales_hist.setVisible(false);
-        } else if  ((!add_pane.isVisible() || !edit_pane.isVisible() || !sales_add.isVisible() || !invent_levels.isVisible() || !invent_app.isVisible() || !sales_hist.isVisible()) && e.getCode() == KeyCode.ESCAPE) {
+            add_users.setVisible(false);
+        } else if  ((!add_pane.isVisible() || !edit_pane.isVisible() || !sales_add.isVisible() || !invent_levels.isVisible() || !invent_app.isVisible() || !sales_hist.isVisible()) || !add_users.isVisible() && e.getCode() == KeyCode.ESCAPE) {
             inv_vis_wan();
             pos_vis_wan();
             rep_vis_wan();
@@ -476,6 +520,10 @@ public class MainController implements Initializable {
             invent_levels.setVisible(false);
             invent_app.setVisible(false);
             sales_hist.setVisible(true);
+        } else if (user_pane.isVisible() && e.getCode() == KeyCode.F10){
+            add_users.setVisible(true);
+        } else if (add_users.isVisible() && e.getCode() == KeyCode.ESCAPE){
+            add_users.setVisible(false);
         }
     }
 

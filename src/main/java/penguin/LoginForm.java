@@ -13,6 +13,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+
 import java.sql.*;
 import java.util.Optional;
 
@@ -28,7 +29,7 @@ public class LoginForm {
     @FXML
     private TextField user;
     @FXML
-    private TextField password;
+    private PasswordField password;
     @FXML
     private ImageView user_logo;
     @FXML
@@ -83,7 +84,7 @@ public class LoginForm {
                     stage.show();
                 } else {
                     if (confirmRetry()) {
-                        if(counts>=3) {
+                        if (counts >= 3) {
                             Stage stage = (Stage) exit_butt.getScene().getWindow();
                             stage.close();
                         } else {
@@ -133,12 +134,6 @@ public class LoginForm {
 
         Optional<ButtonType> result = alert.showAndWait();
 
-        if (result.isPresent() && result.get() == retryButton) {
-            counts++;
-            return true;
-        } else {
-            return false;
-        }
+        return result.isPresent() && result.get() == retryButton;
     }
-
 }
