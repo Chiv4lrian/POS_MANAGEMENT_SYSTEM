@@ -480,7 +480,7 @@ public class MainController implements Initializable {
 
     @FXML
     public void keyPressed_2(KeyEvent e) {
-        if ((add_pane.isVisible() || edit_pane.isVisible() || sales_add.isVisible() || invent_levels.isVisible() || invent_app.isVisible() || sales_hist.isVisible() || add_users.isVisible()) && e.getCode() == KeyCode.ESCAPE) {
+        if ((add_pane.isVisible() || edit_pane.isVisible() || sales_add.isVisible() || invent_levels.isVisible() || invent_app.isVisible() || sales_hist.isVisible()) || add_users.isVisible() && e.getCode() == KeyCode.ESCAPE) {
             add_pane.setVisible(false);
             edit_pane.setVisible(false);
             sales_add.setVisible(false);
@@ -488,7 +488,7 @@ public class MainController implements Initializable {
             invent_app.setVisible(false);
             sales_hist.setVisible(false);
             add_users.setVisible(false);
-        } else if  ((!add_pane.isVisible() || !edit_pane.isVisible() || !sales_add.isVisible() || !invent_levels.isVisible() || !invent_app.isVisible() || !sales_hist.isVisible()) || !add_users.isVisible() && e.getCode() == KeyCode.ESCAPE) {
+        } else if  ((!add_pane.isVisible() || !edit_pane.isVisible() || !sales_add.isVisible() || !invent_levels.isVisible() || !invent_app.isVisible() || !sales_hist.isVisible()) && e.getCode() == KeyCode.ESCAPE) {
             inv_vis_wan();
             pos_vis_wan();
             rep_vis_wan();
@@ -520,7 +520,7 @@ public class MainController implements Initializable {
             invent_levels.setVisible(false);
             invent_app.setVisible(false);
             sales_hist.setVisible(true);
-        } else if (user_pane.isVisible() && e.getCode() == KeyCode.F10){
+        } else if (user_pane.isVisible() && e.getCode() == KeyCode.F1){
             add_users.setVisible(true);
         } else if (add_users.isVisible() && e.getCode() == KeyCode.ESCAPE){
             add_users.setVisible(false);
