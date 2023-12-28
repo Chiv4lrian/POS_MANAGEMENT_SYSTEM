@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -70,23 +71,23 @@
                   <Image url="@../img/Green_Minimalist_Fashion_Store_Logo__1_-removebg-preview.png" />
                </image>
             </ImageView>
-            <TableView fx:id="debt_table" layoutX="645.0" layoutY="232.0" prefHeight="346.0" prefWidth="538.0" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../tb.css">
+            <TableView fx:id="debt_table" layoutX="645.0" layoutY="226.0" prefHeight="352.0" prefWidth="538.0" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../tb.css">
                <columns>
-                  <TableColumn prefWidth="185.0" text="Name" />
-                  <TableColumn prefWidth="202.0" text="Total Debt" />
-                  <TableColumn prefWidth="150.0" text="Date Added" />
+                  <TableColumn fx:id="debt_name" prefWidth="185.0" text="Name" />
+                  <TableColumn fx:id="debt_total" prefWidth="202.0" text="Total Debt" />
+                  <TableColumn fx:id="debt_add" prefWidth="150.0" text="Date Added" />
                </columns>
             </TableView>
-            <TableView fx:id="misc_table" layoutX="647.0" layoutY="234.0" prefHeight="346.0" prefWidth="538.0" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../tb.css" visible="false">
+            <TableView fx:id="misc_table" layoutX="647.0" layoutY="228.0" prefHeight="352.0" prefWidth="538.0" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../tb.css" visible="false">
                <columns>
-                  <TableColumn prefWidth="185.0" text="Name" />
-                  <TableColumn prefWidth="202.0" text="Total Borrowed" />
-                  <TableColumn prefWidth="150.0" text="Date Added" />
+                  <TableColumn fx:id="misc_name" prefWidth="185.0" text="Name" />
+                  <TableColumn fx:id="misc_total" prefWidth="202.0" text="Total Borrowed" />
+                  <TableColumn fx:id="misc_add" prefWidth="150.0" text="Date Added" />
                </columns>
             </TableView>
-            <Button layoutX="717.0" layoutY="610.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../mainapp.css" text="ADD DEBT " />
-            <Button layoutX="928.0" layoutY="610.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="190.0" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../mainapp.css" text="MISCELLANEOUS" />
-            <Button fx:id="misc_showbutt" layoutX="830.0" layoutY="185.0" mnemonicParsing="false" onAction="#switchGo" prefHeight="34.0" prefWidth="169.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" text="MISCELLENEOUS" />
+            <Button fx:id="debt_butt" layoutX="647.0" layoutY="630.0" mnemonicParsing="false" onAction="#main_buttAction" prefHeight="40.0" prefWidth="150.0" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../mainapp.css" text="ADD DEBT " />
+            <Button fx:id="misc_butt" layoutX="830.0" layoutY="630.0" mnemonicParsing="false" onAction="#main_buttAction" prefHeight="40.0" prefWidth="190.0" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../mainapp.css" text="MISCELLANEOUS" />
+            <Button fx:id="misc_showbutt" layoutX="841.0" layoutY="185.0" mnemonicParsing="false" onAction="#switchGo" prefHeight="34.0" prefWidth="169.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" text="MISCELLENEOUS" />
             <Button fx:id="debt_showbutt" layoutX="859.0" layoutY="185.0" mnemonicParsing="false" onAction="#switchGo" prefHeight="34.0" prefWidth="115.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" text="DEBT" visible="false" />
             <Pane layoutX="692.0" layoutY="14.0" prefHeight="105.0" prefWidth="320.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 3;">
                <children>
@@ -112,18 +113,75 @@
                   </Label>
                </children>
             </Pane>
-            <Pane layoutX="643.0" layoutY="222.0" prefHeight="358.0" prefWidth="546.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" visible="false">
+            <Pane fx:id="pane_debt" layoutX="643.0" layoutY="222.0" prefHeight="358.0" prefWidth="546.0" style="-fx-background-color: #85a9ed; -fx-border-color: black; -fx-border-width: 2;" visible="false">
                <children>
-                  <Button layoutX="132.0" layoutY="300.0" mnemonicParsing="false" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../mainapp.css" text="SUBMIT" />
-                  <Button layoutX="335.0" layoutY="300.0" mnemonicParsing="false" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../mainapp.css" text="CANCEL" />
+                  <Button fx:id="submit_debt" layoutX="132.0" layoutY="300.0" mnemonicParsing="false" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../mainapp.css" text="SUBMIT" />
+                  <Button fx:id="cancel_debt" layoutX="335.0" layoutY="300.0" mnemonicParsing="false" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../mainapp.css" text="CANCEL" />
+                  <TextField fx:id="debt_fname" layoutX="172.0" layoutY="71.0" prefHeight="29.0" prefWidth="255.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
+                  <TextField fx:id="debt_ftotal" layoutX="172.0" layoutY="153.0" prefHeight="29.0" prefWidth="255.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
+                  <Label fx:id="debt_fdate" alignment="CENTER" layoutX="172.0" layoutY="229.0" prefHeight="27.0" prefWidth="154.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" textAlignment="JUSTIFY">
+                     <font>
+                        <Font name="Arial Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Text layoutX="41.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="NAME ">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="41.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BORROWED TOTAL" wrappingWidth="109.8984375">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="42.0" layoutY="247.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DATE ADDED">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Text>
                </children>
             </Pane>
-            <Pane prefHeight="358.0" prefWidth="546.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" visible="false">
+            <Pane fx:id="pane_misc" layoutX="640.0" layoutY="220.0" prefHeight="364.0" prefWidth="552.0" style="-fx-background-color: #85a9ed; -fx-border-color: black; -fx-border-width: 2;" visible="false">
                <children>
-                  <Button layoutX="132.0" layoutY="300.0" mnemonicParsing="false" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../mainapp.css" text="SUBMIT" />
-                  <Button layoutX="335.0" layoutY="300.0" mnemonicParsing="false" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../mainapp.css" text="CANCEL" />
+                  <Button fx:id="submit_misc" layoutX="132.0" layoutY="300.0" mnemonicParsing="false" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../mainapp.css" text="SUBMIT" />
+                  <Button fx:id="cancel_misc" layoutX="335.0" layoutY="300.0" mnemonicParsing="false" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../mainapp.css" text="CANCEL" />
+                  <TextField fx:id="misc_fname" layoutX="174.0" layoutY="69.0" prefHeight="29.0" prefWidth="255.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
+                  <TextField fx:id="misc_ftotal" layoutX="174.0" layoutY="155.0" prefHeight="29.0" prefWidth="255.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
+                  <Label fx:id="misc_fdate" alignment="CENTER" layoutX="174.0" layoutY="229.0" prefHeight="27.0" prefWidth="154.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" textAlignment="JUSTIFY">
+                     <font>
+                        <Font name="Arial Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Text layoutX="53.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="NAME ">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="53.0" layoutY="174.0" strokeType="OUTSIDE" strokeWidth="0.0" text="MISC TOTAL">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="54.0" layoutY="247.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DATE ADDED">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Text>
                </children>
             </Pane>
+            <DatePicker layoutX="729.0" layoutY="588.0" prefHeight="30.0" prefWidth="162.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
+            <Button layoutX="1051.0" layoutY="630.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="134.0" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../mainapp.css" text="REMOVE" />
+            <Label layoutX="671.0" layoutY="595.0" text="FROM">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="964.0" layoutY="595.0" text="TO">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+            </Label>
+            <DatePicker layoutX="995.0" layoutY="588.0" prefHeight="30.0" prefWidth="162.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
          </children>
       </Pane>
       <AnchorPane fx:id="inventory_pane" layoutX="-2.0" layoutY="-3.0" onKeyPressed="#keyPressed_2" prefHeight="739.0" prefWidth="1292.0" style="-fx-background-color: #CFCECE;" visible="false">

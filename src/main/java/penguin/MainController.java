@@ -45,16 +45,16 @@ public class MainController implements Initializable {
 
     //new added
     @FXML
-    private Pane sales_add, invent_levels, invent_app, sales_hist, main_pane, add_users, add_pane, edit_pane;
+    private Pane pane_debt,pane_misc,sales_add, invent_levels, invent_app, sales_hist, main_pane, add_users, add_pane, edit_pane;
 
     @FXML
-    private Button misc_showbutt,debt_showbutt,cancel_add_user, add_sales, sale_cancel, level_butt, appraisal_butt, history_butt, inventory_butt, pos_butt, report_butt, user_butt, back_to_wan, back_to_wan2, back_to_wan3, back_to_wan4, log_out, add_account_butt, add_product, back_to_invent, back_to_invent2, edit_butt;
+    private Button submit_debt,cancel_debt, submit_misc,cancel_misc,misc_butt,debt_butt,misc_showbutt,debt_showbutt,cancel_add_user, add_sales, sale_cancel, level_butt, appraisal_butt, history_butt, inventory_butt, pos_butt, report_butt, user_butt, back_to_wan, back_to_wan2, back_to_wan3, back_to_wan4, log_out, add_account_butt, add_product, back_to_invent, back_to_invent2, edit_butt;
 
     @FXML
     private AnchorPane inventory_pane, pos_pane, reports_pane, user_pane;
 
     @FXML
-    private Label account_name, account_number, txt_report_user, txt_report_number, show_time, show_date;
+    private Label misc_fdate,debt_fdate,account_name, account_number, txt_report_user, txt_report_number, show_time, show_date;
 
     @FXML
     private ChoiceBox<String> checkbox1, checkbox2, checkbox3, checkbox4, checkbox5, checkbox6, level_cat, level_price, level_sort, val_choice1, val_choice2, val_choice3, sales_cat, sales_price;
@@ -79,7 +79,7 @@ public class MainController implements Initializable {
     private Label txt_productid, txt_date;
 
     @FXML
-    private TextField txt_productname, txt_category, txt_origprice, txt_price, txt_stock, txt_expire;
+    private TextField debt_fname,debt_ftotal,misc_fname,misc_ftotal,txt_productname, txt_category, txt_origprice, txt_price, txt_stock, txt_expire;
 
     @FXML
     private Button show_products;
@@ -94,10 +94,28 @@ public class MainController implements Initializable {
     private final Connection con_pro = connects.getConnection();
 
     @FXML
-    private TableView debt_table;
+    private TableView<deby> debt_table;
 
     @FXML
-    private TableView misc_table;
+    private TableColumn<deby, String> debt_name;
+
+    @FXML
+    private TableColumn<deby, Double> debt_total;
+
+    @FXML
+    private TableColumn<deby, LocalDate> debt_add;
+
+    @FXML
+    private TableView<miscy> misc_table;
+
+    @FXML
+    private TableColumn<miscy, String> misc_name;
+
+    @FXML
+    private TableColumn<miscy, Double> misc_total;
+
+    @FXML
+    private TableColumn<miscy, LocalDate> misc_add;
 
     //TABLES_ALL_FUNCTIONS_END
 
@@ -107,6 +125,26 @@ public class MainController implements Initializable {
         pos_butt.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> pos_vis_butt());
         report_butt.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> rep_vis_butt());
         user_butt.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> user_vis_butt());
+        misc_butt.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            if (pane_misc.isVisible()) {
+                pane_misc.setVisible(false);
+                pane_debt.setVisible(false);
+            } else {
+                pane_misc.setVisible(true);
+                pane_debt.setVisible(false);
+            }
+        });
+
+        debt_butt.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            if (pane_debt.isVisible()) {
+                pane_misc.setVisible(false);
+                pane_debt.setVisible(false);
+            } else {
+                pane_misc.setVisible(false);
+                pane_debt.setVisible(true);
+            }
+        });
+
         //logout
         log_out.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> loggy());
     }
@@ -116,6 +154,8 @@ public class MainController implements Initializable {
         back_to_wan2.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> pos_vis_wan());
         back_to_wan3.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> rep_vis_wan());
         back_to_wan4.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> user_vis_wan());
+        cancel_debt.addEventHandler(MouseEvent.MOUSE_CLICKED,event -> {pane_debt.setVisible(false); pane_misc.setVisible(false);});
+        cancel_misc.addEventHandler(MouseEvent.MOUSE_CLICKED,event -> {pane_debt.setVisible(false); pane_misc.setVisible(false);});
     }
 
     //invent_buttons
@@ -148,6 +188,7 @@ public class MainController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         productmeth();
         updaterDT();
+        dateGet();
         checkbox1.setItems(checkbox1_list);
         checkbox1.setValue("CATEGORIES");
         checkbox2.setItems(checkbox2_list);
@@ -190,7 +231,6 @@ public class MainController implements Initializable {
 
 
     private void DTLabels() {
-        // Ensure UI updates are on the JavaFX application thread
         javafx.application.Platform.runLater(() -> {
             LocalTime currentTime = LocalTime.now();
             String formattedTime = currentTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
@@ -224,9 +264,6 @@ public class MainController implements Initializable {
                     if (resultSet.next()) {
                         String name = resultSet.getString("Name");
                         String uCode = resultSet.getString("U_code");
-
-                        System.out.println("Name from database: " + name);  // Debug statement
-                        System.out.println("U_code from database: " + uCode);  // Debug statement
 
                         account_name.setText(name);
                         account_number.setText(uCode);
@@ -305,8 +342,13 @@ public class MainController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        java.sql.Date sqlDate = java.sql.Date.valueOf(LocalDate.now());
-        txt_date.setText(formatDate(sqlDate));
+    }
+
+    void dateGet(){
+        LocalDate currentDate = LocalDate.now();
+        misc_fdate.setText(String.valueOf(currentDate));
+        debt_fdate.setText(String.valueOf(currentDate));
+        txt_date.setText(String.valueOf(currentDate));
     }
 
     public void rep_levels() {
@@ -336,7 +378,6 @@ public class MainController implements Initializable {
         String sql = "INSERT INTO product (product_name, category, original_price, sell_price, stock, date_added, expire_date, stock_left) VALUES(?, ?, ?, ?, ?, ?,?,?)";
         java.sql.Date sqlDate = java.sql.Date.valueOf(LocalDate.now());
 
-        // Check if txt_expire is in the correct format (yyyy-MM-dd)
         if (isValidDateFormat(txt_expire.getText())) {
             java.sql.Date sqlexDate = java.sql.Date.valueOf(txt_expire.getText());
 
@@ -506,6 +547,10 @@ public class MainController implements Initializable {
     }
 
     //key_pressed_methods_end
+
+    //memo_start
+
+    //memo_end
 
     //system_methods_all_end
 }
