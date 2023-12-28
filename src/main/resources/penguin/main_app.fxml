@@ -116,7 +116,7 @@
             <Pane fx:id="pane_debt" layoutX="643.0" layoutY="222.0" prefHeight="358.0" prefWidth="546.0" style="-fx-background-color: #85a9ed; -fx-border-color: black; -fx-border-width: 2;" visible="false">
                <children>
                   <Button fx:id="submit_debt" layoutX="132.0" layoutY="300.0" mnemonicParsing="false" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../mainapp.css" text="SUBMIT" />
-                  <Button fx:id="cancel_debt" layoutX="335.0" layoutY="300.0" mnemonicParsing="false" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../mainapp.css" text="CANCEL" />
+                  <Button fx:id="cancel_debt" layoutX="335.0" layoutY="300.0" mnemonicParsing="false" onAction="#main_buttAction2" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../mainapp.css" text="CANCEL" />
                   <TextField fx:id="debt_fname" layoutX="172.0" layoutY="71.0" prefHeight="29.0" prefWidth="255.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
                   <TextField fx:id="debt_ftotal" layoutX="172.0" layoutY="153.0" prefHeight="29.0" prefWidth="255.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
                   <Label fx:id="debt_fdate" alignment="CENTER" layoutX="172.0" layoutY="229.0" prefHeight="27.0" prefWidth="154.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" textAlignment="JUSTIFY">
@@ -144,7 +144,7 @@
             <Pane fx:id="pane_misc" layoutX="640.0" layoutY="220.0" prefHeight="364.0" prefWidth="552.0" style="-fx-background-color: #85a9ed; -fx-border-color: black; -fx-border-width: 2;" visible="false">
                <children>
                   <Button fx:id="submit_misc" layoutX="132.0" layoutY="300.0" mnemonicParsing="false" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../mainapp.css" text="SUBMIT" />
-                  <Button fx:id="cancel_misc" layoutX="335.0" layoutY="300.0" mnemonicParsing="false" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../mainapp.css" text="CANCEL" />
+                  <Button fx:id="cancel_misc" layoutX="335.0" layoutY="300.0" mnemonicParsing="false" onAction="#main_buttAction2" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../mainapp.css" text="CANCEL" />
                   <TextField fx:id="misc_fname" layoutX="174.0" layoutY="69.0" prefHeight="29.0" prefWidth="255.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
                   <TextField fx:id="misc_ftotal" layoutX="174.0" layoutY="155.0" prefHeight="29.0" prefWidth="255.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
                   <Label fx:id="misc_fdate" alignment="CENTER" layoutX="174.0" layoutY="229.0" prefHeight="27.0" prefWidth="154.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" textAlignment="JUSTIFY">

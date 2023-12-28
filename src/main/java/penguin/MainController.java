@@ -83,9 +83,15 @@ public class MainController implements Initializable {
 
     @FXML
     private Button show_products;
-
+    //list
     @FXML
     private ObservableList<products> pro_list;
+    @FXML
+    private ObservableList<deby> debt_list;
+    @FXML
+    private ObservableList<miscy> misc_list;
+    //list_end
+
 
     @FXML
     private final DBConnect connects = new DBConnect();
@@ -128,11 +134,10 @@ public class MainController implements Initializable {
         misc_butt.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             if (pane_misc.isVisible()) {
                 pane_misc.setVisible(false);
-                pane_debt.setVisible(false);
             } else {
                 pane_misc.setVisible(true);
-                pane_debt.setVisible(false);
             }
+            pane_debt.setVisible(false);
         });
 
         debt_butt.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
@@ -144,7 +149,8 @@ public class MainController implements Initializable {
                 pane_debt.setVisible(true);
             }
         });
-
+        submit_debt.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> add_debt());
+        submit_misc.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> add_misc());
         //logout
         log_out.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> loggy());
     }
@@ -189,6 +195,12 @@ public class MainController implements Initializable {
         productmeth();
         updaterDT();
         dateGet();
+        choice_box();
+        updateMisc();
+        updateDebt();
+    }
+
+    private void choice_box(){
         checkbox1.setItems(checkbox1_list);
         checkbox1.setValue("CATEGORIES");
         checkbox2.setItems(checkbox2_list);
@@ -235,7 +247,6 @@ public class MainController implements Initializable {
             LocalTime currentTime = LocalTime.now();
             String formattedTime = currentTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
             show_time.setText(formattedTime);
-
             show_date.setText(LocalDate.now().toString());
         });
     }
@@ -549,6 +560,81 @@ public class MainController implements Initializable {
     //key_pressed_methods_end
 
     //memo_start
+    public void add_debt() {
+        String sql = "INSERT INTO debt (person_name,product_total_debt, debt_date) VALUES(?, ?, ?)";
+        java.sql.Date sqlDate = java.sql.Date.valueOf(LocalDate.now());
+            try {
+                PreparedStatement ps = con_pro.prepareStatement(sql);
+                ps.setString(1, debt_fname.getText());
+                ps.setDouble(2, Double.parseDouble(debt_ftotal.getText()));
+                ps.setDate(3, sqlDate);
+
+                int rowsAffected = ps.executeUpdate();
+
+                if (rowsAffected > 0) {
+                    System.out.println("Debt added successfully.");
+                    debt_fname.clear();
+                    debt_ftotal.clear();
+                    updateDebt();
+                    pane_debt.setVisible(false);
+                } else {
+                    System.out.println("Failed to add debt.");
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+    public void updateDebt(){
+        debtmeth();
+    }
+
+    private void debtmeth() {
+        debt_name.setCellValueFactory(new PropertyValueFactory<>("personName"));
+        debt_total.setCellValueFactory(new PropertyValueFactory<>("totalDebt"));
+        debt_add.setCellValueFactory(new PropertyValueFactory<>("debtDate"));
+        debt_list = deby.getDebts();
+        debt_table.setItems(debt_list);
+    }
+
+    public void add_misc() {
+        String sql = "INSERT INTO misc (person_borrowed,person_total_borrowed, date_assessed) VALUES(?, ?, ?)";
+        java.sql.Date sqlDate = java.sql.Date.valueOf(LocalDate.now());
+        try {
+            PreparedStatement ps = con_pro.prepareStatement(sql);
+            ps.setString(1, misc_fname.getText());
+            ps.setDouble(2, Double.parseDouble(misc_ftotal.getText()));
+            ps.setDate(3, sqlDate);
+
+            int rowsAffected = ps.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Debt added successfully.");
+                updateMisc();
+                misc_fname.clear();
+                misc_ftotal.clear();
+                pane_debt.setVisible(false);
+            } else {
+                System.out.println("Failed to add debt.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateMisc(){
+        miscmeth();
+    }
+
+    private void miscmeth() {
+        misc_name.setCellValueFactory(new PropertyValueFactory<>("personName"));
+        misc_total.setCellValueFactory(new PropertyValueFactory<>("totalBorrowed"));
+        misc_add.setCellValueFactory(new PropertyValueFactory<>("dateAssessed"));
+        misc_list = miscy.getMisc();
+        misc_table.setItems(misc_list);
+    }
 
     //memo_end
 
