@@ -21,21 +21,24 @@ public class miscy {
         this.dateAssessed = new SimpleObjectProperty<>(dateAssessed);
     }
 
-    public static ObservableList<miscy> getMisc() {
+    public static ObservableList<miscy> getMisc(LocalDate date1, LocalDate date2) {
         ObservableList<miscy> miscyList = FXCollections.observableArrayList();
 
         try (Connection connection = new DBConnect().getConnection()) {
             if (connection != null) {
-                String query = "SELECT person_borrowed, person_total_borrowed, date_assessed FROM misc";
+                String query = "SELECT person_borrowed, person_total_borrowed, date_assessed FROM misc WHERE date_assessed BETWEEN ? AND ?";
 
-                try (PreparedStatement statement = connection.prepareStatement(query);
-                     ResultSet resultSet = statement.executeQuery()) {
+                try (PreparedStatement statement = connection.prepareStatement(query)) {
+                    statement.setDate(1, java.sql.Date.valueOf(date1));
+                    statement.setDate(2, java.sql.Date.valueOf(date2));
 
-                    while (resultSet.next()) {
-                        String personName = resultSet.getString("person_borrowed");
-                        double totalBorrowed = resultSet.getDouble("person_total_borrowed");
-                        LocalDate dateAssessed = resultSet.getDate("date_assessed").toLocalDate();
-                        miscyList.add(new miscy(personName, totalBorrowed, dateAssessed));
+                    try (ResultSet resultSet = statement.executeQuery()) {
+                        while (resultSet.next()) {
+                            String personName = resultSet.getString("person_borrowed");
+                            double totalBorrowed = resultSet.getDouble("person_total_borrowed");
+                            LocalDate dateAssessed = resultSet.getDate("date_assessed").toLocalDate();
+                            miscyList.add(new miscy(personName, totalBorrowed, dateAssessed));
+                        }
                     }
                 }
             } else {
@@ -46,6 +49,11 @@ public class miscy {
         }
 
         return miscyList;
+    }
+
+    // Default implementation of getMisc using dates from MainController
+    public static ObservableList<miscy> getMisc() {
+        return getMisc(MainController.getSelectedDate1(), MainController.getSelectedDate2());
     }
 
     public String getPersonName() {
@@ -72,4 +80,3 @@ public class miscy {
         return dateAssessed;
     }
 }
-

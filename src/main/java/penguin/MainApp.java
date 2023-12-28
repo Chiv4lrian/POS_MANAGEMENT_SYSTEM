@@ -19,7 +19,7 @@ public class MainApp extends Application {
             Parent root = FXMLLoader.load(getClass().getResource("penglog.fxml"));
             Scene scene = new Scene(root);
             stage.setResizable(false);
-            stage.setTitle("Penguia Management System");
+            stage.setTitle("Kit's Management System");
             Image icon_app = new Image("pengui.png");
             stage.getIcons().add(icon_app);
             stage.setScene(scene);

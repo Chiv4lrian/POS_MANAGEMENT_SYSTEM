@@ -33,17 +33,20 @@ public class products {
         this.expiryDate = new SimpleObjectProperty<>(expiryDate);
     }
 
-    public static ObservableList<products> getProducts() {
+    public static ObservableList<products> getProducts(LocalDate date1, LocalDate date2) {
         ObservableList<products> productList = FXCollections.observableArrayList();
 
         DBConnect connect = new DBConnect();
         Connection connection = connect.getConnection();
 
         if (connection != null) {
-            String query = "SELECT product_id, product_name, category, original_price, sell_price, stock, stock_left,date_added, expire_date FROM product";
+            String query = "SELECT product_id, product_name, category, original_price, sell_price, stock, stock_left,date_added, expire_date FROM product WHERE date_added BETWEEN ? AND ?";
 
             try {
                 PreparedStatement statement = connection.prepareStatement(query);
+                statement.setDate(1, java.sql.Date.valueOf(date1));
+                statement.setDate(2, java.sql.Date.valueOf(date2));
+
                 ResultSet resultSet = statement.executeQuery();
 
                 while (resultSet.next()) {
@@ -62,12 +65,6 @@ public class products {
                 statement.close();
             } catch (SQLException e) {
                 e.printStackTrace();
-            } finally {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
             }
         } else {
             System.err.println("Failed to establish a database connection.");
@@ -76,11 +73,17 @@ public class products {
         return productList;
     }
 
+    public static ObservableList<products> getProducts() {
+        return getProducts(MainController.getSelectedDate3(), MainController.getSelectedDate4());
+    }
+
     public StringProperty productIdProperty() {
         return productId;
     }
 
-    public StringProperty nameProperty() { return name; }
+    public StringProperty nameProperty() {
+        return name;
+    }
 
     public StringProperty categoryProperty() {
         return category;

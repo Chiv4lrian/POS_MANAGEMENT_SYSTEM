@@ -24,7 +24,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -34,6 +33,7 @@ import java.util.ResourceBundle;
 import static penguin.MainApp.stage1;
 
 public class MainController implements Initializable {
+
     private boolean toggle = false;
     //ChoiceBox Arrays
     ObservableList<String> checkbox1_list = FXCollections.observableArrayList("Beverages", "Condiments");
@@ -48,7 +48,7 @@ public class MainController implements Initializable {
     private Pane pane_debt,pane_misc,sales_add, invent_levels, invent_app, sales_hist, main_pane, add_users, add_pane, edit_pane;
 
     @FXML
-    private Button submit_debt,cancel_debt, submit_misc,cancel_misc,misc_butt,debt_butt,misc_showbutt,debt_showbutt,cancel_add_user, add_sales, sale_cancel, level_butt, appraisal_butt, history_butt, inventory_butt, pos_butt, report_butt, user_butt, back_to_wan, back_to_wan2, back_to_wan3, back_to_wan4, log_out, add_account_butt, add_product, back_to_invent, back_to_invent2, edit_butt;
+    private Button submit_add_user,submit_debt,cancel_debt, submit_misc,cancel_misc,misc_butt,debt_butt,misc_showbutt,debt_showbutt,cancel_add_user, add_sales, sale_cancel, level_butt, appraisal_butt, history_butt, inventory_butt, pos_butt, report_butt, user_butt, back_to_wan, back_to_wan2, back_to_wan3, back_to_wan4, log_out, add_account_butt, add_product, back_to_invent, back_to_invent2, edit_butt;
 
     @FXML
     private AnchorPane inventory_pane, pos_pane, reports_pane, user_pane;
@@ -79,7 +79,7 @@ public class MainController implements Initializable {
     private Label txt_productid, txt_date;
 
     @FXML
-    private TextField debt_fname,debt_ftotal,misc_fname,misc_ftotal,txt_productname, txt_category, txt_origprice, txt_price, txt_stock, txt_expire;
+    private TextField code_field,name_field,user_field,pass_field,debt_fname,debt_ftotal,misc_fname,misc_ftotal,txt_productname, txt_category, txt_origprice, txt_price, txt_stock, txt_expire;
 
     @FXML
     private Button show_products;
@@ -92,6 +92,55 @@ public class MainController implements Initializable {
     private ObservableList<miscy> misc_list;
     //list_end
 
+    //date_start
+    @FXML
+    private DatePicker from_main,to_main, from_invent, to_invent;
+
+    private static final LocalDate currentDate = LocalDate.now();
+
+    private static LocalDate selectedDate1 = currentDate;
+    private static LocalDate selectedDate2 = currentDate;
+    private static LocalDate selectedDate3 = currentDate;
+    private static LocalDate selectedDate4 = currentDate;
+
+    public static LocalDate getSelectedDate1() {
+        return selectedDate1;
+    }
+
+    public void setSelectedDate1(LocalDate selectedDate1) {
+        MainController.selectedDate1 = selectedDate1;
+        debtmeth();
+    }
+
+    public static LocalDate getSelectedDate2() {
+        return selectedDate2;
+    }
+
+    public void setSelectedDate2(LocalDate selectedDate2) {
+        MainController.selectedDate2 = selectedDate2;
+        debtmeth();
+    }
+
+    public static LocalDate getSelectedDate3() {
+        return selectedDate3;
+    }
+
+    public void setSelectedDate3(LocalDate selectedDate3) {
+        MainController.selectedDate3 = selectedDate3;
+        UpdateTable();
+    }
+
+    public static LocalDate getSelectedDate4() {
+        return selectedDate4;
+    }
+
+    public void setSelectedDate4(LocalDate selectedDate4) {
+        MainController.selectedDate4 = selectedDate4;
+        UpdateTable();
+    }
+
+
+    //date_end
 
     @FXML
     private final DBConnect connects = new DBConnect();
@@ -149,10 +198,13 @@ public class MainController implements Initializable {
                 pane_debt.setVisible(true);
             }
         });
-        submit_debt.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> add_debt());
-        submit_misc.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> add_misc());
         //logout
         log_out.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> loggy());
+    }
+    public void submit_okay(){
+        submit_debt.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> add_debt());
+        submit_misc.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> add_misc());
+        submit_add_user.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> add_account());
     }
 
     public void main_buttAction2() {
@@ -177,17 +229,12 @@ public class MainController implements Initializable {
         appraisal_butt.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> rep_app());
         history_butt.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> log_hist());
         add_account_butt.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> add_users.setVisible(true));
-        cancel_add_user.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> add_users.setVisible(false));
+        cancel_add_user.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {add_users.setVisible(false); res_acc();});
     }
     //ButtonsOnActions_End
 
     public void addProducts() {
         add_products_meth();
-    }
-
-    private String formatDate(java.sql.Date date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        return dateFormat.format(date);
     }
 
     @Override
@@ -196,8 +243,29 @@ public class MainController implements Initializable {
         updaterDT();
         dateGet();
         choice_box();
-        updateMisc();
-        updateDebt();
+        debtmeth();
+        miscmeth();
+        from_main.setOnAction(event -> {
+            selectedDate1 = from_main.getValue();
+            debtmeth();
+            miscmeth();
+        });
+
+        to_main.setOnAction(event -> {
+            selectedDate2 = to_main.getValue();
+            debtmeth();
+            miscmeth();
+        });
+
+        from_invent.setOnAction(event -> {
+            selectedDate3 = from_invent.getValue();
+            productmeth();
+        });
+
+        to_invent.setOnAction(event -> {
+            selectedDate4 = to_invent.getValue();
+            productmeth();
+        });
     }
 
     private void choice_box(){
@@ -561,30 +629,31 @@ public class MainController implements Initializable {
 
     //memo_start
     public void add_debt() {
-        String sql = "INSERT INTO debt (person_name,product_total_debt, debt_date) VALUES(?, ?, ?)";
+        String sql = "INSERT INTO debt (person_name, product_total_debt, debt_date) VALUES (?, ?, ?)";
         java.sql.Date sqlDate = java.sql.Date.valueOf(LocalDate.now());
-            try {
-                PreparedStatement ps = con_pro.prepareStatement(sql);
-                ps.setString(1, debt_fname.getText());
-                ps.setDouble(2, Double.parseDouble(debt_ftotal.getText()));
-                ps.setDate(3, sqlDate);
 
-                int rowsAffected = ps.executeUpdate();
+        try {
+            PreparedStatement ps = con_pro.prepareStatement(sql);
+            ps.setString(1, debt_fname.getText());
+            ps.setDouble(2, Double.parseDouble(debt_ftotal.getText()));
+            ps.setDate(3, sqlDate);
 
-                if (rowsAffected > 0) {
-                    System.out.println("Debt added successfully.");
-                    debt_fname.clear();
-                    debt_ftotal.clear();
-                    updateDebt();
-                    pane_debt.setVisible(false);
-                } else {
-                    System.out.println("Failed to add debt.");
-                }
+            int rowsAffected = ps.executeUpdate();
 
-            } catch (SQLException e) {
-                e.printStackTrace();
+            if (rowsAffected > 0) {
+                updateDebt();
+                debt_fname.clear();
+                debt_ftotal.clear();
+                pane_debt.setVisible(false);
+            } else {
+                System.out.println("Failed to add debt.");
             }
+
+        } catch (SQLException | NumberFormatException e) {
+            e.printStackTrace();
         }
+    }
+
 
     public void updateDebt(){
         debtmeth();
@@ -610,11 +679,10 @@ public class MainController implements Initializable {
             int rowsAffected = ps.executeUpdate();
 
             if (rowsAffected > 0) {
-                System.out.println("Debt added successfully.");
                 updateMisc();
                 misc_fname.clear();
                 misc_ftotal.clear();
-                pane_debt.setVisible(false);
+                pane_misc.setVisible(false);
             } else {
                 System.out.println("Failed to add debt.");
             }
@@ -635,8 +703,39 @@ public class MainController implements Initializable {
         misc_list = miscy.getMisc();
         misc_table.setItems(misc_list);
     }
-
     //memo_end
+
+    //add_account_start
+
+    public void add_account() {
+        String sql = "INSERT INTO account (u_code,name,username,password) VALUES(?,?,?,?)";
+        try {
+            PreparedStatement ps = con_pro.prepareStatement(sql);
+            ps.setString(1, code_field.getText());
+            ps.setString(2, name_field.getText());
+            ps.setString(3, user_field.getText());
+            ps.setString(4, pass_field.getText());
+
+            int rowsAffected = ps.executeUpdate();
+
+            if (rowsAffected > 0) {
+                res_acc();
+                add_users.setVisible(false);
+            } else {
+                System.out.println("Failed to add account.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    private void res_acc(){
+        code_field.clear();
+        name_field.clear();
+        name_field.clear();
+        user_field.clear();
+    }
+
+    //add_account_end
 
     //system_methods_all_end
 }

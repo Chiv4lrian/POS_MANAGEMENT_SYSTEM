@@ -5,7 +5,6 @@
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
@@ -115,7 +114,7 @@
             </Pane>
             <Pane fx:id="pane_debt" layoutX="643.0" layoutY="222.0" prefHeight="358.0" prefWidth="546.0" style="-fx-background-color: #85a9ed; -fx-border-color: black; -fx-border-width: 2;" visible="false">
                <children>
-                  <Button fx:id="submit_debt" layoutX="132.0" layoutY="300.0" mnemonicParsing="false" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../mainapp.css" text="SUBMIT" />
+                  <Button fx:id="submit_debt" layoutX="132.0" layoutY="300.0" mnemonicParsing="false" onAction="#submit_okay" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../mainapp.css" text="SUBMIT" />
                   <Button fx:id="cancel_debt" layoutX="335.0" layoutY="300.0" mnemonicParsing="false" onAction="#main_buttAction2" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../mainapp.css" text="CANCEL" />
                   <TextField fx:id="debt_fname" layoutX="172.0" layoutY="71.0" prefHeight="29.0" prefWidth="255.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
                   <TextField fx:id="debt_ftotal" layoutX="172.0" layoutY="153.0" prefHeight="29.0" prefWidth="255.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
@@ -143,7 +142,7 @@
             </Pane>
             <Pane fx:id="pane_misc" layoutX="640.0" layoutY="220.0" prefHeight="364.0" prefWidth="552.0" style="-fx-background-color: #85a9ed; -fx-border-color: black; -fx-border-width: 2;" visible="false">
                <children>
-                  <Button fx:id="submit_misc" layoutX="132.0" layoutY="300.0" mnemonicParsing="false" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../mainapp.css" text="SUBMIT" />
+                  <Button fx:id="submit_misc" layoutX="132.0" layoutY="300.0" mnemonicParsing="false" onAction="#submit_okay" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../mainapp.css" text="SUBMIT" />
                   <Button fx:id="cancel_misc" layoutX="335.0" layoutY="300.0" mnemonicParsing="false" onAction="#main_buttAction2" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../mainapp.css" text="CANCEL" />
                   <TextField fx:id="misc_fname" layoutX="174.0" layoutY="69.0" prefHeight="29.0" prefWidth="255.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
                   <TextField fx:id="misc_ftotal" layoutX="174.0" layoutY="155.0" prefHeight="29.0" prefWidth="255.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
@@ -169,7 +168,7 @@
                   </Text>
                </children>
             </Pane>
-            <DatePicker layoutX="729.0" layoutY="588.0" prefHeight="30.0" prefWidth="162.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
+            <DatePicker fx:id="from_main" layoutX="729.0" layoutY="588.0" prefHeight="30.0" prefWidth="162.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
             <Button layoutX="1051.0" layoutY="630.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="134.0" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../mainapp.css" text="REMOVE" />
             <Label layoutX="671.0" layoutY="595.0" text="FROM">
                <font>
@@ -181,7 +180,7 @@
                   <Font name="Arial Bold" size="14.0" />
                </font>
             </Label>
-            <DatePicker layoutX="995.0" layoutY="588.0" prefHeight="30.0" prefWidth="162.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
+            <DatePicker fx:id="to_main" layoutX="995.0" layoutY="588.0" prefHeight="30.0" prefWidth="162.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
          </children>
       </Pane>
       <AnchorPane fx:id="inventory_pane" layoutX="-2.0" layoutY="-3.0" onKeyPressed="#keyPressed_2" prefHeight="739.0" prefWidth="1292.0" style="-fx-background-color: #CFCECE;" visible="false">
@@ -202,7 +201,7 @@
             <Button fx:id="add_product" layoutX="133.0" layoutY="580.0" mnemonicParsing="false" onAction="#invent_buttons" prefHeight="44.0" prefWidth="197.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="ADD PRODUCT" />
             <Button fx:id="edit_butt" layoutX="406.0" layoutY="580.0" mnemonicParsing="false" onAction="#invent_buttons" prefHeight="44.0" prefWidth="197.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="EDIT PRODUCT" />
             <Button layoutX="678.0" layoutY="580.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="197.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="REMOVE " />
-            <Button fx:id="back_to_wan" layoutX="568.0" layoutY="644.0" mnemonicParsing="false" onAction="#main_buttAction2" prefHeight="44.0" prefWidth="150.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="BACK" />
+            <Button fx:id="back_to_wan" layoutX="1002.0" layoutY="644.0" mnemonicParsing="false" onAction="#main_buttAction2" prefHeight="44.0" prefWidth="150.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="BACK" />
             <TableView fx:id="products_table" layoutX="132.0" layoutY="186.0" prefHeight="380.0" prefWidth="1019.0" style="-fx-border-color: black; -fx-border-width: 2;">
                <columns>
                   <TableColumn fx:id="productID_col" prefWidth="83.0" text="PRODUCT ID" />
@@ -329,7 +328,18 @@
                   </Label>
                </children>
             </Pane>
-            <ButtonBar layoutX="130.0" layoutY="646.0" prefHeight="40.0" prefWidth="200.0" stylesheets="@../mainapp.css" />
+            <DatePicker fx:id="from_invent" layoutX="267.0" layoutY="654.0" prefHeight="34.0" prefWidth="190.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
+            <DatePicker fx:id="to_invent" layoutX="646.0" layoutY="654.0" prefHeight="34.0" prefWidth="190.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
+            <Label layoutX="593.0" layoutY="663.0" text="TO">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="209.0" layoutY="663.0" text="FROM">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+            </Label>
          </children></AnchorPane>
       <AnchorPane fx:id="pos_pane" layoutX="-1.0" onKeyPressed="#keyPressed_2" prefHeight="739.0" prefWidth="1292.0" style="-fx-background-color: #CFCECE;" visible="false">
          <children>
@@ -623,11 +633,11 @@
             <Button fx:id="add_account_butt" alignment="CENTER" layoutX="937.0" layoutY="540.0" mnemonicParsing="false" onAction="#invent_buttons" prefHeight="40.0" prefWidth="200.0" style="-fx-border-color: black; -fx-border-width: 2px;" stylesheets="@../mainapp.css" text="ADD ACCOUNT" />
             <Pane fx:id="add_users" layoutX="329.0" layoutY="139.0" prefHeight="375.0" prefWidth="593.0" style="-fx-background-color: #bac0e6; -fx-border-color: black; -fx-border-width: 2;" visible="false">
                <children>
-                  <TextField layoutX="208.0" layoutY="46.0" prefHeight="29.0" prefWidth="229.0" style="-fx-border-color: black; -fx-border-width: 2;" />
-                  <TextField layoutX="208.0" layoutY="105.0" prefHeight="29.0" prefWidth="229.0" style="-fx-border-color: black; -fx-border-width: 2;" />
-                  <TextField layoutX="208.0" layoutY="162.0" prefHeight="29.0" prefWidth="229.0" style="-fx-border-color: black; -fx-border-width: 2;" />
-                  <TextField layoutX="208.0" layoutY="219.0" prefHeight="29.0" prefWidth="229.0" style="-fx-border-color: black; -fx-border-width: 2;" />
-                  <Button fx:id="submit_add_user" alignment="CENTER" layoutX="146.0" layoutY="306.0" mnemonicParsing="false" onAction="#main_buttAction2" prefHeight="50.0" prefWidth="119.0" style="-fx-border-color: black; -fx-border-width: 2px;" stylesheets="@../mainapp.css" text="SUBMIT" />
+                  <TextField fx:id="code_field" layoutX="208.0" layoutY="46.0" prefHeight="29.0" prefWidth="229.0" style="-fx-border-color: black; -fx-border-width: 2;" />
+                  <TextField fx:id="name_field" layoutX="208.0" layoutY="105.0" prefHeight="29.0" prefWidth="229.0" style="-fx-border-color: black; -fx-border-width: 2;" />
+                  <TextField fx:id="user_field" layoutX="208.0" layoutY="162.0" prefHeight="29.0" prefWidth="229.0" style="-fx-border-color: black; -fx-border-width: 2;" />
+                  <TextField fx:id="pass_field" layoutX="208.0" layoutY="219.0" prefHeight="29.0" prefWidth="229.0" style="-fx-border-color: black; -fx-border-width: 2;" />
+                  <Button fx:id="submit_add_user" alignment="CENTER" layoutX="146.0" layoutY="306.0" mnemonicParsing="false" onAction="#submit_okay" prefHeight="50.0" prefWidth="119.0" style="-fx-border-color: black; -fx-border-width: 2px;" stylesheets="@../mainapp.css" text="SUBMIT" />
                   <Button fx:id="cancel_add_user" alignment="CENTER" layoutX="349.0" layoutY="306.0" mnemonicParsing="false" onAction="#invent_buttons" prefHeight="50.0" prefWidth="119.0" style="-fx-border-color: black; -fx-border-width: 2px;" stylesheets="@../mainapp.css" text="CANCEL" />
                   <Label layoutX="31.0" layoutY="52.0" text="ACCOUNT UCODE">
                      <font>
