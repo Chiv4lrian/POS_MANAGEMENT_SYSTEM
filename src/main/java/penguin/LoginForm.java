@@ -102,7 +102,7 @@ public class LoginForm {
     public boolean validatelogin() {
         DBConnect connectNow = new DBConnect();
         try (Connection connectDB = connectNow.getConnection()) {
-            String verifylogin = "SELECT count(1), U_code, Name, Username FROM account WHERE Username = ? AND Password = ?";
+            String verifylogin = "SELECT count(1), u_code, name, username FROM account WHERE username = ? AND password = ?";
             try (PreparedStatement preparedStatement = connectDB.prepareStatement(verifylogin)) {
                 preparedStatement.setString(1, user.getText());
                 preparedStatement.setString(2, password.getText());

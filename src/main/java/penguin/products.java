@@ -1,7 +1,9 @@
 package penguin;
 
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,20 +11,26 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 
 public class products {
-    private String name;
-    private String category;
-    private double price;
-    private int quantity;
-    private LocalDate dateAssessed;
-    private LocalDate expiryDate;
+    private final StringProperty productId;
+    private final StringProperty name;
+    private final StringProperty category;
+    private final DoubleProperty originalPrice;
+    private final DoubleProperty price;
+    private final IntegerProperty quantity;
+    private final IntegerProperty stockLeft;
+    private final ObjectProperty<LocalDate> dateAssessed;
+    private final ObjectProperty<LocalDate> expiryDate;
 
-    public products(String name, String category, double price, int quantity, LocalDate dateAssessed, LocalDate expiryDate) {
-        this.name = name;
-        this.category = category;
-        this.price = price;
-        this.quantity = quantity;
-        this.dateAssessed = dateAssessed;
-        this.expiryDate = expiryDate;
+    public products(String productId, String name, String category, double originalPrice, double price, int quantity, int stockLeft, LocalDate dateAssessed, LocalDate expiryDate) {
+        this.productId = new SimpleStringProperty(productId);
+        this.name = new SimpleStringProperty(name);
+        this.category = new SimpleStringProperty(category);
+        this.originalPrice = new SimpleDoubleProperty(originalPrice);
+        this.price = new SimpleDoubleProperty(price);
+        this.quantity = new SimpleIntegerProperty(quantity);
+        this.stockLeft = new SimpleIntegerProperty(stockLeft);
+        this.dateAssessed = new SimpleObjectProperty<>(dateAssessed);
+        this.expiryDate = new SimpleObjectProperty<>(expiryDate);
     }
 
     public static ObservableList<products> getProducts() {
@@ -32,20 +40,23 @@ public class products {
         Connection connection = connect.getConnection();
 
         if (connection != null) {
-            String query = "SELECT product_name, product_category, product_price, product_quantity, date_assessed, expiry_date FROM products";
+            String query = "SELECT product_id, product_name, category, original_price, sell_price, stock, stock_left,date_added, expire_date FROM product";
 
             try {
                 PreparedStatement statement = connection.prepareStatement(query);
                 ResultSet resultSet = statement.executeQuery();
 
                 while (resultSet.next()) {
+                    String productId = resultSet.getString("product_id");
                     String name = resultSet.getString("product_name");
-                    String category = resultSet.getString("product_category");
-                    double price = resultSet.getDouble("product_price");
-                    int quantity = resultSet.getInt("product_quantity"); // changed from stock to quantity
-                    LocalDate dateAssessed = resultSet.getDate("date_assessed").toLocalDate();
-                    LocalDate expiryDate = resultSet.getDate("expiry_date").toLocalDate();
-                    productList.add(new products(name, category, price, quantity, dateAssessed, expiryDate));
+                    String category = resultSet.getString("category");
+                    double originalPrice = resultSet.getDouble("original_price");
+                    double price = resultSet.getDouble("sell_price");
+                    int quantity = resultSet.getInt("stock");
+                    int stockLeft = resultSet.getInt("stock_left");
+                    LocalDate dateAssessed = resultSet.getDate("date_added").toLocalDate();
+                    LocalDate expiryDate = resultSet.getDate("expire_date").toLocalDate();
+                    productList.add(new products(productId, name, category, originalPrice, price, quantity, stockLeft, dateAssessed, expiryDate));
                 }
                 resultSet.close();
                 statement.close();
@@ -65,28 +76,37 @@ public class products {
         return productList;
     }
 
-    // Getters for the attributes
-    public String getName() {
-        return name;
+    public StringProperty productIdProperty() {
+        return productId;
     }
 
-    public String getCategory() {
+    public StringProperty nameProperty() { return name; }
+
+    public StringProperty categoryProperty() {
         return category;
     }
 
-    public double getPrice() {
+    public DoubleProperty originalPriceProperty() {
+        return originalPrice;
+    }
+
+    public DoubleProperty priceProperty() {
         return price;
     }
 
-    public int getQuantity() {
+    public IntegerProperty quantityProperty() {
         return quantity;
     }
 
-    public LocalDate getDateAssessed() {
+    public IntegerProperty stockLeftProperty() {
+        return stockLeft;
+    }
+
+    public ObjectProperty<LocalDate> dateAssessedProperty() {
         return dateAssessed;
     }
 
-    public LocalDate getExpiryDate() {
+    public ObjectProperty<LocalDate> expiryDateProperty() {
         return expiryDate;
     }
 }
