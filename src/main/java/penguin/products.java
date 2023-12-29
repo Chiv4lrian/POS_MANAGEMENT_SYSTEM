@@ -40,7 +40,7 @@ public class products {
         Connection connection = connect.getConnection();
 
         if (connection != null) {
-            String query = "SELECT product_id, product_name, category, original_price, sell_price, stock, stock_left,date_added, expire_date FROM product WHERE date_added BETWEEN ? AND ?";
+            String query = "SELECT product_id, product_name, category, original_price, sell_price, stock, stock_left,date_added, expire_date FROM product WHERE date_added BETWEEN ? AND ? AND is_disabled = 0";
 
             try {
                 PreparedStatement statement = connection.prepareStatement(query);

@@ -33,6 +33,7 @@ import java.util.ResourceBundle;
 import static penguin.MainApp.stage1;
 
 public class MainController implements Initializable {
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
     private boolean toggle = false;
     //ChoiceBox Arrays
@@ -48,7 +49,7 @@ public class MainController implements Initializable {
     private Pane pane_debt,pane_misc,sales_add, invent_levels, invent_app, sales_hist, main_pane, add_users, add_pane, edit_pane;
 
     @FXML
-    private Button submit_add_user,submit_debt,cancel_debt, submit_misc,cancel_misc,misc_butt,debt_butt,misc_showbutt,debt_showbutt,cancel_add_user, add_sales, sale_cancel, level_butt, appraisal_butt, history_butt, inventory_butt, pos_butt, report_butt, user_butt, back_to_wan, back_to_wan2, back_to_wan3, back_to_wan4, log_out, add_account_butt, add_product, back_to_invent, back_to_invent2, edit_butt;
+    private Button debt_dbutt,submit_add_user,submit_debt,cancel_debt, submit_misc,cancel_misc,misc_butt,debt_butt,misc_showbutt,debt_showbutt,cancel_add_user, add_sales, sale_cancel, level_butt, appraisal_butt, history_butt, inventory_butt, pos_butt, report_butt, user_butt, back_to_wan, back_to_wan2, back_to_wan3, back_to_wan4, log_out, add_account_butt, add_product, back_to_invent, back_to_invent2, edit_butt;
 
     @FXML
     private AnchorPane inventory_pane, pos_pane, reports_pane, user_pane;
@@ -94,7 +95,7 @@ public class MainController implements Initializable {
 
     //date_start
     @FXML
-    private DatePicker from_main,to_main, from_invent, to_invent;
+    private DatePicker from_main,to_main, from_invent, to_invent,from_sale,to_sale;
 
     private static final LocalDate currentDate = LocalDate.now();
 
@@ -102,6 +103,8 @@ public class MainController implements Initializable {
     private static LocalDate selectedDate2 = currentDate;
     private static LocalDate selectedDate3 = currentDate;
     private static LocalDate selectedDate4 = currentDate;
+    private static LocalDate selectedDate5 = currentDate;
+    private static LocalDate selectedDate6 = currentDate;
 
     public static LocalDate getSelectedDate1() {
         return selectedDate1;
@@ -138,7 +141,24 @@ public class MainController implements Initializable {
         MainController.selectedDate4 = selectedDate4;
         UpdateTable();
     }
+//c
+    public static LocalDate getSelectedDate5() {
+    return selectedDate5;
+}
 
+    public void setSelectedDate5(LocalDate selectedDate5) {
+        MainController.selectedDate5 = selectedDate5;
+        UpdateTable();
+    }
+
+    public static LocalDate getSelectedDate6() {
+        return selectedDate6;
+    }
+
+    public void setSelectedDate6(LocalDate selectedDate6) {
+        MainController.selectedDate6 = selectedDate6;
+        UpdateTable();
+    }
 
     //date_end
 
@@ -180,12 +200,13 @@ public class MainController implements Initializable {
         pos_butt.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> pos_vis_butt());
         report_butt.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> rep_vis_butt());
         user_butt.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> user_vis_butt());
+        //logout
+        log_out.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> loggy());
+    }
+
+    public void paneMemo(){
         misc_butt.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            if (pane_misc.isVisible()) {
-                pane_misc.setVisible(false);
-            } else {
-                pane_misc.setVisible(true);
-            }
+            pane_misc.setVisible(!pane_misc.isVisible());
             pane_debt.setVisible(false);
         });
 
@@ -198,9 +219,8 @@ public class MainController implements Initializable {
                 pane_debt.setVisible(true);
             }
         });
-        //logout
-        log_out.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> loggy());
     }
+
     public void submit_okay(){
         submit_debt.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> add_debt());
         submit_misc.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> add_misc());
@@ -264,6 +284,16 @@ public class MainController implements Initializable {
 
         to_invent.setOnAction(event -> {
             selectedDate4 = to_invent.getValue();
+            productmeth();
+        });
+
+        from_sale.setOnAction(event -> {
+            selectedDate5 = from_sale.getValue();
+            productmeth();
+        });
+
+        to_sale.setOnAction(event -> {
+            selectedDate6 = to_sale.getValue();
             productmeth();
         });
     }
@@ -529,6 +559,57 @@ public class MainController implements Initializable {
 
     //UPDATE KIDS END
 
+    //ENABLE - DISABLE KIDS START
+    private void enableProduct() {
+        products selectedItem = products_table.getSelectionModel().getSelectedItem();
+
+        if (selectedItem == null) {
+            showAlert("No Row Is Selected to Enable");
+            return;
+        }
+
+        String updateSql = "UPDATE product SET is_disabled = 0 WHERE product_name = ? AND category = ? AND sell_price = ?";
+
+        try {
+            PreparedStatement pst = con_pro.prepareStatement(updateSql);
+            pst.setString(1, selectedItem.nameProperty().get());
+            pst.setString(2, selectedItem.categoryProperty().get());
+            pst.setDouble(3, selectedItem.priceProperty().get());
+            pst.executeUpdate();
+
+            showAlert("Product Enabled Successfully");
+            UpdateTable();
+        } catch (SQLException e) {
+            showAlert("Failed to Enable the Product");
+        }
+    }
+
+    private void disableProduct() {
+        products selectedItem = products_table.getSelectionModel().getSelectedItem();
+
+        if (selectedItem == null) {
+            showAlert("No Row Is Selected to Enable");
+            return;
+        }
+
+        String updateSql = "UPDATE product SET is_disabled = 1 WHERE product_name = ? AND category = ? AND sell_price = ?";
+
+        try {
+            PreparedStatement pst = con_pro.prepareStatement(updateSql);
+            pst.setString(1, selectedItem.nameProperty().get());
+            pst.setString(2, selectedItem.categoryProperty().get());
+            pst.setDouble(3, selectedItem.priceProperty().get());
+            pst.executeUpdate();
+
+            showAlert("Product Disabled Successfully");
+            UpdateTable();
+        } catch (SQLException e) {
+            showAlert("Failed to Disable the Product");
+        }
+    }
+
+    //ENABLE - DISABLE KIDS END
+
     //system_func_start_end
 
     //logout
@@ -640,13 +721,23 @@ public class MainController implements Initializable {
 
             int rowsAffected = ps.executeUpdate();
 
+            alert.setTitle("NOTICE");
+            alert.setHeaderText("Pengui Management");
+
             if (rowsAffected > 0) {
+                alert.setContentText("SUCCESSFULLY ADDED THE DEBT");
+                alert.getButtonTypes().setAll(ButtonType.OK);
+                alert.showAndWait();
                 updateDebt();
                 debt_fname.clear();
                 debt_ftotal.clear();
                 pane_debt.setVisible(false);
             } else {
-                System.out.println("Failed to add debt.");
+                alert.setContentText("FAILED TO ADD THE DEBT");
+                alert.getButtonTypes().setAll(ButtonType.OK);
+                alert.showAndWait();
+                debt_fname.clear();
+                debt_ftotal.clear();
             }
 
         } catch (SQLException | NumberFormatException e) {
@@ -667,30 +758,118 @@ public class MainController implements Initializable {
         debt_table.setItems(debt_list);
     }
 
+    public void deleteDebt_Misc() {
+        if (debt_table.isVisible()) {
+            deleteDebt();
+        } else {
+            deleteMisc();
+        }
+    }
+
+    private void deleteDebt() {
+        deby selectedItem = debt_table.getSelectionModel().getSelectedItem();
+
+        if (selectedItem == null) {
+            showAlert("No Row Is Selected to Delete");
+            return;
+        }
+
+        String deleteSql = "DELETE FROM debt WHERE person_name = ? AND product_total_debt = ?";
+        logDeletion(selectedItem.personNameProperty().get(), "Debt");
+
+        try {
+            PreparedStatement pst = con_pro.prepareStatement(deleteSql);
+            pst.setString(1, selectedItem.personNameProperty().get());
+            pst.setDouble(2, selectedItem.totalDebtProperty().get());
+            pst.executeUpdate();
+
+            showAlert("Debt Deleted Successfully");
+            updateDebt();
+        } catch (SQLException e) {
+            showAlert("Failed to Delete the Debt");
+        }
+    }
+
+    private void deleteMisc() {
+        miscy selectedItem = misc_table.getSelectionModel().getSelectedItem();
+
+        if (selectedItem == null) {
+            showAlert("No Row Is Selected to Delete");
+            return;
+        }
+
+        String deleteSql = "DELETE FROM misc WHERE person_borrowed = ? AND person_total_borrowed = ?";
+        logDeletion(selectedItem.personNameProperty().get(), "Misc");
+
+        try {
+            PreparedStatement pst = con_pro.prepareStatement(deleteSql);
+            pst.setString(1, selectedItem.personNameProperty().get());
+            pst.setDouble(2, selectedItem.totalBorrowedProperty().get());
+            pst.executeUpdate();
+            showAlert("Misc Deleted Successfully");
+            updateMisc();
+        } catch (SQLException e) {
+            showAlert("Failed to Delete Misc");
+        }
+    }
+
+    private void logDeletion(String personName, String category) {
+        String memoSql = "INSERT INTO memo_logs (logs) VALUES (?)";
+
+        try {
+            PreparedStatement memoPs = con_pro.prepareStatement(memoSql);
+            memoPs.setString(1, "Deleted " + category + " for: " + personName);
+            memoPs.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle or log the exception accordingly
+        }
+    }
+
+    private void showAlert(String content) {
+        alert.setTitle("NOTICE");
+        alert.setHeaderText("Pengui Management");
+        alert.setContentText(content);
+        alert.getButtonTypes().setAll(ButtonType.OK);
+        alert.showAndWait();
+    }
+
+
     public void add_misc() {
-        String sql = "INSERT INTO misc (person_borrowed,person_total_borrowed, date_assessed) VALUES(?, ?, ?)";
+        String sql = "INSERT INTO misc (person_borrowed, person_total_borrowed, date_assessed) VALUES (?, ?, ?)";
         java.sql.Date sqlDate = java.sql.Date.valueOf(LocalDate.now());
+
         try {
             PreparedStatement ps = con_pro.prepareStatement(sql);
             ps.setString(1, misc_fname.getText());
-            ps.setDouble(2, Double.parseDouble(misc_ftotal.getText()));
+            String totalText = misc_ftotal.getText();
+            if (!totalText.isEmpty()) ps.setDouble(2, Double.parseDouble(totalText)); else return;
             ps.setDate(3, sqlDate);
 
             int rowsAffected = ps.executeUpdate();
 
+            alert.setTitle("NOTICE");
+            alert.setHeaderText("Pengui Management");
+
             if (rowsAffected > 0) {
+                alert.setContentText("SUCCESSFULLY ADDED THE DEBT");
+                alert.getButtonTypes().setAll(ButtonType.OK);
+                alert.showAndWait();
                 updateMisc();
                 misc_fname.clear();
                 misc_ftotal.clear();
                 pane_misc.setVisible(false);
             } else {
-                System.out.println("Failed to add debt.");
+                alert.setContentText("FAILED TO ADD THE DEBT");
+                alert.getButtonTypes().setAll(ButtonType.OK);
+                alert.showAndWait();
+                misc_fname.clear();
+                misc_ftotal.clear();
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
 
     public void updateMisc(){
         miscmeth();
@@ -703,6 +882,7 @@ public class MainController implements Initializable {
         misc_list = miscy.getMisc();
         misc_table.setItems(misc_list);
     }
+
     //memo_end
 
     //add_account_start
@@ -724,7 +904,7 @@ public class MainController implements Initializable {
             } else {
                 System.out.println("Failed to add account.");
             }
-        } catch (SQLException e) {
+        } catch (SQLException | NumberFormatException e) {
             e.printStackTrace();
         }
     }
