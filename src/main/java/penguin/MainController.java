@@ -99,15 +99,25 @@ public class MainController implements Initializable {
 
     @FXML
     private Button remove_balachie,show_products;
+
     //list
     @FXML
     private ObservableList<products> pro_list;
     @FXML
     private ObservableList<disable_products> disabled_list;
+
     @FXML
     private ObservableList<deby> debt_list;
     @FXML
     private ObservableList<miscy> misc_list;
+
+    @FXML
+    private ObservableList<account_show> account_list;
+    @FXML
+    private ObservableList<logs_show> logs_list;
+    @FXML
+    private ObservableList<memo_show> memo_list;
+
     //list_end
 
     //date_start

@@ -635,9 +635,9 @@
                   <TableColumn fx:id="memo_date" prefWidth="238.0" text="DATE " />
                </columns>
             </TableView>
-            <TableView fx:id="manage_logs" layoutX="116.0" layoutY="137.0" prefHeight="380.0" prefWidth="1019.0" style="-fx-border-color: black; -fx-border-width: 2;">
+            <TableView fx:id="manage_logs" layoutX="116.0" layoutY="137.0" prefHeight="380.0" prefWidth="1019.0" style="-fx-border-color: black; -fx-border-width: 2;" visible="false">
                <columns>
-                  <TableColumn fx:id="logID_manage" prefWidth="148.0" text="ACCOUNT NAME" />
+                  <TableColumn fx:id="logID_manage" prefWidth="148.0" text="LOG ID" />
                   <TableColumn fx:id="logsAction_manage" prefWidth="487.0" text="ACTION NAME" />
                   <TableColumn fx:id="manage_where" prefWidth="152.0" text="WHERE" />
                   <TableColumn fx:id="manage_record" prefWidth="113.0" text="RECORD ID" />
