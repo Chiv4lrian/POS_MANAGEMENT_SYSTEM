@@ -194,13 +194,13 @@
                   </Label>
                </children>
             </Pane>
-            <TextField layoutX="133.0" layoutY="93.0" prefHeight="30.0" prefWidth="1019.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2; -fx-background-radius: 10; -fx-border-radius: 10;" />
+            <TextField layoutX="832.0" layoutY="93.0" prefHeight="30.0" prefWidth="320.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2; -fx-background-radius: 10; -fx-border-radius: 10;" />
             <ChoiceBox fx:id="checkbox1" layoutX="131.0" layoutY="135.0" prefHeight="30.0" prefWidth="197.0" style="-fx-background-color: white; -fx-border-color: black; -fx-background-radius: 100; -fx-border-radius: 100;" stylesheets="@../another.css" />
             <ChoiceBox fx:id="checkbox2" layoutX="544.0" layoutY="135.0" prefHeight="30.0" prefWidth="197.0" style="-fx-background-color: white; -fx-border-color: black; -fx-background-radius: 100; -fx-border-radius: 100;" stylesheets="@../another.css" />
             <ChoiceBox fx:id="checkbox3" layoutX="953.0" layoutY="135.0" prefHeight="30.0" prefWidth="197.0" style="-fx-background-color: white; -fx-border-color: black; -fx-background-radius: 100; -fx-border-radius: 100;" stylesheets="@../another.css" />
             <Button fx:id="add_product" layoutX="133.0" layoutY="580.0" mnemonicParsing="false" onAction="#invent_buttons" prefHeight="44.0" prefWidth="197.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="ADD PRODUCT" />
             <Button fx:id="edit_butt" layoutX="406.0" layoutY="580.0" mnemonicParsing="false" onAction="#invent_buttons" prefHeight="44.0" prefWidth="197.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="EDIT PRODUCT" />
-            <Button layoutX="678.0" layoutY="580.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="197.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="REMOVE " />
+            <Button fx:id="remove_balachie" layoutX="678.0" layoutY="580.0" mnemonicParsing="false" onAction="#removeButtAction" prefHeight="44.0" prefWidth="197.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="REMOVE " />
             <Button fx:id="back_to_wan" layoutX="1002.0" layoutY="644.0" mnemonicParsing="false" onAction="#main_buttAction2" prefHeight="44.0" prefWidth="150.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="BACK" />
             <TableView fx:id="products_table" layoutX="132.0" layoutY="186.0" prefHeight="380.0" prefWidth="1019.0" style="-fx-border-color: black; -fx-border-width: 2;">
                <columns>
@@ -214,6 +214,19 @@
                   <TableColumn fx:id="date_col" minWidth="0.0" prefWidth="117.0" text="DATE ADDED" />
                   <TableColumn fx:id="expire_col" prefWidth="117.0" text="EXPIRE DATE" />
                </columns></TableView>
+            <TableView fx:id="disable_table" layoutX="130.0" layoutY="185.0" prefHeight="380.0" prefWidth="1019.0" style="-fx-border-color: black; -fx-border-width: 2;" visible="false">
+               <columns>
+                  <TableColumn fx:id="disable_id" prefWidth="83.0" text="PRODUCT ID" />
+                  <TableColumn fx:id="disable_name" prefWidth="173.0" text="PRODUCT NAME" />
+                  <TableColumn fx:id="disable_category" minWidth="0.0" prefWidth="111.0" text="CATEGORY" />
+                  <TableColumn fx:id="disable_list" prefWidth="100.0" text="LIST PRICE" />
+                  <TableColumn fx:id="disable_price" minWidth="0.0" prefWidth="99.0" text="SELL PRICE" />
+                  <TableColumn fx:id="disable_stock" minWidth="0.0" prefWidth="86.0" text="STOCK" />
+                  <TableColumn fx:id="disable_stockleft" prefWidth="124.0" text="STOCK LEFT" />
+                  <TableColumn fx:id="disable_add" minWidth="0.0" prefWidth="117.0" text="DATE ADDED" />
+                  <TableColumn fx:id="disable_expire" prefWidth="117.0" text="EXPIRE DATE" />
+               </columns>
+            </TableView>
             <Pane fx:id="add_pane" layoutX="344.0" layoutY="137.0" prefHeight="454.0" prefWidth="605.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 3;" visible="false">
                <children>
                   <Button fx:id="back_to_invent" layoutX="365.0" layoutY="396.0" mnemonicParsing="false" onAction="#invent_buttons" prefHeight="37.0" prefWidth="125.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="CANCEL" />
@@ -340,6 +353,16 @@
                   <Font name="Arial Bold" size="14.0" />
                </font>
             </Label>
+            <Button fx:id="view_disable" layoutX="138.0" layoutY="90.0" mnemonicParsing="false" onAction="#switchGo" prefHeight="37.0" prefWidth="255.0" style="-fx-border-color: black; -fx-background-color: white;" text="VIEW DELETED PRODUCTS">
+               <font>
+                  <Font name="Arial Bold" size="16.0" />
+               </font>
+            </Button>
+            <Button fx:id="view_enable" layoutX="138.0" layoutY="90.0" mnemonicParsing="false" onAction="#switchGo" prefHeight="37.0" prefWidth="184.0" style="-fx-border-color: black; -fx-background-color: white;" text="VIEW PRODUCTS" visible="false">
+               <font>
+                  <Font name="Arial Bold" size="16.0" />
+               </font>
+            </Button>
          </children></AnchorPane>
       <AnchorPane fx:id="pos_pane" layoutX="-1.0" onKeyPressed="#keyPressed_2" prefHeight="739.0" prefWidth="1292.0" style="-fx-background-color: #CFCECE;" visible="false">
          <children>
@@ -357,8 +380,8 @@
             <ChoiceBox fx:id="checkbox4" layoutX="131.0" layoutY="135.0" prefHeight="30.0" prefWidth="197.0" style="-fx-background-color: white; -fx-border-color: black; -fx-background-radius: 100; -fx-border-radius: 100;" stylesheets="@../another.css" />
             <ChoiceBox fx:id="checkbox5" layoutX="544.0" layoutY="135.0" prefHeight="30.0" prefWidth="197.0" style="-fx-background-color: white; -fx-border-color: black; -fx-background-radius: 100; -fx-border-radius: 100;" stylesheets="@../another.css" />
             <ChoiceBox fx:id="checkbox6" layoutX="955.0" layoutY="135.0" prefHeight="30.0" prefWidth="197.0" style="-fx-background-color: white; -fx-border-color: black; -fx-background-radius: 100; -fx-border-radius: 100;" stylesheets="@../another.css" />
-            <Button fx:id="back_to_wan2" layoutX="1005.0" layoutY="644.0" mnemonicParsing="false" onAction="#main_buttAction2" prefHeight="44.0" prefWidth="150.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="BACK" />
-            <TableView disable="true" layoutX="118.0" layoutY="179.0" prefHeight="443.0" prefWidth="1031.0" style="-fx-border-color: black; -fx-border-width: 2;">
+            <Button fx:id="back_to_wan2" layoutX="1008.0" layoutY="611.0" mnemonicParsing="false" onAction="#main_buttAction2" prefHeight="44.0" prefWidth="150.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="BACK" />
+            <TableView disable="true" layoutX="118.0" layoutY="179.0" prefHeight="425.0" prefWidth="1031.0" style="-fx-border-color: black; -fx-border-width: 2;">
                <columns>
                   <TableColumn prefWidth="95.0" text="PRODUCT ID" />
                   <TableColumn prefWidth="283.0" text="PRODUCT NAME" />
@@ -368,8 +391,8 @@
                   <TableColumn minWidth="0.0" prefWidth="144.0" text="DATE ASSESSED" />
                </columns>
             </TableView>
-            <Button fx:id="add_sales" layoutX="118.0" layoutY="644.0" mnemonicParsing="false" onAction="#invent_buttons" prefHeight="44.0" prefWidth="134.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="ADD SALES" />
-            <Button fx:id="compute_sales" layoutX="274.0" layoutY="644.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="124.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="COMPUTE">
+            <Button fx:id="add_sales" layoutX="118.0" layoutY="611.0" mnemonicParsing="false" onAction="#invent_buttons" prefHeight="44.0" prefWidth="134.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="ADD SALES" />
+            <Button fx:id="compute_sales" layoutX="276.0" layoutY="611.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="124.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="COMPUTE">
                <font>
                   <Font size="6.0" />
                </font>
@@ -416,18 +439,18 @@
                   <TextField layoutX="214.0" layoutY="298.0" prefHeight="27.0" prefWidth="119.0" style="-fx-border-color: black; -fx-background-color: #e6dbda; -fx-border-width: 1px;" />
                </children>
             </Pane>
-            <Label layoutX="726.0" layoutY="655.0" text="Total :">
+            <Label layoutX="725.0" layoutY="622.0" text="Total :">
                <font>
                   <Font name="Arial Bold" size="19.0" />
                </font>
             </Label>
-            <Label layoutX="798.0" layoutY="650.0" prefHeight="32.0" prefWidth="176.0" style="-fx-border-color: black;">
+            <Label layoutX="798.0" layoutY="617.0" prefHeight="32.0" prefWidth="176.0" style="-fx-border-color: black;">
                <font>
                   <Font name="Arial Bold" size="25.0" />
                </font>
             </Label>
-            <Button fx:id="save_sales" disable="true" layoutX="414.0" layoutY="644.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="140.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="SAVE SALES" />
-            <Button fx:id="printed" layoutX="570.0" layoutY="644.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="140.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="PRINT" />
+            <Button fx:id="save_sales" disable="true" layoutX="421.0" layoutY="611.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="140.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="SAVE SALES" />
+            <Button fx:id="printed" layoutX="573.0" layoutY="611.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="140.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="PRINT" />
             <Pane fx:id="mics_liab" layoutX="320.0" layoutY="178.0" prefHeight="443.0" prefWidth="636.0" style="-fx-background-color: #6180ba; -fx-border-width: 2; -fx-border-color: black;" visible="false">
                <children>
                   <Pane prefHeight="443.0" prefWidth="320.0" style="-fx-border-color: black; -fx-border-width: 2;">
@@ -464,6 +487,18 @@
                   </Pane>
                </children>
             </Pane>
+            <DatePicker fx:id="from_sale" layoutX="209.0" layoutY="671.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
+            <DatePicker fx:id="to_sale" layoutX="491.0" layoutY="671.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
+            <Label layoutX="445.0" layoutY="678.0" text="TO">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="147.0" layoutY="678.0" text="FROM">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="reports_pane" onKeyPressed="#keyPressed_2" prefHeight="739.0" prefWidth="1292.0" style="-fx-background-color: #8ca7c2; -fx-border-width: 2px;" visible="false">
@@ -586,14 +621,30 @@
       </AnchorPane>
       <AnchorPane fx:id="user_pane" onKeyPressed="#keyPressed_2" prefHeight="739.0" prefWidth="1292.0" style="-fx-background-color: #8ca7c2;" visible="false">
          <children>
-            <TableView fx:id="products_table1" layoutX="118.0" layoutY="137.0" prefHeight="380.0" prefWidth="1019.0" style="-fx-border-color: black; -fx-border-width: 2;">
+            <TableView fx:id="manage_account" layoutX="118.0" layoutY="137.0" prefHeight="380.0" prefWidth="1019.0" style="-fx-border-color: black; -fx-border-width: 2;">
                <columns>
-                  <TableColumn fx:id="productID_col1" prefWidth="148.0" text="ACCOUNT NAME" />
-                  <TableColumn fx:id="productname_col1" prefWidth="745.0" text="                                                                                                                     HISTORY LOGS" />
-                  <TableColumn fx:id="date_col1" prefWidth="123.0" text="DATE ASSESSED" />
+                  <TableColumn fx:id="account_names" prefWidth="148.0" text="ACCOUNT NAME" />
+                  <TableColumn fx:id="account_history" prefWidth="630.0" text="                                                                                                                     HISTORY LOGS" />
+                  <TableColumn fx:id="account_time" prefWidth="238.0" text="DATE ASSESSED" />
                </columns>
             </TableView>
-            <Pane layoutX="116.0" layoutY="50.0" prefHeight="44.0" prefWidth="1031.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 3; -fx-background-radius: 30; -fx-border-radius: 30;">
+            <TableView fx:id="manage_memo" layoutX="116.0" layoutY="136.0" prefHeight="380.0" prefWidth="1019.0" style="-fx-border-color: black; -fx-border-width: 2;" visible="false">
+               <columns>
+                  <TableColumn fx:id="memo_id" prefWidth="148.0" text="ID " />
+                  <TableColumn fx:id="memo_history" prefWidth="630.0" text="                                                                                                                     HISTORY LOGS" />
+                  <TableColumn fx:id="memo_date" prefWidth="238.0" text="DATE " />
+               </columns>
+            </TableView>
+            <TableView fx:id="manage_logs" layoutX="116.0" layoutY="137.0" prefHeight="380.0" prefWidth="1019.0" style="-fx-border-color: black; -fx-border-width: 2;">
+               <columns>
+                  <TableColumn fx:id="logID_manage" prefWidth="148.0" text="ACCOUNT NAME" />
+                  <TableColumn fx:id="logsAction_manage" prefWidth="487.0" text="ACTION NAME" />
+                  <TableColumn fx:id="manage_where" prefWidth="152.0" text="WHERE" />
+                  <TableColumn fx:id="manage_record" prefWidth="113.0" text="RECORD ID" />
+                  <TableColumn fx:id="manage_logDate" prefWidth="116.0" text="LOG DATE" />
+               </columns>
+            </TableView>
+            <Pane layoutX="118.0" layoutY="30.0" prefHeight="44.0" prefWidth="1031.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 3; -fx-background-radius: 30; -fx-border-radius: 30;">
                <children>
                   <Label alignment="CENTER" layoutX="399.0" layoutY="7.0" prefHeight="30.0" prefWidth="240.0" stylesheets="@../mainapp.css" text="USER MANAGEMENT" textAlignment="CENTER">
                      <font>
@@ -603,7 +654,7 @@
                </children>
             </Pane>
             <Button fx:id="back_to_wan4" alignment="CENTER" layoutX="571.0" layoutY="674.0" mnemonicParsing="false" onAction="#main_buttAction2" prefHeight="44.0" prefWidth="150.0" style="-fx-border-color: black; -fx-border-width: 2px;" stylesheets="@../mainapp.css" text="BACK" />
-            <Pane layoutX="116.0" layoutY="530.0" prefHeight="44.0" prefWidth="190.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 3; -fx-background-radius: 30; -fx-border-radius: 30;">
+            <Pane layoutX="116.0" layoutY="525.0" prefHeight="44.0" prefWidth="190.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 3; -fx-background-radius: 30; -fx-border-radius: 30;">
                <children>
                   <Label alignment="CENTER" layoutX="-25.0" layoutY="7.0" prefHeight="30.0" prefWidth="240.0" stylesheets="@../mainapp.css" text="FILTERS" textAlignment="CENTER">
                      <font>
@@ -612,20 +663,13 @@
                   </Label>
                </children>
             </Pane>
-            <ChoiceBox fx:id="choicebox21" layoutX="118.0" layoutY="591.0" prefHeight="33.0" prefWidth="190.0" style="-fx-background-color: white; -fx-border-color: black; -fx-background-radius: 100; -fx-border-radius: 100;" stylesheets="@../another.css" />
-            <ChoiceBox fx:id="choicebox211" layoutX="118.0" layoutY="636.0" prefHeight="33.0" prefWidth="190.0" style="-fx-background-color: white; -fx-border-color: black; -fx-background-radius: 100; -fx-border-radius: 100;" stylesheets="@../another.css" />
-            <ChoiceBox fx:id="choicebox212" layoutX="118.0" layoutY="682.0" prefHeight="33.0" prefWidth="190.0" style="-fx-background-color: white; -fx-border-color: black; -fx-background-radius: 100; -fx-border-radius: 100;" stylesheets="@../another.css" />
-            <Label alignment="CENTER" layoutX="30.0" layoutY="593.0" prefHeight="30.0" prefWidth="88.0" text="USERS" textAlignment="CENTER">
+            <ChoiceBox layoutX="426.0" layoutY="531.0" prefHeight="33.0" prefWidth="190.0" style="-fx-background-color: white; -fx-border-color: black; -fx-background-radius: 100; -fx-border-radius: 100; -fx-border-width: 2;" stylesheets="@../another.css" />
+            <Label alignment="CENTER" layoutX="338.0" layoutY="532.0" prefHeight="30.0" prefWidth="88.0" text="USERS" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label alignment="CENTER" layoutX="30.0" layoutY="638.0" prefHeight="30.0" prefWidth="88.0" text="DATE" textAlignment="CENTER">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" layoutX="30.0" layoutY="684.0" prefHeight="30.0" prefWidth="88.0" text="BEHAVIOR" textAlignment="CENTER">
+            <Label alignment="CENTER" layoutX="167.0" layoutY="574.0" prefHeight="30.0" prefWidth="88.0" text="DATE" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -661,6 +705,21 @@
                   </Label>
                </children>
             </Pane>
+            <DatePicker fx:id="from_account" layoutX="121.0" layoutY="610.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
+            <DatePicker fx:id="to_account" layoutX="121.0" layoutY="661.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
+            <Label alignment="CENTER" layoutX="43.0" layoutY="608.0" prefHeight="30.0" prefWidth="75.0" text="FROM" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutX="45.0" layoutY="659.0" prefHeight="30.0" prefWidth="71.0" text="TO" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Button layoutX="131.0" layoutY="89.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="125.0" style="-fx-border-width: 2; -fx-border-color: black; -fx-background-color: white;" text="ACCOUNT LOGS" />
+            <Button layoutX="284.0" layoutY="89.0" mnemonicParsing="false" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" text="MEMO LOGS" />
+            <Button layoutX="410.0" layoutY="89.0" mnemonicParsing="false" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" text="PRODUCT LOGS" />
          </children>
       </AnchorPane>
    </children>

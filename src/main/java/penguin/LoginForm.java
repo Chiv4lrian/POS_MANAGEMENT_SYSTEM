@@ -71,6 +71,7 @@ public class LoginForm {
             try {
                 if (validatelogin()) {
                     String passRes = user.getText();
+                    logDetails(passRes);
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("main_app.fxml"));
                     Parent root = loader.load();
                     MainController con2 = loader.getController();
@@ -83,6 +84,7 @@ public class LoginForm {
                     stage.setResizable(true);
                     stage.show();
                 } else {
+                    logDetails2(user.getText());
                     if (confirmRetry()) {
                         if (counts >= 3) {
                             Stage stage = (Stage) exit_butt.getScene().getWindow();
@@ -135,5 +137,30 @@ public class LoginForm {
         Optional<ButtonType> result = alert.showAndWait();
 
         return result.isPresent() && result.get() == retryButton;
+    }
+
+    private void logDetails(String personName) {
+        DBConnect connectNow = new DBConnect();
+        String sql = "INSERT INTO account_logs (username,action) VALUES (?,?)";
+        try (Connection connectDB = connectNow.getConnection()) {
+            PreparedStatement memoPs = connectDB.prepareStatement(sql);
+            memoPs.setString(1, personName);
+            memoPs.setString(2, "Login in to the System");
+            memoPs.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    private void logDetails2(String personName) {
+        DBConnect connectNow = new DBConnect();
+        String sql = "INSERT INTO account_logs (username,action) VALUES (?,?)";
+        try (Connection connectDB = connectNow.getConnection()) {
+            PreparedStatement memoPs = connectDB.prepareStatement(sql);
+            memoPs.setString(1, personName);
+            memoPs.setString(2, "Attempted Login");
+            memoPs.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

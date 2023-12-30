@@ -33,19 +33,17 @@ public class disable_products {
         this.expiryDate = new SimpleObjectProperty<>(expiryDate);
     }
 
-    public static ObservableList<disable_products> getDisabledProducts(LocalDate date1, LocalDate date2) {
+    public static ObservableList<disable_products> getDisabledProducts() {
         ObservableList<disable_products> productList = FXCollections.observableArrayList();
 
         DBConnect connect = new DBConnect();
         Connection connection = connect.getConnection();
 
         if (connection != null) {
-            String query = "SELECT product_id, product_name, category, original_price, sell_price, stock, stock_left, date_added, expire_date FROM product WHERE date_added BETWEEN ? AND ? AND is_disabled = 1";
+            String query = "SELECT product_id, product_name, category, original_price, sell_price, stock, stock_left, date_added, expire_date FROM product WHERE is_disabled = 1";
 
             try {
                 PreparedStatement statement = connection.prepareStatement(query);
-                statement.setDate(1, java.sql.Date.valueOf(date1));
-                statement.setDate(2, java.sql.Date.valueOf(date2));
 
                 ResultSet resultSet = statement.executeQuery();
 
@@ -71,10 +69,6 @@ public class disable_products {
         }
 
         return productList;
-    }
-
-    public static ObservableList<disable_products> getDisabledProducts() {
-        return getDisabledProducts(MainController.getSelectedDate3(), MainController.getSelectedDate4());
     }
 
     public StringProperty productIdProperty() {

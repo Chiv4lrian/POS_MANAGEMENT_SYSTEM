@@ -36,7 +36,7 @@ public class sales {
         Connection connection = connect.getConnection();
 
         if (connection != null) {
-            String query = "SELECT sale_id, product_id, product_name, sell_price, product_quantity, total, date_assessed FROM sale WHERE date_assessed BETWEEN ? AND ?";
+            String query = "SELECT sale_id, product_id, product_name, sell_price, product_quantity, total, date_assessed FROM sale WHERE date_assessed BETWEEN ? AND ? AND is_remove = 0";
 
             try {
                 PreparedStatement statement = connection.prepareStatement(query);

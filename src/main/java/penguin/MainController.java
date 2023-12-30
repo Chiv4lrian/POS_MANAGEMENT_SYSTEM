@@ -49,7 +49,7 @@ public class MainController implements Initializable {
     private Pane pane_debt,pane_misc,sales_add, invent_levels, invent_app, sales_hist, main_pane, add_users, add_pane, edit_pane;
 
     @FXML
-    private Button debt_dbutt,submit_add_user,submit_debt,cancel_debt, submit_misc,cancel_misc,misc_butt,debt_butt,misc_showbutt,debt_showbutt,cancel_add_user, add_sales, sale_cancel, level_butt, appraisal_butt, history_butt, inventory_butt, pos_butt, report_butt, user_butt, back_to_wan, back_to_wan2, back_to_wan3, back_to_wan4, log_out, add_account_butt, add_product, back_to_invent, back_to_invent2, edit_butt;
+    private Button view_disable, view_enable,submit_add_user,submit_debt,cancel_debt, submit_misc,cancel_misc,misc_butt,debt_butt,misc_showbutt,debt_showbutt,cancel_add_user, add_sales, sale_cancel, level_butt, appraisal_butt, history_butt, inventory_butt, pos_butt, report_butt, user_butt, back_to_wan, back_to_wan2, back_to_wan3, back_to_wan4, log_out, add_account_butt, add_product, back_to_invent, back_to_invent2, edit_butt;
 
     @FXML
     private AnchorPane inventory_pane, pos_pane, reports_pane, user_pane;
@@ -59,7 +59,7 @@ public class MainController implements Initializable {
 
     @FXML
     private ChoiceBox<String> checkbox1, checkbox2, checkbox3, checkbox4, checkbox5, checkbox6, level_cat, level_price, level_sort, val_choice1, val_choice2, val_choice3, sales_cat, sales_price;
-
+//inventory_tableview
     @FXML
     private TableView<products> products_table;
 
@@ -75,6 +75,21 @@ public class MainController implements Initializable {
     @FXML
     private TableColumn<products, LocalDate> date_col, expire_col;
 
+    @FXML
+    private TableView<disable_products> disable_table;
+
+    @FXML
+    private TableColumn<disable_products, String> disable_id,disable_name,disable_category;
+
+    @FXML
+    private TableColumn<disable_products, Double> disable_list,disable_price;
+
+    @FXML
+    private TableColumn<disable_products, Integer> disable_stock,disable_stockleft;
+
+    @FXML
+    private TableColumn<disable_products, LocalDate> disable_add,disable_expire;
+//inventory_table_end
 
     @FXML
     private Label txt_productid, txt_date;
@@ -83,10 +98,12 @@ public class MainController implements Initializable {
     private TextField code_field,name_field,user_field,pass_field,debt_fname,debt_ftotal,misc_fname,misc_ftotal,txt_productname, txt_category, txt_origprice, txt_price, txt_stock, txt_expire;
 
     @FXML
-    private Button show_products;
+    private Button remove_balachie,show_products;
     //list
     @FXML
     private ObservableList<products> pro_list;
+    @FXML
+    private ObservableList<disable_products> disabled_list;
     @FXML
     private ObservableList<deby> debt_list;
     @FXML
@@ -251,6 +268,25 @@ public class MainController implements Initializable {
         add_account_butt.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> add_users.setVisible(true));
         cancel_add_user.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {add_users.setVisible(false); res_acc();});
     }
+
+
+    public void removeButtAction() {
+            remove_balachie.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                if (products_table.isVisible()) {
+                    disableProduct();
+                    UpdateDisable();
+                    UpdateTable();
+                } else {
+                    enableProduct();
+                    UpdateTable();
+                    UpdateDisable();
+                }
+                event.consume();
+            });
+        }
+
+
+
     //ButtonsOnActions_End
 
     public void addProducts() {
@@ -260,6 +296,7 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         productmeth();
+        disable_productmeth();
         updaterDT();
         dateGet();
         choice_box();
@@ -540,6 +577,10 @@ public class MainController implements Initializable {
     public void UpdateTable(){
         productmeth();
     }
+    public void UpdateDisable(){
+        disable_productmeth();
+    }
+
 
     private void productmeth() {
         productID_col.setCellValueFactory(new PropertyValueFactory<>("productId"));
@@ -557,18 +598,31 @@ public class MainController implements Initializable {
         products_table.setItems(pro_list);
     }
 
+    private void disable_productmeth() {
+        disable_id.setCellValueFactory(new PropertyValueFactory<>("productId"));
+        disable_name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        disable_category.setCellValueFactory(new PropertyValueFactory<>("category"));
+        disable_list.setCellValueFactory(new PropertyValueFactory<>("originalPrice"));
+        disable_price.setCellValueFactory(new PropertyValueFactory<>("price"));
+        disable_stock.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        disable_stockleft.setCellValueFactory(new PropertyValueFactory<>("stockLeft"));
+        disable_add.setCellValueFactory(new PropertyValueFactory<>("dateAssessed"));
+        disable_expire.setCellValueFactory(new PropertyValueFactory<>("expiryDate"));
+
+        disabled_list = disable_products.getDisabledProducts();
+
+        disable_table.setItems(disabled_list);
+    }
+
     //UPDATE KIDS END
 
     //ENABLE - DISABLE KIDS START
     private void enableProduct() {
-        products selectedItem = products_table.getSelectionModel().getSelectedItem();
+        disable_products selectedItem = disable_table.getSelectionModel().getSelectedItem();
 
-        if (selectedItem == null) {
-            showAlert("No Row Is Selected to Enable");
-            return;
-        }
+        if (selectedItem == null) return;
 
-        String updateSql = "UPDATE product SET is_disabled = 0 WHERE product_name = ? AND category = ? AND sell_price = ?";
+        String updateSql = "UPDATE product SET is_disabled = 0 WHERE product_name = ? AND category = ? AND sell_price = ? AND is_disabled = 1";
 
         try {
             PreparedStatement pst = con_pro.prepareStatement(updateSql);
@@ -579,6 +633,7 @@ public class MainController implements Initializable {
 
             showAlert("Product Enabled Successfully");
             UpdateTable();
+            UpdateDisable();
         } catch (SQLException e) {
             showAlert("Failed to Enable the Product");
         }
@@ -587,12 +642,9 @@ public class MainController implements Initializable {
     private void disableProduct() {
         products selectedItem = products_table.getSelectionModel().getSelectedItem();
 
-        if (selectedItem == null) {
-            showAlert("No Row Is Selected to Enable");
-            return;
-        }
+        if (selectedItem == null) return;
 
-        String updateSql = "UPDATE product SET is_disabled = 1 WHERE product_name = ? AND category = ? AND sell_price = ?";
+        String updateSql = "UPDATE product SET is_disabled = 1 WHERE product_name = ? AND category = ? AND sell_price = ? AND is_disabled = 0";
 
         try {
             PreparedStatement pst = con_pro.prepareStatement(updateSql);
@@ -603,6 +655,7 @@ public class MainController implements Initializable {
 
             showAlert("Product Disabled Successfully");
             UpdateTable();
+            UpdateDisable();
         } catch (SQLException e) {
             showAlert("Failed to Disable the Product");
         }
@@ -641,6 +694,18 @@ public class MainController implements Initializable {
             debt_table.setVisible(true);
             debt_showbutt.setVisible(false);
             misc_table.setVisible(false);
+        });
+        view_enable.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            view_disable.setVisible(true);
+            view_enable.setVisible(false);
+            disable_table.setVisible(false);
+            products_table.setVisible(true);
+        });
+        view_disable.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            view_enable.setVisible(true);
+            view_disable.setVisible(false);
+            disable_table.setVisible(true);
+            products_table.setVisible(false);
         });
 
     }
@@ -723,6 +788,8 @@ public class MainController implements Initializable {
 
             alert.setTitle("NOTICE");
             alert.setHeaderText("Pengui Management");
+
+            logDeletion2(debt_fname.getText(), "Misc");
 
             if (rowsAffected > 0) {
                 alert.setContentText("SUCCESSFULLY ADDED THE DEBT");
@@ -821,9 +888,22 @@ public class MainController implements Initializable {
             memoPs.setString(1, "Deleted " + category + " for: " + personName);
             memoPs.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace(); // Handle or log the exception accordingly
+            e.printStackTrace();
         }
     }
+
+    private void logDeletion2(String personName, String category) {
+        String memoSql = "INSERT INTO memo_logs (logs) VALUES (?)";
+
+        try {
+            PreparedStatement memoPs = con_pro.prepareStatement(memoSql);
+            memoPs.setString(1, "Inserted " + category + " for: " + personName);
+            memoPs.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private void showAlert(String content) {
         alert.setTitle("NOTICE");
@@ -849,6 +929,8 @@ public class MainController implements Initializable {
 
             alert.setTitle("NOTICE");
             alert.setHeaderText("Pengui Management");
+
+            logDeletion2(misc_fname.getText(), "Misc");
 
             if (rowsAffected > 0) {
                 alert.setContentText("SUCCESSFULLY ADDED THE DEBT");
