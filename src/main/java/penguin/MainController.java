@@ -2,6 +2,7 @@ package penguin;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -20,11 +21,9 @@ import javafx.scene.control.TextField;
 import javafx.util.Duration;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
@@ -89,7 +88,89 @@ public class MainController implements Initializable {
 
     @FXML
     private TableColumn<disable_products, LocalDate> disable_add,disable_expire;
+
+    @FXML
+    private TableView<account_show> manage_account;
+
+    @FXML
+    private TableColumn<account_show, String> account_names,account_history;
+
+    @FXML
+    private TableColumn<account_show, Timestamp> account_time;
+
+    @FXML
+    private TableColumn<logs_show, Timestamp> memo_date;
+
+    @FXML
+    private TableColumn<memo_show, Timestamp> manage_logDate;
+
+    @FXML
+    private TableView<memo_show> manage_memo;
+
+    @FXML
+    private TableColumn<memo_show, String> memo_id;
+
+    @FXML
+    private TableColumn<memo_show, String> memo_history;
+
+    @FXML
+    private TableView<logs_show> manage_logs;
+
+    @FXML
+    private TableColumn<logs_show, String> logID_manage;
+
+    @FXML
+    private TableColumn<logs_show, String> manage_record;
+
+    @FXML
+    private TableColumn<logs_show,String> logsAction_manage, manage_where;
+
+
 //inventory_table_end
+
+    //account
+
+    public void updateAccs(){
+        accountShowMethod();
+    }
+
+    public void updateMemos(){
+        memoShowMethod();
+    }
+    public void updateLogs(){
+        logsShowMethod();
+    }
+
+    private void accountShowMethod() {
+        account_names.setCellValueFactory(new PropertyValueFactory<>("accountName"));
+        account_history.setCellValueFactory(new PropertyValueFactory<>("accountHistory"));
+        account_time.setCellValueFactory(new PropertyValueFactory<>("accountTime"));
+        account_list = account_show.getAccounts();
+        manage_account.setItems(account_list);
+    }
+
+    private void memoShowMethod() {
+        memo_id.setCellValueFactory(new PropertyValueFactory<>("personName"));
+        memo_history.setCellValueFactory(new PropertyValueFactory<>("totalDebt"));
+        memo_date.setCellValueFactory(new PropertyValueFactory<>("debtDate"));
+
+        memo_list = memo_show.getMemoLogs();
+        manage_memo.setItems(memo_list);
+    }
+
+    private void logsShowMethod(){
+        logID_manage.setCellValueFactory(new PropertyValueFactory<>("logID_manage"));
+        logsAction_manage.setCellValueFactory(new PropertyValueFactory<>("logsAction_manage"));
+        manage_where.setCellValueFactory(new PropertyValueFactory<>("manage_where"));
+        manage_record.setCellValueFactory(new PropertyValueFactory<>("manage_record"));
+        manage_logDate.setCellValueFactory(new PropertyValueFactory<>("manage_logDate"));
+
+        logs_list = logs_show.getLogs();
+        manage_logs.setItems(logs_list);
+    }
+
+
+    //account_end
 
     @FXML
     private Label txt_productid, txt_date;
@@ -98,7 +179,7 @@ public class MainController implements Initializable {
     private TextField code_field,name_field,user_field,pass_field,debt_fname,debt_ftotal,misc_fname,misc_ftotal,txt_productname, txt_category, txt_origprice, txt_price, txt_stock, txt_expire;
 
     @FXML
-    private Button remove_balachie,show_products;
+    private Button accountLogs_button,memoLogs_button,logsLogs_button,remove_balachie,show_products;
 
     //list
     @FXML
@@ -186,7 +267,6 @@ public class MainController implements Initializable {
         MainController.selectedDate6 = selectedDate6;
         UpdateTable();
     }
-
     //date_end
 
     @FXML
@@ -295,7 +375,45 @@ public class MainController implements Initializable {
             });
         }
 
+        //account_pane
+    public void accountButton(){
+        accountLogs_button.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+           if(manage_account.isVisible()){
+               manage_account.setVisible(false);
+           }
+           else {
+               manage_account.setVisible(true);
+               manage_memo.setVisible(false);
+               manage_logs.setVisible(false);
+           }
+            updateAccs();
+        });
+        memoLogs_button.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            if(manage_memo.isVisible()){
+                manage_memo.setVisible(false);
+            }
+            else {
+                manage_account.setVisible(false);
+                manage_memo.setVisible(true);
+                manage_logs.setVisible(false);
+            }
+            updateMemos();
+        });
+        logsLogs_button .addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            if(manage_logs.isVisible()){
+                manage_logs.setVisible(false);
+            }
+            else {
+                manage_account.setVisible(false);
+                manage_memo.setVisible(false);
+                manage_logs.setVisible(true);
+            }
+            updateMemos();
+        });
+    }
 
+
+        //account_pane_end
 
     //ButtonsOnActions_End
 
@@ -305,6 +423,39 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        TableColumn<account_show, Timestamp> account_time = new TableColumn<>("account_time");
+        TableColumn<logs_show, Timestamp> manage_logDate = new TableColumn<>("manage_logDate");
+        TableColumn<memo_show, Timestamp> memo_date = new TableColumn<>("memo_date");
+
+        account_time.setCellValueFactory(cellData -> {
+            SimpleObjectProperty<Timestamp> property = new SimpleObjectProperty<>();
+            Timestamp timestamp = cellData.getValue().accountTimeProperty().get();
+            if (timestamp != null) {
+                property.setValue(timestamp);
+            }
+            return property;
+        });
+
+        manage_logDate.setCellValueFactory(cellData -> {
+            SimpleObjectProperty<Timestamp> property = new SimpleObjectProperty<>();
+            Timestamp timestamp = cellData.getValue().manage_logDateProperty().get();
+            if (timestamp != null) {
+                property.setValue(timestamp);
+            }
+            return property;
+        });
+
+        memo_date.setCellValueFactory(cellData -> {
+            SimpleObjectProperty<Timestamp> property = new SimpleObjectProperty<>();
+            Timestamp timestamp = cellData.getValue().debtDateProperty().get();
+            if (timestamp != null) {
+                property.setValue(timestamp);
+            }
+            return property;
+        });
+        logsShowMethod();
+        accountShowMethod();
+        memoShowMethod();
         productmeth();
         disable_productmeth();
         updaterDT();

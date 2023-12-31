@@ -621,7 +621,7 @@
       </AnchorPane>
       <AnchorPane fx:id="user_pane" onKeyPressed="#keyPressed_2" prefHeight="739.0" prefWidth="1292.0" style="-fx-background-color: #8ca7c2;" visible="false">
          <children>
-            <TableView fx:id="manage_account" layoutX="118.0" layoutY="137.0" prefHeight="380.0" prefWidth="1019.0" style="-fx-border-color: black; -fx-border-width: 2;">
+            <TableView fx:id="manage_account" layoutX="118.0" layoutY="137.0" prefHeight="380.0" prefWidth="1019.0" style="-fx-border-color: black; -fx-border-width: 2;" visible="false">
                <columns>
                   <TableColumn fx:id="account_names" prefWidth="148.0" text="ACCOUNT NAME" />
                   <TableColumn fx:id="account_history" prefWidth="630.0" text="                                                                                                                     HISTORY LOGS" />
@@ -717,9 +717,9 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Button layoutX="131.0" layoutY="89.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="125.0" style="-fx-border-width: 2; -fx-border-color: black; -fx-background-color: white;" text="ACCOUNT LOGS" />
-            <Button layoutX="284.0" layoutY="89.0" mnemonicParsing="false" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" text="MEMO LOGS" />
-            <Button layoutX="410.0" layoutY="89.0" mnemonicParsing="false" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" text="PRODUCT LOGS" />
+            <Button fx:id="accountLogs_button" layoutX="131.0" layoutY="89.0" mnemonicParsing="false" onAction="#accountButton" prefHeight="37.0" prefWidth="125.0" style="-fx-border-width: 2; -fx-border-color: black; -fx-background-color: white;" text="ACCOUNT LOGS" />
+            <Button fx:id="memoLogs_button" layoutX="284.0" layoutY="89.0" mnemonicParsing="false" onAction="#accountButton" prefHeight="37.0" prefWidth="95.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" text="MEMO LOGS" />
+            <Button fx:id="logsLogs_button" layoutX="410.0" layoutY="89.0" mnemonicParsing="false" onAction="#accountButton" prefHeight="37.0" prefWidth="115.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" text="PRODUCT LOGS" />
          </children>
       </AnchorPane>
    </children>

@@ -4,47 +4,42 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 
 public class logs_show {
 
-    private final IntegerProperty logID_manage;
+    private final StringProperty logID_manage;
     private final StringProperty logsAction_manage;
     private final StringProperty manage_where;
-    private final IntegerProperty manage_record;
-    private final ObjectProperty<LocalDate> manage_logDate;
+    private final StringProperty manage_record;
+    private final ObjectProperty<Timestamp> manage_logDate;
 
-    public logs_show(int logID_manage, String logsAction_manage, String manage_where, int manage_record, LocalDate manage_logDate) {
-        this.logID_manage = new SimpleIntegerProperty(logID_manage);
+    public logs_show(String logID_manage, String logsAction_manage, String manage_where, String manage_record, Timestamp manage_logDate) {
+        this.logID_manage = new SimpleStringProperty(logID_manage);
         this.logsAction_manage = new SimpleStringProperty(logsAction_manage);
         this.manage_where = new SimpleStringProperty(manage_where);
-        this.manage_record = new SimpleIntegerProperty(manage_record);
+        this.manage_record = new SimpleStringProperty(manage_record);
         this.manage_logDate = new SimpleObjectProperty<>(manage_logDate);
     }
 
-    public static ObservableList<logs_show> getLogs(LocalDate date1, LocalDate date2) {
+    public static ObservableList<logs_show> getLogs() {
         ObservableList<logs_show> logList = FXCollections.observableArrayList();
 
         DBConnect connect = new DBConnect();
         try (Connection connection = connect.getConnection()) {
             if (connection != null) {
-                String query = "SELECT log_id, action, table_name, record_id, log_date FROM logs WHERE log_date BETWEEN ? AND ?;";
+                String query = "SELECT log_id, action, table_name, record_id, log_date FROM logs";
 
                 try (PreparedStatement statement = connection.prepareStatement(query)) {
-                    statement.setDate(1, java.sql.Date.valueOf(date1));
-                    statement.setDate(2, java.sql.Date.valueOf(date2));
 
                     try (ResultSet resultSet = statement.executeQuery()) {
                         while (resultSet.next()) {
-                            int logID_manage = resultSet.getInt("log_id");
+                            String logID_manage = resultSet.getString("log_id");
                             String logsAction_manage = resultSet.getString("action");
                             String manage_where = resultSet.getString("table_name");
-                            int manage_record = resultSet.getInt("record_id");
-                            LocalDate manage_logDate = resultSet.getDate("log_date").toLocalDate();
+                            String manage_record = resultSet.getString("record_id");
+                            Timestamp manage_logDate = resultSet.getTimestamp("log_date");
 
                             logList.add(new logs_show(logID_manage, logsAction_manage, manage_where, manage_record, manage_logDate));
                         }
@@ -60,11 +55,7 @@ public class logs_show {
         return logList;
     }
 
-    public static ObservableList<logs_show> getLogs() {
-        return getLogs(MainController.getSelectedDate1(), MainController.getSelectedDate2());
-    }
-
-    public IntegerProperty logID_manageProperty() {
+    public StringProperty logID_manageProperty() {
         return logID_manage;
     }
 
@@ -76,11 +67,11 @@ public class logs_show {
         return manage_where;
     }
 
-    public IntegerProperty manage_recordProperty() {
+    public StringProperty manage_recordProperty() {
         return manage_record;
     }
 
-    public ObjectProperty<LocalDate> manage_logDateProperty() {
+    public ObjectProperty<Timestamp> manage_logDateProperty() {
         return manage_logDate;
     }
 }
