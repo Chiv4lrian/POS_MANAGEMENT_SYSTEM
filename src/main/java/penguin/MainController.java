@@ -48,7 +48,7 @@ public class MainController implements Initializable {
     private Pane pane_debt,pane_misc,sales_add, invent_levels, invent_app, sales_hist, main_pane, add_users, add_pane, edit_pane;
 
     @FXML
-    private Button view_disable, view_enable,submit_add_user,submit_debt,cancel_debt, submit_misc,cancel_misc,misc_butt,debt_butt,misc_showbutt,debt_showbutt,cancel_add_user, add_sales, sale_cancel, level_butt, appraisal_butt, history_butt, inventory_butt, pos_butt, report_butt, user_butt, back_to_wan, back_to_wan2, back_to_wan3, back_to_wan4, log_out, add_account_butt, add_product, back_to_invent, back_to_invent2, edit_butt;
+    private Button submit_butt2,view_disable, view_enable,submit_add_user,submit_debt,cancel_debt, submit_misc,cancel_misc,misc_butt,debt_butt,misc_showbutt,debt_showbutt,cancel_add_user, add_sales, sale_cancel, level_butt, appraisal_butt, history_butt, inventory_butt, pos_butt, report_butt, user_butt, back_to_wan, back_to_wan2, back_to_wan3, back_to_wan4, log_out, add_account_butt, add_product, back_to_invent, back_to_invent2, edit_butt;
 
     @FXML
     private AnchorPane inventory_pane, pos_pane, reports_pane, user_pane;
@@ -459,6 +459,8 @@ public class MainController implements Initializable {
             }
             return property;
         });
+        populateComboBox();
+        edit_name.setOnAction(event -> onComboBoxItemSelected());
         logsShowMethod();
         accountShowMethod();
         memoShowMethod();
@@ -722,6 +724,79 @@ public class MainController implements Initializable {
             showAlert();
         }
     }
+    public void buttonEditAction(){
+        submit_butt2.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            edit_products_meth();
+            edit_pane.setVisible(false);
+        });
+    }
+
+    public void edit_products_meth() {
+        String selectedProductName = (String) edit_name.getValue();
+
+        if (selectedProductName != null) {
+            java.sql.Date sqlexDate = java.sql.Date.valueOf(edit_expire.getText());
+            String sql = "UPDATE product SET category = ?, original_price = ?, sell_price = ?, stock = ?, expire_date = ? WHERE product_name = ?";
+            try (PreparedStatement ps = con_pro.prepareStatement(sql)) {
+                ps.setString(1, edit_category.getText());
+                ps.setDouble(2, Double.parseDouble(edit_listprice.getText()));
+                ps.setDouble(3, Double.parseDouble(edit_price.getText()));
+                ps.setInt(4, Integer.parseInt(edit_stock.getText()));
+                ps.setDate(5, sqlexDate);
+                ps.setString(6, selectedProductName);
+                int rowsAffected = ps.executeUpdate();
+                if (rowsAffected > 0) {
+                    UpdateTable();
+                    System.out.println("Product updated successfully.");
+                } else {
+                    System.out.println("No product found with the specified name.");
+                }
+            } catch (SQLException | NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    private void populateComboBox() {
+        try {
+            Statement statement = con_pro.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT product_name FROM product");
+            ObservableList<String> productNames = FXCollections.observableArrayList();
+            while (resultSet.next()) {
+                productNames.add(resultSet.getString("product_name"));
+            }
+            edit_name.setItems(productNames);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    private void onComboBoxItemSelected() {
+        String selectedProductName = (String) edit_name.getValue();
+        try {
+            PreparedStatement preparedStatement = con_pro.prepareStatement("SELECT * FROM product WHERE product_name = ?");
+            preparedStatement.setString(1, selectedProductName);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                edit_id.setText(String.valueOf(resultSet.getInt("product_id")));
+                edit_date.setText(String.valueOf(resultSet.getDate("date_added").toLocalDate()));
+                edit_category.setText(resultSet.getString("category"));
+                edit_listprice.setText(String.valueOf(resultSet.getDouble("original_price")));
+                edit_price.setText(String.valueOf(resultSet.getDouble("sell_price")));
+                edit_stock.setText(String.valueOf(resultSet.getInt("stock")));
+                Date expireDate = resultSet.getDate("expire_date");
+                edit_expire.setText(expireDate != null ? String.valueOf(expireDate.toLocalDate()) : null);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+}
+    //sales_start
+
+
+
+    //sales_end
+
+
+
 
     private void showAlert() {
         Alert alert = new Alert(Alert.AlertType.ERROR);

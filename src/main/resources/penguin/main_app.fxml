@@ -299,7 +299,7 @@
             <Pane fx:id="edit_pane" layoutX="344.0" layoutY="134.0" prefHeight="443.0" prefWidth="605.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 3;" visible="false">
                <children>
                   <Button fx:id="back_to_invent2" layoutX="369.0" layoutY="377.0" mnemonicParsing="false" onAction="#invent_buttons" prefHeight="37.0" prefWidth="125.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="CANCEL" />
-                  <Button fx:id="submit_butt2" layoutX="144.0" layoutY="377.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="125.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="SUBMIT" />
+                  <Button fx:id="submit_butt2" layoutX="144.0" layoutY="377.0" mnemonicParsing="false" onAction="#buttonEditAction" prefHeight="37.0" prefWidth="125.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="SUBMIT" />
                   <TextField fx:id="edit_price" layoutX="161.0" layoutY="192.0" prefHeight="27.0" prefWidth="125.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 1;" />
                   <TextField fx:id="edit_listprice" layoutX="161.0" layoutY="149.0" prefHeight="27.0" prefWidth="125.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 1;" />
                   <TextField fx:id="edit_stock" layoutX="161.0" layoutY="235.0" prefHeight="27.0" prefWidth="125.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 1;" />
@@ -419,6 +419,30 @@
                   <Font size="6.0" />
                </font>
             </Button>
+            <Label layoutX="725.0" layoutY="622.0" text="Total :">
+               <font>
+                  <Font name="Arial Bold" size="19.0" />
+               </font>
+            </Label>
+            <Label layoutX="798.0" layoutY="617.0" prefHeight="32.0" prefWidth="176.0" style="-fx-border-color: black;">
+               <font>
+                  <Font name="Arial Bold" size="25.0" />
+               </font>
+            </Label>
+            <Button fx:id="save_sales" disable="true" layoutX="421.0" layoutY="611.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="140.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="SAVE SALES" />
+            <Button fx:id="printed" layoutX="573.0" layoutY="611.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="140.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="PRINT" />
+            <DatePicker fx:id="from_sale" layoutX="209.0" layoutY="671.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
+            <DatePicker fx:id="to_sale" layoutX="491.0" layoutY="671.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
+            <Label layoutX="445.0" layoutY="678.0" text="TO">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="147.0" layoutY="678.0" text="FROM">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font>
+            </Label>
             <Pane fx:id="sales_add" layoutX="285.0" layoutY="179.0" onKeyPressed="#keyPressed_2" prefHeight="443.0" prefWidth="723.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2px;" visible="false">
                <children>
                   <Label layoutX="62.0" layoutY="40.0" prefHeight="33.0" prefWidth="97.0" text="Product ID :">
@@ -453,74 +477,14 @@
                   </Label>
                   <Button fx:id="sale_submit" layoutX="172.0" layoutY="373.0" mnemonicParsing="false" onAction="#main_buttAction2" prefHeight="44.0" prefWidth="150.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="SUBMIT" />
                   <Button fx:id="sale_cancel" layoutX="432.0" layoutY="373.0" mnemonicParsing="false" onAction="#invent_buttons" prefHeight="44.0" prefWidth="150.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="CANCEL" />
-                  <TextField layoutX="214.0" layoutY="155.0" prefHeight="27.0" prefWidth="97.0" style="-fx-border-color: black; -fx-background-color: #e6dbda; -fx-border-width: 1px;" />
-                  <TextField layoutX="214.0" layoutY="199.0" prefHeight="27.0" prefWidth="97.0" style="-fx-border-color: black; -fx-background-color: #e6dbda; -fx-border-width: 1px;" />
+                  <TextField fx:id="sale_price" layoutX="214.0" layoutY="155.0" prefHeight="27.0" prefWidth="97.0" style="-fx-border-color: black; -fx-background-color: #e6dbda; -fx-border-width: 1px;" />
+                  <TextField fx:id="sale_quantity" layoutX="214.0" layoutY="199.0" prefHeight="27.0" prefWidth="97.0" style="-fx-border-color: black; -fx-background-color: #e6dbda; -fx-border-width: 1px;" />
                   <ComboBox fx:id="sale_combo" layoutX="214.0" layoutY="100.0" prefHeight="30.0" prefWidth="333.0" style="-fx-background-color: #e6dbda; -fx-border-color: black; -fx-border-width: 2;" />
-                  <Label layoutX="214.0" layoutY="41.0" prefHeight="27.0" prefWidth="97.0" style="-fx-background-color: #e6dbda; -fx-border-color: black; -fx-border-width: 1;" />
-                  <Label layoutX="214.0" layoutY="253.0" prefHeight="27.0" prefWidth="97.0" style="-fx-background-color: #e6dbda; -fx-border-color: black; -fx-border-width: 1;" />
-                  <Label layoutX="214.0" layoutY="298.0" prefHeight="27.0" prefWidth="97.0" style="-fx-background-color: #e6dbda; -fx-border-color: black; -fx-border-width: 1;" />
+                  <Label fx:id="saleid_label" layoutX="214.0" layoutY="41.0" prefHeight="27.0" prefWidth="97.0" style="-fx-background-color: #e6dbda; -fx-border-color: black; -fx-border-width: 1;" />
+                  <Label fx:id="sale_category" layoutX="214.0" layoutY="253.0" prefHeight="27.0" prefWidth="97.0" style="-fx-background-color: #e6dbda; -fx-border-color: black; -fx-border-width: 1;" />
+                  <Label fx:id="sale_addDate" layoutX="214.0" layoutY="298.0" prefHeight="27.0" prefWidth="97.0" style="-fx-background-color: #e6dbda; -fx-border-color: black; -fx-border-width: 1;" />
                </children>
             </Pane>
-            <Label layoutX="725.0" layoutY="622.0" text="Total :">
-               <font>
-                  <Font name="Arial Bold" size="19.0" />
-               </font>
-            </Label>
-            <Label layoutX="798.0" layoutY="617.0" prefHeight="32.0" prefWidth="176.0" style="-fx-border-color: black;">
-               <font>
-                  <Font name="Arial Bold" size="25.0" />
-               </font>
-            </Label>
-            <Button fx:id="save_sales" disable="true" layoutX="421.0" layoutY="611.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="140.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="SAVE SALES" />
-            <Button fx:id="printed" layoutX="573.0" layoutY="611.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="140.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="PRINT" />
-            <Pane fx:id="mics_liab" layoutX="320.0" layoutY="178.0" prefHeight="443.0" prefWidth="636.0" style="-fx-background-color: #6180ba; -fx-border-width: 2; -fx-border-color: black;" visible="false">
-               <children>
-                  <Pane prefHeight="443.0" prefWidth="320.0" style="-fx-border-color: black; -fx-border-width: 2;">
-                     <children>
-                        <Label layoutX="91.0" layoutY="20.0" text="MISCELLANEOUS">
-                           <font>
-                              <Font name="Arial Bold" size="16.0" />
-                           </font>
-                        </Label>
-                        <Button layoutX="65.0" layoutY="392.0" mnemonicParsing="false" style="-fx-background-color: white;" text="SUBMIT">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Button>
-                        <Button layoutX="204.0" layoutY="392.0" mnemonicParsing="false" style="-fx-background-color: white;" text="CANCEL" />
-                        <TextField layoutX="128.0" layoutY="129.0" />
-                        <TextField layoutX="128.0" layoutY="196.0" />
-                        <TextField layoutX="128.0" layoutY="257.0" />
-                     </children>
-                  </Pane>
-                  <Pane layoutX="316.0" prefHeight="443.0" prefWidth="320.0" style="-fx-border-color: black; -fx-border-width: 2;">
-                     <children>
-                        <Label layoutX="114.0" layoutY="20.0" text="LIABILITIES">
-                           <font>
-                              <Font name="Arial Bold" size="16.0" />
-                           </font>
-                        </Label>
-                        <Button layoutX="62.0" layoutY="389.0" mnemonicParsing="false" style="-fx-background-color: white;" text="SUBMIT" />
-                        <Button layoutX="206.0" layoutY="389.0" mnemonicParsing="false" style="-fx-background-color: white;" text="CANCEL" />
-                        <TextField layoutX="132.0" layoutY="132.0" />
-                        <TextField layoutX="130.0" layoutY="196.0" />
-                        <TextField layoutX="134.0" layoutY="273.0" />
-                     </children>
-                  </Pane>
-               </children>
-            </Pane>
-            <DatePicker fx:id="from_sale" layoutX="209.0" layoutY="671.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
-            <DatePicker fx:id="to_sale" layoutX="491.0" layoutY="671.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
-            <Label layoutX="445.0" layoutY="678.0" text="TO">
-               <font>
-                  <Font name="Arial Bold" size="14.0" />
-               </font>
-            </Label>
-            <Label layoutX="147.0" layoutY="678.0" text="FROM">
-               <font>
-                  <Font name="Arial Bold" size="14.0" />
-               </font>
-            </Label>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="reports_pane" onKeyPressed="#keyPressed_2" prefHeight="739.0" prefWidth="1292.0" style="-fx-background-color: #8ca7c2; -fx-border-width: 2px;" visible="false">
