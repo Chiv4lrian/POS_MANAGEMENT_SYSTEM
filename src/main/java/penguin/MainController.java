@@ -173,10 +173,16 @@ public class MainController implements Initializable {
     //account_end
 
     @FXML
-    private Label txt_productid, txt_date;
+    private Label txt_productid, txt_date,edit_id,edit_date;
 
     @FXML
     private TextField code_field,name_field,user_field,pass_field,debt_fname,debt_ftotal,misc_fname,misc_ftotal,txt_productname, txt_category, txt_origprice, txt_price, txt_stock, txt_expire;
+
+    @FXML
+    private TextField edit_category,edit_listprice,edit_price,edit_stock,edit_expire;
+
+    @FXML
+    private ComboBox edit_name;
 
     @FXML
     private Button accountLogs_button,memoLogs_button,logsLogs_button,remove_balachie,show_products;
