@@ -388,7 +388,6 @@
          </children></AnchorPane>
       <AnchorPane fx:id="pos_pane" layoutX="-1.0" onKeyPressed="#keyPressed_2" prefHeight="739.0" prefWidth="1292.0" style="-fx-background-color: #CFCECE;" visible="false">
          <children>
-            <Pane prefHeight="200.0" prefWidth="200.0" />
             <Pane layoutX="124.0" layoutY="39.0" prefHeight="44.0" prefWidth="1037.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 3; -fx-background-radius: 30; -fx-border-radius: 30;">
                <children>
                   <Label alignment="CENTER" layoutX="420.0" layoutY="7.0" prefHeight="30.0" prefWidth="197.0" stylesheets="@../mainapp.css" text="POINT OF SALE" textAlignment="CENTER">
@@ -414,7 +413,7 @@
                </columns>
             </TableView>
             <Button fx:id="add_sales" layoutX="118.0" layoutY="611.0" mnemonicParsing="false" onAction="#invent_buttons" prefHeight="44.0" prefWidth="134.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="ADD SALES" />
-            <Button fx:id="compute_sales" layoutX="276.0" layoutY="611.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="124.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="COMPUTE">
+            <Button fx:id="compute_sales" layoutX="276.0" layoutY="611.0" mnemonicParsing="false" onAction="#submit_okay" prefHeight="44.0" prefWidth="124.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="COMPUTE">
                <font>
                   <Font size="6.0" />
                </font>
@@ -424,7 +423,7 @@
                   <Font name="Arial Bold" size="19.0" />
                </font>
             </Label>
-            <Label layoutX="798.0" layoutY="617.0" prefHeight="32.0" prefWidth="176.0" style="-fx-border-color: black;">
+            <Label fx:id="totalsale_label" layoutX="798.0" layoutY="617.0" prefHeight="32.0" prefWidth="176.0" style="-fx-border-color: black;">
                <font>
                   <Font name="Arial Bold" size="25.0" />
                </font>
@@ -475,7 +474,7 @@
                         <Font name="Calibri Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Button fx:id="sale_submit" layoutX="172.0" layoutY="373.0" mnemonicParsing="false" onAction="#main_buttAction2" prefHeight="44.0" prefWidth="150.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="SUBMIT" />
+                  <Button fx:id="sale_submit" layoutX="172.0" layoutY="373.0" mnemonicParsing="false" onAction="#submit_okay" prefHeight="44.0" prefWidth="150.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="SUBMIT" />
                   <Button fx:id="sale_cancel" layoutX="432.0" layoutY="373.0" mnemonicParsing="false" onAction="#invent_buttons" prefHeight="44.0" prefWidth="150.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="CANCEL" />
                   <TextField fx:id="sale_price" layoutX="214.0" layoutY="155.0" prefHeight="27.0" prefWidth="97.0" style="-fx-border-color: black; -fx-background-color: #e6dbda; -fx-border-width: 1px;" />
                   <TextField fx:id="sale_quantity" layoutX="214.0" layoutY="199.0" prefHeight="27.0" prefWidth="97.0" style="-fx-border-color: black; -fx-background-color: #e6dbda; -fx-border-width: 1px;" />

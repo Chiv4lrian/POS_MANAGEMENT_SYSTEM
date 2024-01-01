@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
@@ -48,13 +47,13 @@ public class MainController implements Initializable {
     private Pane pane_debt,pane_misc,sales_add, invent_levels, invent_app, sales_hist, main_pane, add_users, add_pane, edit_pane;
 
     @FXML
-    private Button submit_butt2,view_disable, view_enable,submit_add_user,submit_debt,cancel_debt, submit_misc,cancel_misc,misc_butt,debt_butt,misc_showbutt,debt_showbutt,cancel_add_user, add_sales, sale_cancel, level_butt, appraisal_butt, history_butt, inventory_butt, pos_butt, report_butt, user_butt, back_to_wan, back_to_wan2, back_to_wan3, back_to_wan4, log_out, add_account_butt, add_product, back_to_invent, back_to_invent2, edit_butt;
+    private Button compute_sales,sale_submit,submit_butt2,view_disable, view_enable,submit_add_user,submit_debt,cancel_debt, submit_misc,cancel_misc,misc_butt,debt_butt,misc_showbutt,debt_showbutt,cancel_add_user, add_sales, sale_cancel, level_butt, appraisal_butt, history_butt, inventory_butt, pos_butt, report_butt, user_butt, back_to_wan, back_to_wan2, back_to_wan3, back_to_wan4, log_out, add_account_butt, add_product, back_to_invent, back_to_invent2, edit_butt;
 
     @FXML
     private AnchorPane inventory_pane, pos_pane, reports_pane, user_pane;
 
     @FXML
-    private Label misc_fdate,debt_fdate,account_name, account_number, txt_report_user, txt_report_number, show_time, show_date;
+    private Label saleid_label,misc_fdate,debt_fdate,account_name, account_number, txt_report_user, txt_report_number, show_time, show_date;
 
     @FXML
     private ChoiceBox<String> checkbox1, checkbox2, checkbox3, checkbox4, checkbox5, checkbox6, level_cat, level_price, level_sort, val_choice1, val_choice2, val_choice3, sales_cat, sales_price;
@@ -173,16 +172,16 @@ public class MainController implements Initializable {
     //account_end
 
     @FXML
-    private Label txt_productid, txt_date,edit_id,edit_date;
+    private Label totalsale_label,sale_category,sale_addDate,txt_productid, txt_date,edit_id,edit_date;
 
     @FXML
     private TextField code_field,name_field,user_field,pass_field,debt_fname,debt_ftotal,misc_fname,misc_ftotal,txt_productname, txt_category, txt_origprice, txt_price, txt_stock, txt_expire;
 
     @FXML
-    private TextField edit_category,edit_listprice,edit_price,edit_stock,edit_expire;
+    private TextField sale_price,sale_quantity,edit_category,edit_listprice,edit_price,edit_stock,edit_expire;
 
     @FXML
-    private ComboBox edit_name;
+    private ComboBox edit_name,sale_combo;
 
     @FXML
     private Button accountLogs_button,memoLogs_button,logsLogs_button,remove_balachie,show_products;
@@ -273,6 +272,7 @@ public class MainController implements Initializable {
         MainController.selectedDate6 = selectedDate6;
         UpdateTable();
     }
+
     //date_end
 
     @FXML
@@ -338,6 +338,8 @@ public class MainController implements Initializable {
         submit_debt.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> add_debt());
         submit_misc.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> add_misc());
         submit_add_user.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> add_account());
+        sale_submit.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> add_sales_meth());
+        compute_sales.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> showCalculate());
     }
 
     public void main_buttAction2() {
@@ -461,6 +463,7 @@ public class MainController implements Initializable {
         });
         populateComboBox();
         edit_name.setOnAction(event -> onComboBoxItemSelected());
+        sale_combo.setOnAction(event -> ItemSelectedSale());
         logsShowMethod();
         accountShowMethod();
         memoShowMethod();
@@ -664,6 +667,7 @@ public class MainController implements Initializable {
         misc_fdate.setText(String.valueOf(currentDate));
         debt_fdate.setText(String.valueOf(currentDate));
         txt_date.setText(String.valueOf(currentDate));
+        sale_addDate.setText(String.valueOf(currentDate));
     }
 
     public void rep_levels() {
@@ -765,10 +769,12 @@ public class MainController implements Initializable {
                 productNames.add(resultSet.getString("product_name"));
             }
             edit_name.setItems(productNames);
+            sale_combo.setItems(productNames);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
     private void onComboBoxItemSelected() {
         String selectedProductName = (String) edit_name.getValue();
         try {
@@ -790,12 +796,127 @@ public class MainController implements Initializable {
         }
 }
     //sales_start
+    private void ItemSelectedSale() {
+        String selectedProductName = (String) sale_combo.getValue();
+        try {
+            PreparedStatement preparedStatement = con_pro.prepareStatement("SELECT * FROM product WHERE product_name = ?");
+            preparedStatement.setString(1, selectedProductName);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                saleid_label.setText(String.valueOf(resultSet.getInt("product_id")));
+                sale_category.setText(String.valueOf(resultSet.getString("category")));
+                sale_price.setText(String.valueOf(resultSet.getDouble("sell_price")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public void add_sales_meth() {
+        String sql = "INSERT INTO sale (sale_id, product_id, product_name, sell_price, product_quantity, date_assessed) VALUES (?, ?, ?, ?, ?, ?)";
+        java.sql.Date sqlDate = java.sql.Date.valueOf(LocalDate.now());
+        String sale_sql = "SELECT COALESCE(MAX(sale_id) + 1, 1) AS next_sale FROM sale";
+        String selectedProductName = (String) sale_combo.getValue();
+
+        if (isValidDateFormat(sale_addDate.getText())) {
+            java.sql.Date sqlexDate = java.sql.Date.valueOf(sale_addDate.getText());
+            try {
+                PreparedStatement saleIdStatement = con_pro.prepareStatement(sale_sql);
+                ResultSet saleIdResult = saleIdStatement.executeQuery();
+                saleIdResult.next();
+                int nextSaleId = saleIdResult.getInt("next_sale");
+
+                // Check if sale_price and sale_quantity are not empty
+                if (!sale_price.getText().isEmpty() && !sale_quantity.getText().isEmpty()) {
+                    PreparedStatement ps = con_pro.prepareStatement(sql);
+                    ps.setInt(1, nextSaleId);
+                    ps.setString(2, saleid_label.getText());
+                    ps.setString(3, (String) sale_combo.getValue());
+                    ps.setDouble(4, Double.parseDouble(sale_price.getText()));
+                    ps.setInt(5, Integer.parseInt(sale_quantity.getText()));
+                    ps.setDate(6, sqlDate);
+
+                    int rowsAffected = ps.executeUpdate();
+
+                    if (rowsAffected > 0) {
+                        resetSale();
+                        compute_profit();
+                        compute_total();
+                    }
+                } else return;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            showAlert();
+        }
+    }
+
+
+    public void showCalculate(){
+        double totalSales = calculateTotalSales();
+        totalsale_label.setText(String.valueOf(totalSales));
+    }
+
+    private double calculateTotalSales() {
+        LocalDate startDate = from_sale.getValue();
+        LocalDate endDate = to_sale.getValue();
+        double totalSales = 0.0;
+        String totalSalesQuery = "SELECT SUM(total) AS total_sales FROM sale WHERE date_assessed BETWEEN ? AND ?";
+
+        try {
+            PreparedStatement preparedStatement = con_pro.prepareStatement(totalSalesQuery);
+            preparedStatement.setDate(1, java.sql.Date.valueOf(startDate));
+            preparedStatement.setDate(2, java.sql.Date.valueOf(endDate));
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                totalSales = resultSet.getDouble("total_sales");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return totalSales;
+    }
+
+    public void compute_profit(){
+        LocalDate start = LocalDate.now();
+        String storedProcedureCall = "{CALL update_profit_all(?)}";
+        try (CallableStatement statement = con_pro.prepareCall(storedProcedureCall)){
+            statement.setDate(1, java.sql.Date.valueOf(start));
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void compute_total(){
+        LocalDate start = LocalDate.now();
+        String storedProcedureCall = "{CALL update_total_sales(?)}";
+        try (CallableStatement statement = con_pro.prepareCall(storedProcedureCall)){
+            statement.setDate(1, java.sql.Date.valueOf(start));
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    private void resetSale(){
+        saleid_label.setText("");
+        sale_combo.setValue(null);
+        sale_price.clear();
+        sale_quantity.clear();
+        sale_category.setText("");
+        sales_add.setVisible(false);
+    }
 
 
     //sales_end
-
-
 
 
     private void showAlert() {
@@ -1031,7 +1152,7 @@ public class MainController implements Initializable {
             alert.setTitle("NOTICE");
             alert.setHeaderText("Pengui Management");
 
-            logDeletion2(debt_fname.getText(), "Misc");
+            logDeletion2(debt_fname.getText());
 
             if (rowsAffected > 0) {
                 alert.setContentText("SUCCESSFULLY ADDED THE DEBT");
@@ -1134,12 +1255,12 @@ public class MainController implements Initializable {
         }
     }
 
-    private void logDeletion2(String personName, String category) {
+    private void logDeletion2(String personName) {
         String memoSql = "INSERT INTO memo_logs (logs) VALUES (?)";
 
         try {
             PreparedStatement memoPs = con_pro.prepareStatement(memoSql);
-            memoPs.setString(1, "Inserted " + category + " for: " + personName);
+            memoPs.setString(1, "Inserted " + "Misc" + " for: " + personName);
             memoPs.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -1172,7 +1293,7 @@ public class MainController implements Initializable {
             alert.setTitle("NOTICE");
             alert.setHeaderText("Pengui Management");
 
-            logDeletion2(misc_fname.getText(), "Misc");
+            logDeletion2(misc_fname.getText());
 
             if (rowsAffected > 0) {
                 alert.setContentText("SUCCESSFULLY ADDED THE DEBT");
