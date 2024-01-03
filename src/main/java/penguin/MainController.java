@@ -29,10 +29,12 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 
 import static penguin.MainApp.stage1;
 
 public class MainController implements Initializable {
+    public static final Logger logger = Logger.getLogger(MainController.class.getName());
     Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
     private boolean toggle = false;
@@ -200,6 +202,8 @@ public class MainController implements Initializable {
     private ComboBox<String> edit_name;
     @FXML
     private ComboBox<String> sale_combo;
+    @FXML
+    private ComboBox<String> combo_user;
 
     @FXML
     private Button accountLogs_button, memoLogs_button, logsLogs_button, remove_balachie, show_products;
@@ -627,7 +631,9 @@ public class MainController implements Initializable {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.severe("An error occurred: " + e.getMessage());
+
+            logger.log(java.util.logging.Level.SEVERE, "Exception details: ", e);
         }
     }
     //for key press and button action
@@ -692,7 +698,8 @@ public class MainController implements Initializable {
                 txt_productid.setText(String.valueOf(next_id.getInt("next_proid")));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.severe("An error occurred: " + e.getMessage());
+            logger.log(java.util.logging.Level.SEVERE, "Exception details: ", e);
         }
     }
 
@@ -750,6 +757,7 @@ public class MainController implements Initializable {
                 if (rowsAffected > 0) {
                     System.out.println("Product added successfully.");
                     UpdateTable();
+                    reset_add_product();
                     all_reports();
                     add_pane.setVisible(false);
                 } else {
@@ -757,12 +765,23 @@ public class MainController implements Initializable {
                 }
 
             } catch (SQLException e) {
-                e.printStackTrace();
+                logger.severe("An error occurred: " + e.getMessage());
+                logger.log(java.util.logging.Level.SEVERE, "Exception details: ", e);
             }
         } else {
             showAlert();
         }
     }
+
+    private void reset_add_product(){
+        txt_productname.clear();
+        txt_category.clear();
+        txt_origprice.clear();
+        txt_price.clear();
+        txt_expire.clear();
+
+    }
+
 
     public void buttonEditAction() {
         submit_butt2.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
@@ -793,7 +812,8 @@ public class MainController implements Initializable {
                     System.out.println("No product found with the specified name.");
                 }
             } catch (SQLException | NumberFormatException e) {
-                e.printStackTrace();
+                logger.severe("An error occurred: " + e.getMessage());
+                logger.log(java.util.logging.Level.SEVERE, "Exception details: ", e);
             }
         }
     }
@@ -809,9 +829,25 @@ public class MainController implements Initializable {
             edit_name.setItems(productNames);
             sale_combo.setItems(productNames);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.severe("An error occurred: " + e.getMessage());
+            logger.log(java.util.logging.Level.SEVERE, "Exception details: ", e);
         }
     }
+    private void populateComboUser() {
+        try {
+            Statement statement = con_pro.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT name FROM account");
+            ObservableList<String> userNames = FXCollections.observableArrayList();
+            while (resultSet.next()) {
+                userNames.add(resultSet.getString("name"));
+            }
+            combo_user.setItems(userNames);
+        } catch (SQLException e) {
+            logger.severe("An error occurred: " + e.getMessage());
+            logger.log(java.util.logging.Level.SEVERE, "Exception details: ", e);
+        }
+    }
+    String user_selected = combo_user.getValue();
 
     private void onComboBoxItemSelected() {
         String selectedProductName = edit_name.getValue();
@@ -830,7 +866,8 @@ public class MainController implements Initializable {
                 edit_expire.setText(expireDate != null ? String.valueOf(expireDate.toLocalDate()) : null);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.severe("An error occurred: " + e.getMessage());
+            logger.log(java.util.logging.Level.SEVERE, "Exception details: ", e);
         }
     }
 
@@ -847,7 +884,8 @@ public class MainController implements Initializable {
                 sale_price.setText(String.valueOf(resultSet.getDouble("sell_price")));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.severe("An error occurred: " + e.getMessage());
+            logger.log(java.util.logging.Level.SEVERE, "Exception details: ", e);
         }
     }
 
@@ -886,7 +924,8 @@ public class MainController implements Initializable {
                     }
                 } else return;
             } catch (SQLException e) {
-                e.printStackTrace();
+                logger.severe("An error occurred: " + e.getMessage());
+                logger.log(java.util.logging.Level.SEVERE, "Exception details: ", e);
             }
         } else {
             showAlert();
@@ -909,6 +948,7 @@ public class MainController implements Initializable {
 
         try {
             PreparedStatement preparedStatement = con_pro.prepareStatement(totalSalesQuery);
+            assert startDate != null;
             preparedStatement.setDate(1, java.sql.Date.valueOf(startDate));
             preparedStatement.setDate(2, java.sql.Date.valueOf(endDate));
 
@@ -919,7 +959,8 @@ public class MainController implements Initializable {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.severe("An error occurred: " + e.getMessage());
+            logger.log(java.util.logging.Level.SEVERE, "Exception details: ", e);
         }
 
         return totalSales;
@@ -932,7 +973,8 @@ public class MainController implements Initializable {
             statement.setDate(1, java.sql.Date.valueOf(start));
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.severe("An error occurred: " + e.getMessage());
+            logger.log(java.util.logging.Level.SEVERE, "Exception details: ", e);
         }
     }
 
@@ -943,7 +985,8 @@ public class MainController implements Initializable {
             statement.setDate(1, java.sql.Date.valueOf(start));
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.severe("An error occurred: " + e.getMessage());
+            logger.log(java.util.logging.Level.SEVERE, "Exception details: ", e);
         }
     }
 
@@ -1238,7 +1281,8 @@ public class MainController implements Initializable {
             }
 
         } catch (SQLException | NumberFormatException e) {
-            e.printStackTrace();
+            logger.severe("An error occurred: " + e.getMessage());
+            logger.log(java.util.logging.Level.SEVERE, "Exception details: ", e);
         }
     }
 
@@ -1318,7 +1362,8 @@ public class MainController implements Initializable {
             memoPs.setString(1, "Deleted " + category + " for: " + personName);
             memoPs.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.severe("An error occurred: " + e.getMessage());
+            logger.log(java.util.logging.Level.SEVERE, "Exception details: ", e);
         }
     }
 
@@ -1330,7 +1375,8 @@ public class MainController implements Initializable {
             memoPs.setString(1, "Inserted " + "Misc" + " for: " + personName);
             memoPs.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.severe("An error occurred: " + e.getMessage());
+            logger.log(java.util.logging.Level.SEVERE, "Exception details: ", e);
         }
     }
 
@@ -1379,7 +1425,8 @@ public class MainController implements Initializable {
                 misc_ftotal.clear();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.severe("An error occurred: " + e.getMessage());
+            logger.log(java.util.logging.Level.SEVERE, "Exception details: ", e);
         }
     }
 
@@ -1422,7 +1469,8 @@ public class MainController implements Initializable {
                 total_bar.getData().add(chartData);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.severe("An error occurred: " + e.getMessage());
+            logger.log(java.util.logging.Level.SEVERE, "Exception details: ", e);
         }
     }
 
@@ -1449,7 +1497,8 @@ public class MainController implements Initializable {
                 profits_bar.getData().add(chartData);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.severe("An error occurred: " + e.getMessage());
+            logger.log(java.util.logging.Level.SEVERE, "Exception details: ", e);
         }
     }
 
@@ -1469,7 +1518,8 @@ public class MainController implements Initializable {
                 tproducts.setText(String.valueOf(max_pro.getInt("max_products")));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.severe("An error occurred: " + e.getMessage());
+            logger.log(java.util.logging.Level.SEVERE, "Exception details: ", e);
         }
     }
 
@@ -1482,7 +1532,8 @@ public class MainController implements Initializable {
                 tremove.setText(String.valueOf(max_disabled.getInt("total_remove")));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.severe("An error occurred: " + e.getMessage());
+            logger.log(java.util.logging.Level.SEVERE, "Exception details: ", e);
         }
     }
 
@@ -1495,7 +1546,8 @@ public class MainController implements Initializable {
                 tvalue.setText(String.valueOf(max_total.getInt("Total")));
             }
         }catch(Exception e){
-            e.printStackTrace();
+            logger.severe("An error occurred: " + e.getMessage());
+            logger.log(java.util.logging.Level.SEVERE, "Exception details: ", e);
         }
     }
 
@@ -1508,7 +1560,8 @@ public class MainController implements Initializable {
                 tprofit.setText(String.valueOf(max_profit.getInt("Total")));
             }
         }catch(Exception e){
-            e.printStackTrace();
+            logger.severe("An error occurred: " + e.getMessage());
+            logger.log(java.util.logging.Level.SEVERE, "Exception details: ", e);
         }
     }
 
@@ -1535,7 +1588,8 @@ public class MainController implements Initializable {
                 System.out.println("Failed to add account.");
             }
         } catch (SQLException | NumberFormatException e) {
-            e.printStackTrace();
+            logger.severe("An error occurred: " + e.getMessage());
+            logger.log(java.util.logging.Level.SEVERE, "Exception details: ", e);
         }
     }
     private void res_acc(){

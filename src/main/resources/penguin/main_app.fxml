@@ -5,7 +5,6 @@
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
@@ -20,11 +19,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="739.0" prefWidth="1188.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="penguin.MainController">
+<AnchorPane prefHeight="739.0" prefWidth="1188.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="penguin.MainController">
    <children>
-      <Pane fx:id="main_pane" layoutY="-3.0" prefHeight="739.0" prefWidth="1292.0" style="-fx-background-color: #F1EAD0;">
+      <Pane fx:id="main_pane" layoutY="-3.0" prefHeight="739.0" prefWidth="1292.0" style="-fx-background-color: #99c2f0;">
          <children>
-            <Pane onKeyPressed="#keyPressed" prefHeight="739.0" prefWidth="565.0" style="-fx-background-color: #d9ffe3; -fx-border-color: black;">
+            <Pane onKeyPressed="#keyPressed" prefHeight="739.0" prefWidth="565.0" style="-fx-background-color: #d3dfed; -fx-border-color: black;">
                <children>
                   <Button fx:id="report_butt" layoutX="140.0" layoutY="376.0" mnemonicParsing="false" onAction="#main_buttAction" prefHeight="81.0" prefWidth="285.0" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../mainapp.css" text="VIEW REPORTS" />
                   <Button fx:id="user_butt" layoutX="140.0" layoutY="492.0" mnemonicParsing="false" onAction="#main_buttAction" prefHeight="81.0" prefWidth="285.0" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../mainapp.css" text="USER MANAGEMENT" />
@@ -51,26 +50,16 @@
                               <Font name="Arial Bold" size="11.0" />
                            </font>
                         </Label>
-                        <Pane layoutX="430.0" layoutY="6.0" prefHeight="105.0" prefWidth="134.0" style="-fx-border-color: black;">
-                           <children>
-                              <Button fx:id="dark_mode" layoutX="23.0" layoutY="31.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="88.0" stylesheets="@../another.css" text="DARK MODE" />
-                              <Button fx:id="light_mode" layoutX="23.0" layoutY="31.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="88.0" stylesheets="@../another.css" text="LIGHT MODE" textFill="WHITE" visible="false">
-                                 <font>
-                                    <Font size="3.0" />
-                                 </font>
-                              </Button>
-                           </children>
-                        </Pane>
+                        <ImageView fitHeight="131.0" fitWidth="153.0" layoutX="412.0" layoutY="-7.0">
+                           <image>
+                              <Image url="@../img/Green_Minimalist_Fashion_Store_Logo__1_-removebg-preview.png" />
+                           </image>
+                        </ImageView>
                      </children>
                   </Pane>
                   <Button fx:id="log_out" layoutX="208.0" layoutY="625.0" mnemonicParsing="false" onAction="#main_buttAction" prefHeight="65.0" prefWidth="150.0" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../mainapp.css" text="LOG OUT" />
                </children>
             </Pane>
-            <ImageView fitHeight="221.0" fitWidth="240.0" layoutX="1044.0" layoutY="9.0">
-               <image>
-                  <Image url="@../img/Green_Minimalist_Fashion_Store_Logo__1_-removebg-preview.png" />
-               </image>
-            </ImageView>
             <TableView fx:id="debt_table" layoutX="645.0" layoutY="226.0" prefHeight="352.0" prefWidth="538.0" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../tb.css">
                <columns>
                   <TableColumn fx:id="debt_name" prefWidth="185.0" text="Name" />
@@ -86,32 +75,34 @@
                </columns>
             </TableView>
             <Button fx:id="debt_butt" layoutX="647.0" layoutY="630.0" mnemonicParsing="false" onAction="#paneMemo" prefHeight="40.0" prefWidth="150.0" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../mainapp.css" text="ADD DEBT " />
-            <Button fx:id="misc_butt" layoutX="830.0" layoutY="630.0" mnemonicParsing="false" onAction="#paneMemo" prefHeight="40.0" prefWidth="190.0" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../mainapp.css" text="MISCELLANEOUS" />
             <Button fx:id="misc_showbutt" layoutX="841.0" layoutY="185.0" mnemonicParsing="false" onAction="#switchGo" prefHeight="34.0" prefWidth="169.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" text="MISCELLENEOUS">
                <font>
                   <Font name="Arial Bold" size="13.0" />
                </font></Button>
-            <Button fx:id="debt_showbutt" layoutX="859.0" layoutY="185.0" mnemonicParsing="false" onAction="#switchGo" prefHeight="34.0" prefWidth="115.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" text="DEBT" visible="false" />
-            <Pane layoutX="692.0" layoutY="14.0" prefHeight="105.0" prefWidth="320.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 3;">
+            <Button fx:id="debt_showbutt" layoutX="859.0" layoutY="185.0" mnemonicParsing="false" onAction="#switchGo" prefHeight="34.0" prefWidth="115.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" text="DEBT" visible="false">
+               <font>
+                  <Font name="Arial Bold" size="13.0" />
+               </font></Button>
+            <Pane layoutX="1037.0" prefHeight="92.0" prefWidth="255.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 3;">
                <children>
-                  <Label fx:id="show_date" alignment="CENTER" contentDisplay="CENTER" layoutX="113.0" layoutY="14.0" prefHeight="37.0" prefWidth="190.0" style="-fx-border-color: black; -fx-border-width: 2;" textAlignment="JUSTIFY">
+                  <Label fx:id="show_date" alignment="CENTER" contentDisplay="CENTER" layoutX="82.0" layoutY="12.0" prefHeight="27.0" prefWidth="150.0" style="-fx-border-color: black; -fx-border-width: 2;" textAlignment="JUSTIFY">
                      <font>
-                        <Font name="Arial Bold" size="24.0" />
+                        <Font name="Arial Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="show_time" alignment="CENTER" contentDisplay="CENTER" layoutX="113.0" layoutY="54.0" prefHeight="37.0" prefWidth="190.0" style="-fx-border-color: black; -fx-border-width: 2;" textAlignment="JUSTIFY">
+                  <Label fx:id="show_time" alignment="CENTER" contentDisplay="CENTER" layoutX="82.0" layoutY="54.0" prefHeight="27.0" prefWidth="150.0" style="-fx-border-color: black; -fx-border-width: 2;" textAlignment="JUSTIFY">
                      <font>
-                        <Font name="Arial Bold" size="24.0" />
+                        <Font name="Arial Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Label contentDisplay="CENTER" graphicTextGap="8.0" layoutX="18.0" layoutY="59.0" prefHeight="27.0" prefWidth="75.0" text="T I M E" textAlignment="CENTER">
+                  <Label contentDisplay="CENTER" graphicTextGap="8.0" layoutX="15.0" layoutY="54.0" prefHeight="27.0" prefWidth="58.0" text="T I M E" textAlignment="CENTER">
                      <font>
-                        <Font name="Arial Bold" size="23.0" />
+                        <Font name="Arial Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Label contentDisplay="CENTER" graphicTextGap="8.0" layoutX="14.0" layoutY="19.0" prefHeight="27.0" prefWidth="82.0" text="D A T E" textAlignment="CENTER">
+                  <Label contentDisplay="CENTER" graphicTextGap="8.0" layoutX="14.0" layoutY="18.0" prefHeight="16.0" prefWidth="60.0" text="D A T E" textAlignment="CENTER">
                      <font>
-                        <Font name="Arial Bold" size="23.0" />
+                        <Font name="Arial Bold" size="14.0" />
                      </font>
                   </Label>
                </children>
@@ -184,7 +175,7 @@
                   </Text>
                </children>
             </Pane>
-            <DatePicker fx:id="from_main" layoutX="729.0" layoutY="588.0" prefHeight="30.0" prefWidth="162.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
+            <DatePicker fx:id="from_main" layoutX="729.0" layoutY="588.0" prefHeight="30.0" prefWidth="162.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" stylesheets="@../datepick.css" />
             <Button fx:id="debt_dbutt" layoutX="1051.0" layoutY="630.0" mnemonicParsing="false" onAction="#deleteDebt_Misc" prefHeight="40.0" prefWidth="134.0" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../mainapp.css" text="REMOVE" />
             <Label layoutX="671.0" layoutY="595.0" text="FROM">
                <font>
@@ -196,7 +187,7 @@
                   <Font name="Arial Bold" size="14.0" />
                </font>
             </Label>
-            <DatePicker fx:id="to_main" layoutX="995.0" layoutY="588.0" prefHeight="30.0" prefWidth="162.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
+            <DatePicker fx:id="to_main" layoutX="995.0" layoutY="588.0" prefHeight="30.0" prefWidth="162.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" stylesheets="@../datepick.css" />
          </children>
       </Pane>
       <AnchorPane fx:id="inventory_pane" layoutX="-2.0" layoutY="-3.0" onKeyPressed="#keyPressed_2" prefHeight="739.0" prefWidth="1292.0" style="-fx-background-color: #CFCECE;" visible="false">
@@ -211,14 +202,11 @@
                </children>
             </Pane>
             <TextField layoutX="832.0" layoutY="93.0" prefHeight="30.0" prefWidth="320.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2; -fx-background-radius: 10; -fx-border-radius: 10;" />
-            <ChoiceBox fx:id="checkbox1" layoutX="131.0" layoutY="135.0" prefHeight="30.0" prefWidth="197.0" style="-fx-background-color: white; -fx-border-color: black; -fx-background-radius: 100; -fx-border-radius: 100;" stylesheets="@../another.css" />
-            <ChoiceBox fx:id="checkbox2" layoutX="544.0" layoutY="135.0" prefHeight="30.0" prefWidth="197.0" style="-fx-background-color: white; -fx-border-color: black; -fx-background-radius: 100; -fx-border-radius: 100;" stylesheets="@../another.css" />
-            <ChoiceBox fx:id="checkbox3" layoutX="953.0" layoutY="135.0" prefHeight="30.0" prefWidth="197.0" style="-fx-background-color: white; -fx-border-color: black; -fx-background-radius: 100; -fx-border-radius: 100;" stylesheets="@../another.css" />
             <Button fx:id="add_product" layoutX="133.0" layoutY="580.0" mnemonicParsing="false" onAction="#invent_buttons" prefHeight="44.0" prefWidth="197.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="ADD PRODUCT" />
             <Button fx:id="edit_butt" layoutX="406.0" layoutY="580.0" mnemonicParsing="false" onAction="#invent_buttons" prefHeight="44.0" prefWidth="197.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="EDIT PRODUCT" />
             <Button fx:id="remove_balachie" layoutX="678.0" layoutY="580.0" mnemonicParsing="false" onAction="#removeButtAction" prefHeight="44.0" prefWidth="197.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="REMOVE " />
             <Button fx:id="back_to_wan" layoutX="1002.0" layoutY="644.0" mnemonicParsing="false" onAction="#main_buttAction2" prefHeight="44.0" prefWidth="150.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="BACK" />
-            <TableView fx:id="products_table" layoutX="132.0" layoutY="186.0" prefHeight="380.0" prefWidth="1019.0" style="-fx-border-color: black; -fx-border-width: 2;">
+            <TableView fx:id="products_table" layoutX="132.0" layoutY="140.0" prefHeight="426.0" prefWidth="1019.0" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../tb.css">
                <columns>
                   <TableColumn fx:id="productID_col" prefWidth="83.0" text="PRODUCT ID" />
                   <TableColumn fx:id="productname_col" prefWidth="173.0" text="PRODUCT NAME" />
@@ -230,7 +218,7 @@
                   <TableColumn fx:id="date_col" minWidth="0.0" prefWidth="117.0" text="DATE ADDED" />
                   <TableColumn fx:id="expire_col" prefWidth="117.0" text="EXPIRE DATE" />
                </columns></TableView>
-            <TableView fx:id="disable_table" layoutX="130.0" layoutY="185.0" prefHeight="380.0" prefWidth="1019.0" style="-fx-border-color: black; -fx-border-width: 2;" visible="false">
+            <TableView fx:id="disable_table" layoutX="130.0" layoutY="185.0" prefHeight="380.0" prefWidth="1019.0" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../tb.css" visible="false">
                <columns>
                   <TableColumn fx:id="disable_id" prefWidth="83.0" text="PRODUCT ID" />
                   <TableColumn fx:id="disable_name" prefWidth="173.0" text="PRODUCT NAME" />
@@ -411,8 +399,8 @@
                   <ComboBox fx:id="edit_name" layoutX="161.0" layoutY="56.0" prefHeight="30.0" prefWidth="276.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
                </children>
             </Pane>
-            <DatePicker fx:id="from_invent" layoutX="267.0" layoutY="654.0" prefHeight="34.0" prefWidth="190.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
-            <DatePicker fx:id="to_invent" layoutX="646.0" layoutY="654.0" prefHeight="34.0" prefWidth="190.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
+            <DatePicker fx:id="from_invent" layoutX="267.0" layoutY="654.0" prefHeight="34.0" prefWidth="190.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" stylesheets="@../datepick.css" />
+            <DatePicker fx:id="to_invent" layoutX="646.0" layoutY="654.0" prefHeight="34.0" prefWidth="190.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" stylesheets="@../datepick.css" />
             <Label layoutX="593.0" layoutY="663.0" text="TO">
                <font>
                   <Font name="Arial Bold" size="14.0" />
@@ -446,11 +434,8 @@
                </children>
             </Pane>
             <TextField layoutX="133.0" layoutY="93.0" prefHeight="30.0" prefWidth="1019.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2; -fx-background-radius: 10; -fx-border-radius: 10;" />
-            <ChoiceBox fx:id="checkbox4" layoutX="131.0" layoutY="135.0" prefHeight="30.0" prefWidth="197.0" style="-fx-background-color: white; -fx-border-color: black; -fx-background-radius: 100; -fx-border-radius: 100;" stylesheets="@../another.css" />
-            <ChoiceBox fx:id="checkbox5" layoutX="544.0" layoutY="135.0" prefHeight="30.0" prefWidth="197.0" style="-fx-background-color: white; -fx-border-color: black; -fx-background-radius: 100; -fx-border-radius: 100;" stylesheets="@../another.css" />
-            <ChoiceBox fx:id="checkbox6" layoutX="955.0" layoutY="135.0" prefHeight="30.0" prefWidth="197.0" style="-fx-background-color: white; -fx-border-color: black; -fx-background-radius: 100; -fx-border-radius: 100;" stylesheets="@../another.css" />
             <Button fx:id="back_to_wan2" layoutX="1008.0" layoutY="611.0" mnemonicParsing="false" onAction="#main_buttAction2" prefHeight="44.0" prefWidth="150.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="BACK" />
-            <TableView fx:id="sale_table" layoutX="118.0" layoutY="179.0" prefHeight="425.0" prefWidth="1031.0" style="-fx-border-color: black; -fx-border-width: 2;">
+            <TableView fx:id="sale_table" layoutX="118.0" layoutY="141.0" prefHeight="464.0" prefWidth="1031.0" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../tb.css">
                <columns>
                   <TableColumn fx:id="sale_productId" prefWidth="95.0" text="PRODUCT ID" />
                   <TableColumn fx:id="sale_productName" prefWidth="283.0" text="PRODUCT NAME" />
@@ -478,8 +463,8 @@
             </Label>
             <Button fx:id="save_sales" disable="true" layoutX="421.0" layoutY="611.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="140.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="SAVE SALES" />
             <Button fx:id="printed" layoutX="573.0" layoutY="611.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="140.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="PRINT" />
-            <DatePicker fx:id="from_sale" layoutX="209.0" layoutY="671.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
-            <DatePicker fx:id="to_sale" layoutX="491.0" layoutY="671.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
+            <DatePicker fx:id="from_sale" layoutX="209.0" layoutY="671.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" stylesheets="@../datepick.css" />
+            <DatePicker fx:id="to_sale" layoutX="491.0" layoutY="671.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" stylesheets="@../datepick.css" />
             <Label layoutX="445.0" layoutY="678.0" text="TO">
                <font>
                   <Font name="Arial Bold" size="14.0" />
@@ -676,8 +661,8 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Button>
-                  <DatePicker fx:id="from_saleHistory" layoutX="85.0" layoutY="414.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
-                  <DatePicker fx:id="to_saleHistory" layoutX="85.0" layoutY="465.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
+                  <DatePicker fx:id="from_saleHistory" layoutX="85.0" layoutY="414.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" stylesheets="@../datepick.css" />
+                  <DatePicker fx:id="to_saleHistory" layoutX="85.0" layoutY="465.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" stylesheets="@../datepick.css" />
                   <Text layoutX="24.0" layoutY="432.0" strokeType="OUTSIDE" strokeWidth="0.0" text="FROM">
                      <font>
                         <Font name="Arial Bold" size="14.0" />
@@ -694,21 +679,21 @@
       </AnchorPane>
       <AnchorPane fx:id="user_pane" onKeyPressed="#keyPressed_2" prefHeight="739.0" prefWidth="1292.0" style="-fx-background-color: #8ca7c2;" visible="false">
          <children>
-            <TableView fx:id="manage_account" layoutX="118.0" layoutY="137.0" prefHeight="380.0" prefWidth="1019.0" style="-fx-border-color: black; -fx-border-width: 2;" visible="false">
+            <TableView fx:id="manage_account" layoutX="118.0" layoutY="137.0" prefHeight="380.0" prefWidth="1019.0" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../tb.css" visible="false">
                <columns>
                   <TableColumn fx:id="account_names" prefWidth="148.0" text="ACCOUNT NAME" />
                   <TableColumn fx:id="account_history" prefWidth="630.0" text="                                                                                                                     HISTORY LOGS" />
                   <TableColumn fx:id="account_time" prefWidth="238.0" text="DATE ASSESSED" />
                </columns>
             </TableView>
-            <TableView fx:id="manage_memo" layoutX="116.0" layoutY="136.0" prefHeight="380.0" prefWidth="1019.0" style="-fx-border-color: black; -fx-border-width: 2;" visible="false">
+            <TableView fx:id="manage_memo" layoutX="116.0" layoutY="136.0" prefHeight="380.0" prefWidth="1019.0" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../tb.css" visible="false">
                <columns>
                   <TableColumn fx:id="memo_id" prefWidth="148.0" text="ID " />
                   <TableColumn fx:id="memo_history" prefWidth="630.0" text="                                                                                                                     HISTORY LOGS" />
                   <TableColumn fx:id="memo_date" prefWidth="238.0" text="DATE " />
                </columns>
             </TableView>
-            <TableView fx:id="manage_logs" layoutX="116.0" layoutY="137.0" prefHeight="380.0" prefWidth="1019.0" style="-fx-border-color: black; -fx-border-width: 2;" visible="false">
+            <TableView fx:id="manage_logs" layoutX="116.0" layoutY="137.0" prefHeight="380.0" prefWidth="1019.0" style="-fx-border-color: black; -fx-border-width: 2;" stylesheets="@../tb.css" visible="false">
                <columns>
                   <TableColumn fx:id="logID_manage" prefWidth="148.0" text="LOG ID" />
                   <TableColumn fx:id="logsAction_manage" prefWidth="487.0" text="ACTION NAME" />
@@ -736,7 +721,6 @@
                   </Label>
                </children>
             </Pane>
-            <ChoiceBox layoutX="426.0" layoutY="531.0" prefHeight="33.0" prefWidth="190.0" style="-fx-background-color: white; -fx-border-color: black; -fx-background-radius: 100; -fx-border-radius: 100; -fx-border-width: 2;" stylesheets="@../another.css" />
             <Label alignment="CENTER" layoutX="338.0" layoutY="532.0" prefHeight="30.0" prefWidth="88.0" text="USERS" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="14.0" />
@@ -790,8 +774,8 @@
                   </Label>
                </children>
             </Pane>
-            <DatePicker fx:id="from_account" layoutX="121.0" layoutY="610.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
-            <DatePicker fx:id="to_account" layoutX="121.0" layoutY="661.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" />
+            <DatePicker fx:id="from_account" layoutX="121.0" layoutY="610.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" stylesheets="@../datepick.css" />
+            <DatePicker fx:id="to_account" layoutX="121.0" layoutY="661.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" stylesheets="@../datepick.css" />
             <Label alignment="CENTER" layoutX="43.0" layoutY="608.0" prefHeight="30.0" prefWidth="75.0" text="FROM" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="14.0" />
@@ -803,8 +787,12 @@
                </font>
             </Label>
             <Button fx:id="accountLogs_button" layoutX="131.0" layoutY="89.0" mnemonicParsing="false" onAction="#accountButton" prefHeight="37.0" prefWidth="125.0" style="-fx-border-width: 2; -fx-border-color: black; -fx-background-color: white;" text="ACCOUNT LOGS" />
-            <Button fx:id="memoLogs_button" layoutX="284.0" layoutY="89.0" mnemonicParsing="false" onAction="#accountButton" prefHeight="37.0" prefWidth="95.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" text="MEMO LOGS" />
+            <Button fx:id="memoLogs_button" layoutX="284.0" layoutY="89.0" mnemonicParsing="false" onAction="#accountButton" prefHeight="37.0" prefWidth="95.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" text="MEMO LOGS">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
             <Button fx:id="logsLogs_button" layoutX="410.0" layoutY="89.0" mnemonicParsing="false" onAction="#accountButton" prefHeight="37.0" prefWidth="115.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" text="PRODUCT LOGS" />
+            <ComboBox fx:id="combo_user" layoutX="426.0" layoutY="531.0" prefHeight="34.0" prefWidth="184.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 2;" />
          </children>
       </AnchorPane>
    </children>

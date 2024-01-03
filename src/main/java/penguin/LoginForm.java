@@ -17,6 +17,8 @@ import javafx.stage.Stage;
 import java.sql.*;
 import java.util.Optional;
 
+import static penguin.MainController.logger;
+
 public class LoginForm {
     int counts = 0;
 
@@ -34,8 +36,6 @@ public class LoginForm {
     private ImageView user_logo;
     @FXML
     private ImageView pass_logo;
-    @FXML
-    private Pane login_form;
 
     @FXML
     public void loginformie(KeyEvent event) {
@@ -80,7 +80,6 @@ public class LoginForm {
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                     Scene scene = new Scene(root);
                     stage.setScene(scene);
-                    stage.setMaximized(true);
                     stage.setResizable(true);
                     stage.show();
                 } else {
@@ -96,7 +95,8 @@ public class LoginForm {
                     }
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.severe("An error occurred: " + e.getMessage());
+                logger.log(java.util.logging.Level.SEVERE, "Exception details: ", e);
             }
         }
     }
@@ -112,7 +112,8 @@ public class LoginForm {
                 return query_result.next() && query_result.getInt(1) == 1;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.severe("An error occurred: " + e.getMessage());
+            logger.log(java.util.logging.Level.SEVERE, "Exception details: ", e);
         }
         return false;
     }
@@ -160,7 +161,8 @@ public class LoginForm {
             memoPs.setString(2, "Attempted Login");
             memoPs.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.severe("An error occurred: " + e.getMessage());
+            logger.log(java.util.logging.Level.SEVERE, "Exception details: ", e);
         }
     }
 }
