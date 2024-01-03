@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 
 public class sales {
-    private final IntegerProperty saleId;
     private final IntegerProperty productId;
     private final StringProperty productName;
     private final DoubleProperty sellPrice;
@@ -19,8 +18,7 @@ public class sales {
     private final DoubleProperty total;
     private final ObjectProperty<LocalDate> dateAssessed;
 
-    public sales(int saleId, int productId, String productName, double sellPrice, int productQuantity, double total, LocalDate dateAssessed) {
-        this.saleId = new SimpleIntegerProperty(saleId);
+    public sales(int productId, String productName, double sellPrice, int productQuantity, double total, LocalDate dateAssessed) {
         this.productId = new SimpleIntegerProperty(productId);
         this.productName = new SimpleStringProperty(productName);
         this.sellPrice = new SimpleDoubleProperty(sellPrice);
@@ -36,7 +34,7 @@ public class sales {
         Connection connection = connect.getConnection();
 
         if (connection != null) {
-            String query = "SELECT sale_id, product_id, product_name, sell_price, product_quantity, total, date_assessed FROM sale WHERE date_assessed BETWEEN ? AND ? AND is_remove = 0";
+            String query = "SELECT product_id, product_name, sell_price, product_quantity, total, date_assessed FROM sale WHERE date_assessed BETWEEN ? AND ? AND is_remove = 0";
 
             try {
                 PreparedStatement statement = connection.prepareStatement(query);
@@ -46,14 +44,13 @@ public class sales {
                 ResultSet resultSet = statement.executeQuery();
 
                 while (resultSet.next()) {
-                    int saleId = resultSet.getInt("sale_id");
                     int productId = resultSet.getInt("product_id");
                     String productName = resultSet.getString("product_name");
                     double sellPrice = resultSet.getDouble("sell_price");
                     int productQuantity = resultSet.getInt("product_quantity");
                     double total = resultSet.getDouble("total");
                     LocalDate dateAssessed = resultSet.getDate("date_assessed").toLocalDate();
-                    salesList.add(new sales(saleId, productId, productName, sellPrice, productQuantity, total, dateAssessed));
+                    salesList.add(new sales(productId, productName, sellPrice, productQuantity, total, dateAssessed));
                 }
                 resultSet.close();
                 statement.close();
@@ -69,10 +66,6 @@ public class sales {
 
     public static ObservableList<sales> getSales() {
         return getSales(MainController.getSelectedDate5(), MainController.getSelectedDate6());
-    }
-
-    public IntegerProperty saleIdProperty() {
-        return saleId;
     }
 
     public IntegerProperty productIdProperty() {

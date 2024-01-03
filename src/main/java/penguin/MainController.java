@@ -10,6 +10,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
@@ -34,30 +36,28 @@ public class MainController implements Initializable {
     Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
     private boolean toggle = false;
-    //ChoiceBox Arrays
-    ObservableList<String> checkbox1_list = FXCollections.observableArrayList("Beverages", "Condiments");
-    ObservableList<String> checkbox2_list = FXCollections.observableArrayList("₱1 - ₱5", "₱6 - ₱10", "₱11 - ₱20", "₱21 - ₱50", "₱51 - ₱100", "₱101 - ₱200");
-    ObservableList<String> checkbox3_list = FXCollections.observableArrayList("Lowest", "Highest");
-    ObservableList<String> check_age = FXCollections.observableArrayList("Newest", "Oldest");
 
-    //ChoiceBox Arrays End
+    //barcharts
+    @FXML
+    private BarChart<String, Number> total_bar;
+
+    @FXML
+    private BarChart<String, Number> profits_bar;
 
     //new added
     @FXML
-    private Pane pane_debt,pane_misc,sales_add, invent_levels, invent_app, sales_hist, main_pane, add_users, add_pane, edit_pane;
+    private Pane pane_debt, pane_misc, sales_add, invent_app, sales_hist, main_pane, add_users, add_pane, edit_pane;
 
     @FXML
-    private Button compute_sales,sale_submit,submit_butt2,view_disable, view_enable,submit_add_user,submit_debt,cancel_debt, submit_misc,cancel_misc,misc_butt,debt_butt,misc_showbutt,debt_showbutt,cancel_add_user, add_sales, sale_cancel, level_butt, appraisal_butt, history_butt, inventory_butt, pos_butt, report_butt, user_butt, back_to_wan, back_to_wan2, back_to_wan3, back_to_wan4, log_out, add_account_butt, add_product, back_to_invent, back_to_invent2, edit_butt;
+    private Button view_profits, view_totalSales, compute_sales, sale_submit, submit_butt2, view_disable, view_enable, submit_add_user, submit_debt, cancel_debt, submit_misc, cancel_misc, misc_butt, debt_butt, misc_showbutt, debt_showbutt, cancel_add_user, add_sales, sale_cancel, appraisal_butt, history_butt, inventory_butt, pos_butt, report_butt, user_butt, back_to_wan, back_to_wan2, back_to_wan3, back_to_wan4, log_out, add_account_butt, add_product, back_to_invent, back_to_invent2, edit_butt;
 
     @FXML
     private AnchorPane inventory_pane, pos_pane, reports_pane, user_pane;
 
     @FXML
-    private Label saleid_label,misc_fdate,debt_fdate,account_name, account_number, txt_report_user, txt_report_number, show_time, show_date;
+    private Label tprofit,tvalue,tremove,tproducts, saleid_label, misc_fdate, debt_fdate, account_name, account_number, txt_report_user, txt_report_number, show_time, show_date;
 
-    @FXML
-    private ChoiceBox<String> checkbox1, checkbox2, checkbox3, checkbox4, checkbox5, checkbox6, level_cat, level_price, level_sort, val_choice1, val_choice2, val_choice3, sales_cat, sales_price;
-//inventory_tableview
+    //inventory_tableview
     @FXML
     private TableView<products> products_table;
 
@@ -74,25 +74,40 @@ public class MainController implements Initializable {
     private TableColumn<products, LocalDate> date_col, expire_col;
 
     @FXML
+    private TableView<sales> sale_table;
+
+    @FXML
+    private TableColumn<sales, Integer> sale_productId, sale_qty;
+
+    @FXML
+    private TableColumn<sales, String> sale_productName;
+
+    @FXML
+    private TableColumn<sales, Double> sale_productPrice, sale_productTotal;
+
+    @FXML
+    private TableColumn<sales, LocalDate> sale_date_ass;
+
+    @FXML
     private TableView<disable_products> disable_table;
 
     @FXML
-    private TableColumn<disable_products, String> disable_id,disable_name,disable_category;
+    private TableColumn<disable_products, String> disable_id, disable_name, disable_category;
 
     @FXML
-    private TableColumn<disable_products, Double> disable_list,disable_price;
+    private TableColumn<disable_products, Double> disable_list, disable_price;
 
     @FXML
-    private TableColumn<disable_products, Integer> disable_stock,disable_stockleft;
+    private TableColumn<disable_products, Integer> disable_stock, disable_stockleft;
 
     @FXML
-    private TableColumn<disable_products, LocalDate> disable_add,disable_expire;
+    private TableColumn<disable_products, LocalDate> disable_add, disable_expire;
 
     @FXML
     private TableView<account_show> manage_account;
 
     @FXML
-    private TableColumn<account_show, String> account_names,account_history;
+    private TableColumn<account_show, String> account_names, account_history;
 
     @FXML
     private TableColumn<account_show, Timestamp> account_time;
@@ -122,21 +137,22 @@ public class MainController implements Initializable {
     private TableColumn<logs_show, String> manage_record;
 
     @FXML
-    private TableColumn<logs_show,String> logsAction_manage, manage_where;
+    private TableColumn<logs_show, String> logsAction_manage, manage_where;
 
 
 //inventory_table_end
 
     //account
 
-    public void updateAccs(){
+    public void updateAccs() {
         accountShowMethod();
     }
 
-    public void updateMemos(){
+    public void updateMemos() {
         memoShowMethod();
     }
-    public void updateLogs(){
+
+    public void updateLogs() {
         logsShowMethod();
     }
 
@@ -157,7 +173,7 @@ public class MainController implements Initializable {
         manage_memo.setItems(memo_list);
     }
 
-    private void logsShowMethod(){
+    private void logsShowMethod() {
         logID_manage.setCellValueFactory(new PropertyValueFactory<>("logID_manage"));
         logsAction_manage.setCellValueFactory(new PropertyValueFactory<>("logsAction_manage"));
         manage_where.setCellValueFactory(new PropertyValueFactory<>("manage_where"));
@@ -172,25 +188,30 @@ public class MainController implements Initializable {
     //account_end
 
     @FXML
-    private Label totalsale_label,sale_category,sale_addDate,txt_productid, txt_date,edit_id,edit_date;
+    private Label totalsale_label, sale_category, sale_addDate, txt_productid, txt_date, edit_id, edit_date;
 
     @FXML
-    private TextField code_field,name_field,user_field,pass_field,debt_fname,debt_ftotal,misc_fname,misc_ftotal,txt_productname, txt_category, txt_origprice, txt_price, txt_stock, txt_expire;
+    private TextField code_field, name_field, user_field, pass_field, debt_fname, debt_ftotal, misc_fname, misc_ftotal, txt_productname, txt_category, txt_origprice, txt_price, txt_stock, txt_expire;
 
     @FXML
-    private TextField sale_price,sale_quantity,edit_category,edit_listprice,edit_price,edit_stock,edit_expire;
+    private TextField sale_price, sale_quantity, edit_category, edit_listprice, edit_price, edit_stock, edit_expire;
 
     @FXML
-    private ComboBox edit_name,sale_combo;
+    private ComboBox<String> edit_name;
+    @FXML
+    private ComboBox<String> sale_combo;
 
     @FXML
-    private Button accountLogs_button,memoLogs_button,logsLogs_button,remove_balachie,show_products;
+    private Button accountLogs_button, memoLogs_button, logsLogs_button, remove_balachie, show_products;
 
     //list
     @FXML
     private ObservableList<products> pro_list;
     @FXML
     private ObservableList<disable_products> disabled_list;
+
+    @FXML
+    private ObservableList<sales> sales_listahan;
 
     @FXML
     private ObservableList<deby> debt_list;
@@ -206,9 +227,13 @@ public class MainController implements Initializable {
 
     //list_end
 
+    //bar_start
+
+    //bar_end
+
     //date_start
     @FXML
-    private DatePicker from_main,to_main, from_invent, to_invent,from_sale,to_sale;
+    private DatePicker from_main, to_main, from_invent, to_invent, from_sale, to_sale, from_saleHistory, to_saleHistory;
 
     private static final LocalDate currentDate = LocalDate.now();
 
@@ -218,6 +243,8 @@ public class MainController implements Initializable {
     private static LocalDate selectedDate4 = currentDate;
     private static LocalDate selectedDate5 = currentDate;
     private static LocalDate selectedDate6 = currentDate;
+    private static LocalDate selectedDate7 = currentDate;
+    private static LocalDate selectedDate8 = currentDate;
 
     public static LocalDate getSelectedDate1() {
         return selectedDate1;
@@ -254,14 +281,14 @@ public class MainController implements Initializable {
         MainController.selectedDate4 = selectedDate4;
         UpdateTable();
     }
-//c
+
     public static LocalDate getSelectedDate5() {
-    return selectedDate5;
-}
+        return selectedDate5;
+    }
 
     public void setSelectedDate5(LocalDate selectedDate5) {
         MainController.selectedDate5 = selectedDate5;
-        UpdateTable();
+        UpdateSale();
     }
 
     public static LocalDate getSelectedDate6() {
@@ -270,7 +297,27 @@ public class MainController implements Initializable {
 
     public void setSelectedDate6(LocalDate selectedDate6) {
         MainController.selectedDate6 = selectedDate6;
-        UpdateTable();
+        UpdateSale();
+    }
+
+    public static LocalDate getSelectedDate7() {
+        return selectedDate7;
+    }
+
+    public void setSelectedDate7(LocalDate selectedDate7) {
+        MainController.selectedDate7 = selectedDate7;
+        chart();
+        chartProfit();
+    }
+
+    public static LocalDate getSelectedDate8() {
+        return selectedDate8;
+    }
+
+    public void setSelectedDate8(LocalDate selectedDate8) {
+        MainController.selectedDate8 = selectedDate8;
+        chart();
+        chartProfit();
     }
 
     //date_end
@@ -317,7 +364,7 @@ public class MainController implements Initializable {
         log_out.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> loggy());
     }
 
-    public void paneMemo(){
+    public void paneMemo() {
         misc_butt.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             pane_misc.setVisible(!pane_misc.isVisible());
             pane_debt.setVisible(false);
@@ -334,7 +381,7 @@ public class MainController implements Initializable {
         });
     }
 
-    public void submit_okay(){
+    public void submit_okay() {
         submit_debt.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> add_debt());
         submit_misc.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> add_misc());
         submit_add_user.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> add_account());
@@ -347,8 +394,14 @@ public class MainController implements Initializable {
         back_to_wan2.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> pos_vis_wan());
         back_to_wan3.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> rep_vis_wan());
         back_to_wan4.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> user_vis_wan());
-        cancel_debt.addEventHandler(MouseEvent.MOUSE_CLICKED,event -> {pane_debt.setVisible(false); pane_misc.setVisible(false);});
-        cancel_misc.addEventHandler(MouseEvent.MOUSE_CLICKED,event -> {pane_debt.setVisible(false); pane_misc.setVisible(false);});
+        cancel_debt.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            pane_debt.setVisible(false);
+            pane_misc.setVisible(false);
+        });
+        cancel_misc.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            pane_debt.setVisible(false);
+            pane_misc.setVisible(false);
+        });
     }
 
     //invent_buttons
@@ -360,68 +413,67 @@ public class MainController implements Initializable {
         edit_butt.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> edit_pane.setVisible(true));
         add_sales.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> sales_add.setVisible(true));
         sale_cancel.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> sales_add.setVisible(false));
-        level_butt.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> rep_levels());
         appraisal_butt.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> rep_app());
         history_butt.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> log_hist());
         add_account_butt.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> add_users.setVisible(true));
-        cancel_add_user.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {add_users.setVisible(false); res_acc();});
+        cancel_add_user.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            add_users.setVisible(false);
+            res_acc();
+        });
     }
 
 
     public void removeButtAction() {
-            remove_balachie.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                if (products_table.isVisible()) {
-                    disableProduct();
-                    UpdateDisable();
-                    UpdateTable();
-                } else {
-                    enableProduct();
-                    UpdateTable();
-                    UpdateDisable();
-                }
-                event.consume();
-            });
-        }
+        remove_balachie.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            if (products_table.isVisible()) {
+                disableProduct();
+                UpdateDisable();
+                UpdateTable();
+            } else {
+                enableProduct();
+                UpdateTable();
+                UpdateDisable();
+            }
+            event.consume();
+        });
+    }
 
-        //account_pane
-    public void accountButton(){
+    //account_pane
+    public void accountButton() {
         accountLogs_button.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-           if(manage_account.isVisible()){
-               manage_account.setVisible(false);
-           }
-           else {
-               manage_account.setVisible(true);
-               manage_memo.setVisible(false);
-               manage_logs.setVisible(false);
-           }
+            if (manage_account.isVisible()) {
+                manage_account.setVisible(false);
+            } else {
+                manage_account.setVisible(true);
+                manage_memo.setVisible(false);
+                manage_logs.setVisible(false);
+            }
             updateAccs();
         });
         memoLogs_button.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            if(manage_memo.isVisible()){
+            if (manage_memo.isVisible()) {
                 manage_memo.setVisible(false);
-            }
-            else {
+            } else {
                 manage_account.setVisible(false);
                 manage_memo.setVisible(true);
                 manage_logs.setVisible(false);
             }
             updateMemos();
         });
-        logsLogs_button .addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            if(manage_logs.isVisible()){
+        logsLogs_button.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            if (manage_logs.isVisible()) {
                 manage_logs.setVisible(false);
-            }
-            else {
+            } else {
                 manage_account.setVisible(false);
                 manage_memo.setVisible(false);
                 manage_logs.setVisible(true);
             }
-            updateMemos();
+            updateLogs();
         });
     }
 
 
-        //account_pane_end
+    //account_pane_end
 
     //ButtonsOnActions_End
 
@@ -431,6 +483,9 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        chart();
+        chartProfit();
+        all_reports();
         TableColumn<account_show, Timestamp> account_time = new TableColumn<>("account_time");
         TableColumn<logs_show, Timestamp> manage_logDate = new TableColumn<>("manage_logDate");
         TableColumn<memo_show, Timestamp> memo_date = new TableColumn<>("memo_date");
@@ -468,10 +523,10 @@ public class MainController implements Initializable {
         accountShowMethod();
         memoShowMethod();
         productmeth();
+        sales_meth();
         disable_productmeth();
         updaterDT();
         dateGet();
-        choice_box();
         debtmeth();
         miscmeth();
         from_main.setOnAction(event -> {
@@ -498,44 +553,23 @@ public class MainController implements Initializable {
 
         from_sale.setOnAction(event -> {
             selectedDate5 = from_sale.getValue();
-            productmeth();
+            sales_meth();
         });
 
         to_sale.setOnAction(event -> {
             selectedDate6 = to_sale.getValue();
-            productmeth();
+            sales_meth();
         });
-    }
-
-    private void choice_box(){
-        checkbox1.setItems(checkbox1_list);
-        checkbox1.setValue("CATEGORIES");
-        checkbox2.setItems(checkbox2_list);
-        checkbox2.setValue("PRICE");
-        checkbox3.setItems(checkbox3_list);
-        checkbox3.setValue("SORT");
-        checkbox4.setItems(checkbox1_list);
-        checkbox4.setValue("CATEGORIES");
-        checkbox5.setItems(checkbox2_list);
-        checkbox5.setValue("PRICE");
-        checkbox6.setItems(checkbox3_list);
-        checkbox6.setValue("SORT");
-        level_cat.setItems(checkbox1_list);
-        level_cat.setValue("CATEGORIES");
-        level_price.setItems(checkbox2_list);
-        level_price.setValue("PRICE");
-        level_sort.setItems(check_age);
-        level_sort.setValue("");
-        val_choice1.setItems(checkbox1_list);
-        val_choice1.setValue("CATEGORIES");
-        val_choice2.setItems(checkbox2_list);
-        val_choice2.setValue("PRICE");
-        val_choice3.setItems(check_age);
-        val_choice3.setValue("");
-        sales_cat.setItems(checkbox1_list);
-        sales_cat.setValue("CATEGORIES");
-        sales_price.setItems(checkbox2_list);
-        sales_price.setValue("PRICE");
+        from_saleHistory.setOnAction(event -> {
+            selectedDate7 = from_saleHistory.getValue();
+            chart();
+            chartProfit();
+        });
+        to_saleHistory.setOnAction(event -> {
+            selectedDate6 = to_saleHistory.getValue();
+            chart();
+            chartProfit();
+        });
     }
 
     //time_date
@@ -662,7 +696,7 @@ public class MainController implements Initializable {
         }
     }
 
-    void dateGet(){
+    void dateGet() {
         LocalDate currentDate = LocalDate.now();
         misc_fdate.setText(String.valueOf(currentDate));
         debt_fdate.setText(String.valueOf(currentDate));
@@ -670,22 +704,22 @@ public class MainController implements Initializable {
         sale_addDate.setText(String.valueOf(currentDate));
     }
 
-    public void rep_levels() {
-        sales_hist.setVisible(false);
-        invent_app.setVisible(false);
-        invent_levels.setVisible(true);
-    }
-
     public void rep_app() {
-        invent_levels.setVisible(false);
-        sales_hist.setVisible(false);
-        invent_app.setVisible(true);
+        if (invent_app.isVisible()) {
+            invent_app.setVisible(false);
+        } else {
+            sales_hist.setVisible(false);
+            invent_app.setVisible(true);
+        }
     }
 
     public void log_hist() {
-        invent_levels.setVisible(false);
-        invent_app.setVisible(false);
-        sales_hist.setVisible(true);
+        if (sales_hist.isVisible()) {
+            sales_hist.setVisible(false);
+        } else {
+            invent_app.setVisible(false);
+            sales_hist.setVisible(true);
+        }
     }
 
     public void toggle_tab() {
@@ -716,6 +750,7 @@ public class MainController implements Initializable {
                 if (rowsAffected > 0) {
                     System.out.println("Product added successfully.");
                     UpdateTable();
+                    all_reports();
                     add_pane.setVisible(false);
                 } else {
                     System.out.println("Failed to add product.");
@@ -728,7 +763,8 @@ public class MainController implements Initializable {
             showAlert();
         }
     }
-    public void buttonEditAction(){
+
+    public void buttonEditAction() {
         submit_butt2.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             edit_products_meth();
             edit_pane.setVisible(false);
@@ -736,7 +772,7 @@ public class MainController implements Initializable {
     }
 
     public void edit_products_meth() {
-        String selectedProductName = (String) edit_name.getValue();
+        String selectedProductName = edit_name.getValue();
 
         if (selectedProductName != null) {
             java.sql.Date sqlexDate = java.sql.Date.valueOf(edit_expire.getText());
@@ -751,6 +787,7 @@ public class MainController implements Initializable {
                 int rowsAffected = ps.executeUpdate();
                 if (rowsAffected > 0) {
                     UpdateTable();
+                    all_reports();
                     System.out.println("Product updated successfully.");
                 } else {
                     System.out.println("No product found with the specified name.");
@@ -760,6 +797,7 @@ public class MainController implements Initializable {
             }
         }
     }
+
     private void populateComboBox() {
         try {
             Statement statement = con_pro.createStatement();
@@ -776,7 +814,7 @@ public class MainController implements Initializable {
     }
 
     private void onComboBoxItemSelected() {
-        String selectedProductName = (String) edit_name.getValue();
+        String selectedProductName = edit_name.getValue();
         try {
             PreparedStatement preparedStatement = con_pro.prepareStatement("SELECT * FROM product WHERE product_name = ?");
             preparedStatement.setString(1, selectedProductName);
@@ -794,10 +832,11 @@ public class MainController implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-}
+    }
+
     //sales_start
     private void ItemSelectedSale() {
-        String selectedProductName = (String) sale_combo.getValue();
+        String selectedProductName = sale_combo.getValue();
         try {
             PreparedStatement preparedStatement = con_pro.prepareStatement("SELECT * FROM product WHERE product_name = ?");
             preparedStatement.setString(1, selectedProductName);
@@ -816,7 +855,7 @@ public class MainController implements Initializable {
         String sql = "INSERT INTO sale (sale_id, product_id, product_name, sell_price, product_quantity, date_assessed) VALUES (?, ?, ?, ?, ?, ?)";
         java.sql.Date sqlDate = java.sql.Date.valueOf(LocalDate.now());
         String sale_sql = "SELECT COALESCE(MAX(sale_id) + 1, 1) AS next_sale FROM sale";
-        String selectedProductName = (String) sale_combo.getValue();
+        String selectedProductName = sale_combo.getValue();
 
         if (isValidDateFormat(sale_addDate.getText())) {
             java.sql.Date sqlexDate = java.sql.Date.valueOf(sale_addDate.getText());
@@ -826,12 +865,11 @@ public class MainController implements Initializable {
                 saleIdResult.next();
                 int nextSaleId = saleIdResult.getInt("next_sale");
 
-                // Check if sale_price and sale_quantity are not empty
                 if (!sale_price.getText().isEmpty() && !sale_quantity.getText().isEmpty()) {
                     PreparedStatement ps = con_pro.prepareStatement(sql);
                     ps.setInt(1, nextSaleId);
                     ps.setString(2, saleid_label.getText());
-                    ps.setString(3, (String) sale_combo.getValue());
+                    ps.setString(3, sale_combo.getValue());
                     ps.setDouble(4, Double.parseDouble(sale_price.getText()));
                     ps.setInt(5, Integer.parseInt(sale_quantity.getText()));
                     ps.setDate(6, sqlDate);
@@ -839,8 +877,11 @@ public class MainController implements Initializable {
                     int rowsAffected = ps.executeUpdate();
 
                     if (rowsAffected > 0) {
+                        UpdateTable();
+                        all_reports();
                         resetSale();
                         compute_profit();
+                        UpdateSale();
                         compute_total();
                     }
                 } else return;
@@ -853,7 +894,7 @@ public class MainController implements Initializable {
     }
 
 
-    public void showCalculate(){
+    public void showCalculate() {
         double totalSales = calculateTotalSales();
         totalsale_label.setText(String.valueOf(totalSales));
     }
@@ -863,6 +904,8 @@ public class MainController implements Initializable {
         LocalDate endDate = to_sale.getValue();
         double totalSales = 0.0;
         String totalSalesQuery = "SELECT SUM(total) AS total_sales FROM sale WHERE date_assessed BETWEEN ? AND ?";
+
+        if(startDate == null && endDate == null) System.out.print("");
 
         try {
             PreparedStatement preparedStatement = con_pro.prepareStatement(totalSalesQuery);
@@ -882,10 +925,10 @@ public class MainController implements Initializable {
         return totalSales;
     }
 
-    public void compute_profit(){
+    public void compute_profit() {
         LocalDate start = LocalDate.now();
         String storedProcedureCall = "{CALL update_profit_all(?)}";
-        try (CallableStatement statement = con_pro.prepareCall(storedProcedureCall)){
+        try (CallableStatement statement = con_pro.prepareCall(storedProcedureCall)) {
             statement.setDate(1, java.sql.Date.valueOf(start));
             statement.execute();
         } catch (SQLException e) {
@@ -893,10 +936,10 @@ public class MainController implements Initializable {
         }
     }
 
-    public void compute_total(){
+    public void compute_total() {
         LocalDate start = LocalDate.now();
         String storedProcedureCall = "{CALL update_total_sales(?)}";
-        try (CallableStatement statement = con_pro.prepareCall(storedProcedureCall)){
+        try (CallableStatement statement = con_pro.prepareCall(storedProcedureCall)) {
             statement.setDate(1, java.sql.Date.valueOf(start));
             statement.execute();
         } catch (SQLException e) {
@@ -904,15 +947,26 @@ public class MainController implements Initializable {
         }
     }
 
-
-
-    private void resetSale(){
+    private void resetSale() {
         saleid_label.setText("");
         sale_combo.setValue(null);
         sale_price.clear();
         sale_quantity.clear();
         sale_category.setText("");
         sales_add.setVisible(false);
+    }
+
+    private void sales_meth() {
+        sale_productId.setCellValueFactory(new PropertyValueFactory<>("productId"));
+        sale_productName.setCellValueFactory(new PropertyValueFactory<>("productName"));
+        sale_productPrice.setCellValueFactory(new PropertyValueFactory<>("sellPrice"));
+        sale_qty.setCellValueFactory(new PropertyValueFactory<>("productQuantity"));
+        sale_productTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
+        sale_date_ass.setCellValueFactory(new PropertyValueFactory<>("dateAssessed"));
+
+        sales_listahan = sales.getSales();
+
+        sale_table.setItems(sales_listahan);
     }
 
 
@@ -937,10 +991,15 @@ public class MainController implements Initializable {
     }
 
     //UPDATE KIDS
-    public void UpdateTable(){
+    public void UpdateTable() {
         productmeth();
     }
-    public void UpdateDisable(){
+
+    public void UpdateSale() {
+        sales_meth();
+    }
+
+    public void UpdateDisable() {
         disable_productmeth();
     }
 
@@ -993,7 +1052,7 @@ public class MainController implements Initializable {
             pst.setString(2, selectedItem.categoryProperty().get());
             pst.setDouble(3, selectedItem.priceProperty().get());
             pst.executeUpdate();
-
+            all_reports();
             showAlert("Product Enabled Successfully");
             UpdateTable();
             UpdateDisable();
@@ -1015,7 +1074,7 @@ public class MainController implements Initializable {
             pst.setString(2, selectedItem.categoryProperty().get());
             pst.setDouble(3, selectedItem.priceProperty().get());
             pst.executeUpdate();
-
+            all_reports();
             showAlert("Product Disabled Successfully");
             UpdateTable();
             UpdateDisable();
@@ -1029,7 +1088,7 @@ public class MainController implements Initializable {
     //system_func_start_end
 
     //logout
-    public void loggy(){
+    public void loggy() {
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("penglog.fxml")));
             Scene scene = new Scene(root);
@@ -1045,7 +1104,7 @@ public class MainController implements Initializable {
 
     //main_misc_debt_table_cycle
 
-    public void switchGo(){
+    public void switchGo() {
         misc_showbutt.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             misc_showbutt.setVisible(false);
             debt_table.setVisible(false);
@@ -1070,6 +1129,18 @@ public class MainController implements Initializable {
             disable_table.setVisible(true);
             products_table.setVisible(false);
         });
+        view_totalSales.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            profits_bar.setVisible(false);
+            total_bar.setVisible(true);
+            view_profits.setVisible(true);
+            view_totalSales.setVisible(false);
+        });
+        view_profits.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            total_bar.setVisible(false);
+            profits_bar.setVisible(true);
+            view_profits.setVisible(false);
+            view_totalSales.setVisible(true);
+        });
 
     }
 
@@ -1093,43 +1164,39 @@ public class MainController implements Initializable {
 
     @FXML
     public void keyPressed_2(KeyEvent e) {
-        if ((add_pane.isVisible() || edit_pane.isVisible() || sales_add.isVisible() || invent_levels.isVisible() || invent_app.isVisible() || sales_hist.isVisible()) || add_users.isVisible() && e.getCode() == KeyCode.ESCAPE) {
+        if ((add_pane.isVisible() || edit_pane.isVisible() || sales_add.isVisible() || invent_app.isVisible() || sales_hist.isVisible()) || add_users.isVisible() && e.getCode() == KeyCode.ESCAPE) {
             add_pane.setVisible(false);
             edit_pane.setVisible(false);
             sales_add.setVisible(false);
-            invent_levels.setVisible(false);
             invent_app.setVisible(false);
             sales_hist.setVisible(false);
             add_users.setVisible(false);
-        } else if  ((!add_pane.isVisible() || !edit_pane.isVisible() || !sales_add.isVisible() || !invent_levels.isVisible() || !invent_app.isVisible() || !sales_hist.isVisible()) && e.getCode() == KeyCode.ESCAPE) {
+        } else if ((!add_pane.isVisible() || !edit_pane.isVisible() || !sales_add.isVisible() || !invent_app.isVisible() || !sales_hist.isVisible()) && e.getCode() == KeyCode.ESCAPE) {
             inv_vis_wan();
             pos_vis_wan();
             rep_vis_wan();
             user_vis_wan();
-        }
-        else if (e.getCode() == KeyCode.CONTROL) {
+        } else if (e.getCode() == KeyCode.CONTROL) {
             toggle_tab();
         } else if (inventory_pane.isVisible() && e.getCode() == KeyCode.F1) {
             add_product_evt();
-        }else if (inventory_pane.isVisible() && e.getCode() == KeyCode.F2) {
+        } else if (inventory_pane.isVisible() && e.getCode() == KeyCode.F2) {
             edit_pane.setVisible(true);
             add_pane.setVisible(false);
         } else if ((add_pane.isVisible() || edit_pane.isVisible()) && e.getCode() == KeyCode.ESCAPE) {
             add_pane.setVisible(false);
             edit_pane.setVisible(false);
-        } else if (pos_pane.isVisible() && e.getCode() == KeyCode.F1){
+        } else if (pos_pane.isVisible() && e.getCode() == KeyCode.F1) {
             sales_add.setVisible(true);
-        } else if (sales_add.isVisible() && e.getCode() == KeyCode.ESCAPE){
+        } else if (sales_add.isVisible() && e.getCode() == KeyCode.ESCAPE) {
             sales_add.setVisible(false);
         } else if (reports_pane.isVisible() && e.getCode() == KeyCode.F1) {
-            rep_levels();
-        } else if (reports_pane.isVisible() && e.getCode() == KeyCode.F2) {
             rep_app();
-        } else if (reports_pane.isVisible() && e.getCode() == KeyCode.F3) {
+        } else if (reports_pane.isVisible() && e.getCode() == KeyCode.F2) {
             log_hist();
-        } else if (user_pane.isVisible() && e.getCode() == KeyCode.F1){
+        } else if (user_pane.isVisible() && e.getCode() == KeyCode.F1) {
             add_users.setVisible(!add_users.isVisible());
-        } else if (add_users.isVisible() && e.getCode() == KeyCode.ESCAPE){
+        } else if (add_users.isVisible() && e.getCode() == KeyCode.ESCAPE) {
             add_users.setVisible(false);
         }
     }
@@ -1176,7 +1243,7 @@ public class MainController implements Initializable {
     }
 
 
-    public void updateDebt(){
+    public void updateDebt() {
         debtmeth();
     }
 
@@ -1285,7 +1352,8 @@ public class MainController implements Initializable {
             PreparedStatement ps = con_pro.prepareStatement(sql);
             ps.setString(1, misc_fname.getText());
             String totalText = misc_ftotal.getText();
-            if (!totalText.isEmpty()) ps.setDouble(2, Double.parseDouble(totalText)); else return;
+            if (!totalText.isEmpty()) ps.setDouble(2, Double.parseDouble(totalText));
+            else return;
             ps.setDate(3, sqlDate);
 
             int rowsAffected = ps.executeUpdate();
@@ -1315,8 +1383,7 @@ public class MainController implements Initializable {
         }
     }
 
-
-    public void updateMisc(){
+    public void updateMisc() {
         miscmeth();
     }
 
@@ -1329,6 +1396,124 @@ public class MainController implements Initializable {
     }
 
     //memo_end
+
+    //reports_start
+
+    public void chart() {
+        LocalDate startDate = from_saleHistory.getValue();
+        LocalDate endDate = to_saleHistory.getValue();
+
+        if (startDate == null || endDate == null) return;
+
+        String query = "SELECT report_date, overall_sales FROM total_sales WHERE report_date BETWEEN ? AND ?";
+        try (PreparedStatement statement = con_pro.prepareStatement(query)) {
+            statement.setDate(1, java.sql.Date.valueOf(startDate));
+            statement.setDate(2, java.sql.Date.valueOf(endDate));
+            ResultSet resultSet = statement.executeQuery();
+
+            total_bar.getData().clear();
+
+            total_bar.getXAxis().setLabel("Report Date");
+            total_bar.getYAxis().setLabel("Overall Sales");
+
+            while (resultSet.next()) {
+                XYChart.Series<String, Number> chartData = new XYChart.Series<>();
+                chartData.getData().add(new XYChart.Data<>(resultSet.getString(1), resultSet.getInt(2)));
+                total_bar.getData().add(chartData);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void chartProfit() {
+        LocalDate startDate = from_saleHistory.getValue();
+        LocalDate endDate = to_saleHistory.getValue();
+
+        if (startDate == null || endDate == null) return;
+
+        String query = "SELECT report_date, overall_profit FROM profit_all WHERE report_date BETWEEN ? AND ?";
+        try (PreparedStatement statement = con_pro.prepareStatement(query)) {
+            statement.setDate(1, java.sql.Date.valueOf(startDate));
+            statement.setDate(2, java.sql.Date.valueOf(endDate));
+            ResultSet resultSet = statement.executeQuery();
+
+            profits_bar.getData().clear();
+
+            profits_bar.getXAxis().setLabel("Report Date");
+            profits_bar.getYAxis().setLabel("Overall Profit Gain");
+
+            while (resultSet.next()) {
+                XYChart.Series<String, Number> chartData = new XYChart.Series<>();
+                chartData.getData().add(new XYChart.Data<>(resultSet.getString(1), resultSet.getInt(2)));
+                profits_bar.getData().add(chartData);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void all_reports(){
+        showTotalProducts();
+        showTotalRemove();
+        showTotal();
+        showTotalProfit();
+    }
+
+    private void showTotalProducts() {
+        String query = "SELECT MAX(product_id) AS max_products FROM product;";
+        try {
+            PreparedStatement total_state = con_pro.prepareStatement(query);
+            ResultSet max_pro = total_state.executeQuery();
+            if (max_pro.next()) {
+                tproducts.setText(String.valueOf(max_pro.getInt("max_products")));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showTotalRemove(){
+        String query = "SELECT COUNT(is_disabled) AS total_remove FROM product WHERE is_disabled = 1;;";
+        try {
+            PreparedStatement remove_state = con_pro.prepareStatement(query);
+            ResultSet max_disabled = remove_state.executeQuery();
+            if (max_disabled.next()) {
+                tremove.setText(String.valueOf(max_disabled.getInt("total_remove")));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showTotal(){
+        String query = "SELECT SUM(sell_price * stock_left) AS Total FROM product;";
+        try{
+            PreparedStatement show_total = con_pro.prepareStatement(query);
+            ResultSet max_total = show_total.executeQuery();
+            if (max_total.next()) {
+                tvalue.setText(String.valueOf(max_total.getInt("Total")));
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void showTotalProfit(){
+        String query = "SELECT SUM(sell_price * stock_left) - SUM(original_price * stock_left) AS Total FROM product;";
+        try{
+            PreparedStatement show_total = con_pro.prepareStatement(query);
+            ResultSet max_profit = show_total.executeQuery();
+            if (max_profit.next()) {
+                tprofit.setText(String.valueOf(max_profit.getInt("Total")));
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+    //reports_end
 
     //add_account_start
 
