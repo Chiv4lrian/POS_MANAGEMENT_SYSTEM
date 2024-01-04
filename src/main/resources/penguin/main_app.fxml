@@ -235,7 +235,7 @@
                <children>
                   <Button fx:id="back_to_invent" layoutX="365.0" layoutY="396.0" mnemonicParsing="false" onAction="#invent_buttons" prefHeight="37.0" prefWidth="125.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="CANCEL" />
                   <Button fx:id="submit_butt" layoutX="145.0" layoutY="396.0" mnemonicParsing="false" onAction="#addProducts" prefHeight="37.0" prefWidth="125.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="SUBMIT" />
-                  <TextField fx:id="txt_productname" alignment="CENTER" layoutX="147.0" layoutY="75.0" prefHeight="27.0" prefWidth="208.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 1;">
+                  <TextField fx:id="txt_productname" alignment="CENTER" layoutX="151.0" layoutY="75.0" prefHeight="27.0" prefWidth="208.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 1;">
                      <font>
                         <Font name="Arial Bold" size="14.0" />
                      </font></TextField>
@@ -304,7 +304,7 @@
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Text>
-                  <Label fx:id="txt_productid" alignment="CENTER" layoutX="147.0" layoutY="22.0" onInputMethodTextChanged="#addProducts" prefHeight="30.0" prefWidth="88.0" style="-fx-border-color: black;" textAlignment="JUSTIFY">
+                  <Label fx:id="txt_productid" alignment="CENTER" layoutX="151.0" layoutY="23.0" onInputMethodTextChanged="#addProducts" prefHeight="30.0" prefWidth="88.0" style="-fx-border-color: black;" textAlignment="JUSTIFY">
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font>
@@ -456,7 +456,7 @@
                   <Font name="Arial Bold" size="19.0" />
                </font>
             </Label>
-            <Label fx:id="totalsale_label" layoutX="798.0" layoutY="617.0" prefHeight="32.0" prefWidth="176.0" style="-fx-border-color: black;">
+            <Label fx:id="totalsale_label" alignment="CENTER" layoutX="798.0" layoutY="617.0" prefHeight="32.0" prefWidth="176.0" style="-fx-border-color: black;" textAlignment="CENTER">
                <font>
                   <Font name="Arial Bold" size="25.0" />
                </font>
@@ -559,7 +559,7 @@
             </Label>
             <Label fx:id="txt_report_number" alignment="CENTER" layoutX="1177.0" layoutY="356.0" prefHeight="27.0" prefWidth="75.0" style="-fx-border-color: black; -fx-border-width: 2px;" textAlignment="JUSTIFY">
                <font>
-                  <Font size="13.0" />
+                  <Font name="System Bold" size="13.0" />
                </font>
             </Label>
             <VBox layoutX="25.0" layoutY="223.0" prefHeight="320.0" prefWidth="255.0">
@@ -581,7 +581,7 @@
                <children>
                   <Label layoutX="319.0" layoutY="306.0" prefHeight="33.0" prefWidth="88.0" text="SHELF LIFE">
                      <font>
-                        <Font name="Aparajita Bold" size="18.0" />
+                        <Font name="Arial Bold" size="18.0" />
                      </font>
                   </Label>
                   <TableView layoutX="1.0" layoutY="335.0" prefHeight="209.0" prefWidth="723.0" style="-fx-border-color: black; -fx-border-width: 2px;">
@@ -786,12 +786,18 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Button fx:id="accountLogs_button" layoutX="131.0" layoutY="89.0" mnemonicParsing="false" onAction="#accountButton" prefHeight="37.0" prefWidth="125.0" style="-fx-border-width: 2; -fx-border-color: black; -fx-background-color: white;" text="ACCOUNT LOGS" />
+            <Button fx:id="accountLogs_button" layoutX="131.0" layoutY="89.0" mnemonicParsing="false" onAction="#accountButton" prefHeight="37.0" prefWidth="125.0" style="-fx-border-width: 2; -fx-border-color: black; -fx-background-color: white;" text="ACCOUNT LOGS">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
             <Button fx:id="memoLogs_button" layoutX="284.0" layoutY="89.0" mnemonicParsing="false" onAction="#accountButton" prefHeight="37.0" prefWidth="95.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" text="MEMO LOGS">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Button>
-            <Button fx:id="logsLogs_button" layoutX="410.0" layoutY="89.0" mnemonicParsing="false" onAction="#accountButton" prefHeight="37.0" prefWidth="115.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" text="PRODUCT LOGS" />
+            <Button fx:id="logsLogs_button" layoutX="410.0" layoutY="89.0" mnemonicParsing="false" onAction="#accountButton" prefHeight="37.0" prefWidth="115.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;" text="PRODUCT LOGS">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
             <ComboBox fx:id="combo_user" layoutX="426.0" layoutY="531.0" prefHeight="34.0" prefWidth="184.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 2;" />
          </children>
       </AnchorPane>
