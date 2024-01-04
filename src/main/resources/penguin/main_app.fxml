@@ -235,7 +235,7 @@
                <children>
                   <Button fx:id="back_to_invent" layoutX="365.0" layoutY="396.0" mnemonicParsing="false" onAction="#invent_buttons" prefHeight="37.0" prefWidth="125.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="CANCEL" />
                   <Button fx:id="submit_butt" layoutX="145.0" layoutY="396.0" mnemonicParsing="false" onAction="#addProducts" prefHeight="37.0" prefWidth="125.0" style="-fx-border-color: black;" stylesheets="@../mainapp.css" text="SUBMIT" />
-                  <TextField fx:id="txt_productname" alignment="CENTER" layoutX="147.0" layoutY="75.0" prefHeight="27.0" prefWidth="208.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 1;">
+                  <TextField fx:id="txt_productname" alignment="CENTER" layoutX="151.0" layoutY="75.0" prefHeight="27.0" prefWidth="208.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 1;">
                      <font>
                         <Font name="Arial Bold" size="14.0" />
                      </font></TextField>
@@ -304,7 +304,7 @@
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Text>
-                  <Label fx:id="txt_productid" alignment="CENTER" layoutX="147.0" layoutY="22.0" onInputMethodTextChanged="#addProducts" prefHeight="30.0" prefWidth="88.0" style="-fx-border-color: black;" textAlignment="JUSTIFY">
+                  <Label fx:id="txt_productid" alignment="CENTER" layoutX="151.0" layoutY="23.0" onInputMethodTextChanged="#addProducts" prefHeight="30.0" prefWidth="88.0" style="-fx-border-color: black;" textAlignment="JUSTIFY">
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font>
@@ -456,7 +456,7 @@
                   <Font name="Arial Bold" size="19.0" />
                </font>
             </Label>
-            <Label fx:id="totalsale_label" layoutX="798.0" layoutY="617.0" prefHeight="32.0" prefWidth="176.0" style="-fx-border-color: black;">
+            <Label fx:id="totalsale_label" alignment="CENTER" layoutX="798.0" layoutY="617.0" prefHeight="32.0" prefWidth="176.0" style="-fx-border-color: black;" textAlignment="CENTER">
                <font>
                   <Font name="Arial Bold" size="25.0" />
                </font>

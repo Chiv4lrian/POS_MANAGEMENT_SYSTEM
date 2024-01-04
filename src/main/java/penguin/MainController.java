@@ -411,8 +411,8 @@ public class MainController implements Initializable {
     //invent_buttons
     public void invent_buttons() {
         add_product.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> add_product_evt());
-        back_to_invent.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> add_pane.setVisible(false));
-        back_to_invent2.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> edit_pane.setVisible(false));
+        back_to_invent.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> reset_add_product());
+        back_to_invent2.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> resetEdit());
         show_products.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> toggle_tab());
         edit_butt.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> edit_pane.setVisible(true));
         add_sales.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> sales_add.setVisible(true));
@@ -759,7 +759,6 @@ public class MainController implements Initializable {
                     UpdateTable();
                     reset_add_product();
                     all_reports();
-                    add_pane.setVisible(false);
                 } else {
                     System.out.println("Failed to add product.");
                 }
@@ -779,7 +778,7 @@ public class MainController implements Initializable {
         txt_origprice.clear();
         txt_price.clear();
         txt_expire.clear();
-
+        add_pane.setVisible(false);
     }
 
 
@@ -795,18 +794,20 @@ public class MainController implements Initializable {
 
         if (selectedProductName != null) {
             java.sql.Date sqlexDate = java.sql.Date.valueOf(edit_expire.getText());
-            String sql = "UPDATE product SET category = ?, original_price = ?, sell_price = ?, stock = ?, expire_date = ? WHERE product_name = ?";
+            String sql = "UPDATE product SET category = ?, original_price = ?, sell_price = ?, stock = ?, expire_date = ?,stock_left = ? WHERE product_name = ?";
             try (PreparedStatement ps = con_pro.prepareStatement(sql)) {
                 ps.setString(1, edit_category.getText());
                 ps.setDouble(2, Double.parseDouble(edit_listprice.getText()));
                 ps.setDouble(3, Double.parseDouble(edit_price.getText()));
                 ps.setInt(4, Integer.parseInt(edit_stock.getText()));
                 ps.setDate(5, sqlexDate);
-                ps.setString(6, selectedProductName);
+                ps.setInt(6,Integer.parseInt(edit_stock.getText()));
+                ps.setString(7, selectedProductName);
                 int rowsAffected = ps.executeUpdate();
                 if (rowsAffected > 0) {
                     UpdateTable();
                     all_reports();
+                    resetEdit();
                     System.out.println("Product updated successfully.");
                 } else {
                     System.out.println("No product found with the specified name.");
@@ -816,6 +817,16 @@ public class MainController implements Initializable {
                 logger.log(java.util.logging.Level.SEVERE, "Exception details: ", e);
             }
         }
+    }
+    private void resetEdit(){
+        edit_id.setText("");
+        edit_name.setValue(null);
+        edit_category.setText("");
+        edit_listprice.clear();
+        edit_price.clear();
+        edit_stock.clear();
+        edit_expire.clear();
+        edit_pane.setVisible(false);
     }
 
     private void populateComboBox() {
@@ -833,21 +844,21 @@ public class MainController implements Initializable {
             logger.log(java.util.logging.Level.SEVERE, "Exception details: ", e);
         }
     }
-    private void populateComboUser() {
-        try {
-            Statement statement = con_pro.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT name FROM account");
-            ObservableList<String> userNames = FXCollections.observableArrayList();
-            while (resultSet.next()) {
-                userNames.add(resultSet.getString("name"));
-            }
-            combo_user.setItems(userNames);
-        } catch (SQLException e) {
-            logger.severe("An error occurred: " + e.getMessage());
-            logger.log(java.util.logging.Level.SEVERE, "Exception details: ", e);
-        }
-    }
-    String user_selected = combo_user.getValue();
+//    private void populateComboUser() {
+//        try {
+//            Statement statement = con_pro.createStatement();
+//            ResultSet resultSet = statement.executeQuery("SELECT name FROM account");
+//            ObservableList<String> userNames = FXCollections.observableArrayList();
+//            while (resultSet.next()) {
+//                userNames.add(resultSet.getString("name"));
+//            }
+//            combo_user.setItems(userNames);
+//        } catch (SQLException e) {
+//            logger.severe("An error occurred: " + e.getMessage());
+//            logger.log(java.util.logging.Level.SEVERE, "Exception details: ", e);
+//        }
+//    }
+   // String user_selected = combo_user.getValue();
 
     private void onComboBoxItemSelected() {
         String selectedProductName = edit_name.getValue();
