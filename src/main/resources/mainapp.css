@@ -14,7 +14,7 @@
     -fx-padding: 5px 10px;
 }
 .button:hover{
-    -fx-background-color: linear-gradient(to right,#feac5e,#c779d0,#4bc0c8);
+    -fx-background-color: #9cbfe2;
     -fx-cursor: hand;
 }
 .label{
