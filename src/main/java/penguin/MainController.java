@@ -19,8 +19,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.control.TextField;
 import javafx.util.Duration;
+
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
@@ -51,7 +51,7 @@ public class MainController implements Initializable {
     private Pane pane_debt, pane_misc, sales_add, invent_app, sales_hist, main_pane, add_users, add_pane, edit_pane;
 
     @FXML
-    private Button view_profits, view_totalSales, compute_sales, sale_submit, submit_butt2, view_disable, view_enable, submit_add_user, submit_debt, cancel_debt, submit_misc, cancel_misc, misc_butt, debt_butt, misc_showbutt, debt_showbutt, cancel_add_user, add_sales, sale_cancel, appraisal_butt, history_butt, inventory_butt, pos_butt, report_butt, user_butt, back_to_wan, back_to_wan2, back_to_wan3, back_to_wan4, log_out, add_account_butt, add_product, back_to_invent, back_to_invent2, edit_butt;
+    private Button misc_butt,printed,view_profits, view_totalSales, compute_sales, sale_submit, submit_butt2, view_disable, view_enable, submit_add_user, submit_debt, cancel_debt, submit_misc, cancel_misc, debt_butt, misc_showbutt, debt_showbutt, cancel_add_user, add_sales, sale_cancel, appraisal_butt, history_butt, inventory_butt, pos_butt, report_butt, user_butt, back_to_wan, back_to_wan2, back_to_wan3, back_to_wan4, log_out, add_account_butt, add_product, back_to_invent, back_to_invent2, edit_butt;
 
     @FXML
     private AnchorPane inventory_pane, pos_pane, reports_pane, user_pane;
@@ -356,6 +356,11 @@ public class MainController implements Initializable {
     @FXML
     private TableColumn<miscy, LocalDate> misc_add;
 
+//    public void printKunuhay(){
+//        SpringApplication.run()
+//    }
+
+
     //TABLES_ALL_FUNCTIONS_END
 
     //ButtonsOnActions
@@ -370,8 +375,13 @@ public class MainController implements Initializable {
 
     public void paneMemo() {
         misc_butt.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            pane_misc.setVisible(!pane_misc.isVisible());
-            pane_debt.setVisible(false);
+            if(pane_misc.isVisible()) {
+                pane_misc.setVisible(false);
+                pane_debt.setVisible(false);
+            }else{
+                pane_misc.setVisible(true);
+                pane_debt.setVisible(false);
+            }
         });
 
         debt_butt.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
@@ -1164,12 +1174,16 @@ public class MainController implements Initializable {
             debt_table.setVisible(false);
             debt_showbutt.setVisible(true);
             misc_table.setVisible(true);
+            debt_butt.setVisible(false);
+            misc_butt.setVisible(true);
         });
         debt_showbutt.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             misc_showbutt.setVisible(true);
             debt_table.setVisible(true);
             debt_showbutt.setVisible(false);
             misc_table.setVisible(false);
+            debt_butt.setVisible(true);
+            misc_butt.setVisible(false);
         });
         view_enable.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             view_disable.setVisible(true);
@@ -1603,7 +1617,7 @@ public class MainController implements Initializable {
             logger.log(java.util.logging.Level.SEVERE, "Exception details: ", e);
         }
     }
-    private void res_acc(){
+    private void res_acc() {
         code_field.clear();
         name_field.clear();
         name_field.clear();
@@ -1613,6 +1627,27 @@ public class MainController implements Initializable {
     //add_account_end
 
     //system_methods_all_end
+    public void going(){
+        printed.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> printOnTheGo());
+    }
+
+    private void printOnTheGo(){
+//        try {
+//            String reportPath = "C:\\Users\\xgeor\\Music\\Ezio\\Projects\\POS_MANAGEMENT_SYSTEM\\rep_folder\\reports.jrxml";
+//            JasperReport jr = JasperCompileManager.compileReport(reportPath);
+//            JasperPrint jp = JasperFillManager.fillReport(jr, null, con_pro);
+//            JasperViewer.viewReport(jp);
+//    } catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
+    }
+
+
+    //printer
+
+
+
+    //printer_end
 }
 
 

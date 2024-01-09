@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import static penguin.MainController.logger;
 
@@ -17,12 +18,11 @@ public class MainApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         try {
-            // Load the FXML file and set up the main stage
-            Parent root = FXMLLoader.load(getClass().getResource("penglog.fxml"));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("penglog.fxml")));
             Scene scene = new Scene(root);
             stage.setResizable(false);
             stage.setTitle("Pengui Management System");
-            Image icon_app = new Image("pengui.png");
+            Image icon_app = new Image("C:\\Users\\xgeor\\Music\\Ezio\\Projects\\POS_MANAGEMENT_SYSTEM\\src\\main\\resources\\img\\pengui.png");
             stage.getIcons().add(icon_app);
             stage.setScene(scene);
             stage.show();

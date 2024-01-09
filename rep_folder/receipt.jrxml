@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reports" pageWidth="226" pageHeight="283" columnWidth="186" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b209ab01-2450-4dd3-8bc9-2e424b2bef31">
+    <property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+    <parameter name="user_identify" class="java.lang.String"/>
+    <queryString>
+        <![CDATA[]]>
+    </queryString>
+    <field name="sale_id" class="java.lang.Integer">
+        <property name="com.jaspersoft.studio.field.name" value="sale_id"/>
+        <property name="com.jaspersoft.studio.field.label" value="sale_id"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="sale"/>
+    </field>
+    <field name="product_name" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.name" value="product_name"/>
+        <property name="com.jaspersoft.studio.field.label" value="product_name"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="sale"/>
+    </field>
+    <field name="sell_price" class="java.math.BigDecimal">
+        <property name="com.jaspersoft.studio.field.name" value="sell_price"/>
+        <property name="com.jaspersoft.studio.field.label" value="sell_price"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="sale"/>
+    </field>
+    <field name="product_quantity" class="java.lang.Integer">
+        <property name="com.jaspersoft.studio.field.name" value="product_quantity"/>
+        <property name="com.jaspersoft.studio.field.label" value="product_quantity"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="sale"/>
+    </field>
+    <field name="total" class="java.math.BigDecimal">
+        <property name="com.jaspersoft.studio.field.name" value="total"/>
+        <property name="com.jaspersoft.studio.field.label" value="total"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="sale"/>
+    </field>
+    <field name="date_assessed" class="java.sql.Date">
+        <property name="com.jaspersoft.studio.field.name" value="date_assessed"/>
+        <property name="com.jaspersoft.studio.field.label" value="date_assessed"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="sale"/>
+    </field>
+    <field name="overall_profit" class="java.math.BigDecimal">
+        <property name="com.jaspersoft.studio.field.name" value="overall_profit"/>
+        <property name="com.jaspersoft.studio.field.label" value="overall_profit"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="profit_all"/>
+    </field>
+    <field name="overall_sales" class="java.math.BigDecimal">
+        <property name="com.jaspersoft.studio.field.name" value="overall_sales"/>
+        <property name="com.jaspersoft.studio.field.label" value="overall_sales"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="total_sales"/>
+    </field>
+    <background>
+        <band splitType="Stretch"/>
+    </background>
+    <title>
+        <band height="32" splitType="Stretch">
+            <property name="com.jaspersoft.studio.layout"/>
+            <property name="com.jaspersoft.studio.unit.height" value="px"/>
+            <line>
+                <reportElement x="51" y="10" width="97" height="1" uuid="0f064cff-9588-451e-acaf-b9cec84fe188">
+                    <property name="com.jaspersoft.studio.unit.y" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.width" value="px"/>
+                </reportElement>
+            </line>
+            <image>
+                <reportElement x="15" y="-4" width="29" height="28" uuid="21f7568d-eebc-44a6-9405-4840aa4d98a2">
+                    <property name="com.jaspersoft.studio.unit.y" value="px"/>
+                </reportElement>
+                <imageExpression><![CDATA["C:/Users/xgeor/Downloads/retail-store-icon-14319.png"]]></imageExpression>
+            </image>
+            <staticText>
+                <reportElement x="51" y="0" width="104" height="10" uuid="5b23523e-30f2-441b-9fe9-98a9d91efb64">
+                    <property name="com.jaspersoft.studio.unit.x" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.y" value="px"/>
+                </reportElement>
+                <textElement>
+                    <font fontName="Arial" size="8" isBold="true"/>
+                </textElement>
+                <text><![CDATA[DONIX DEVELOS STORE]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="46" y="12" width="115" height="7" uuid="b8f623c5-b8f2-4064-8bfa-0a2ac236f6a5">
+                    <property name="com.jaspersoft.studio.unit.y" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.x" value="px"/>
+                </reportElement>
+                <textElement>
+                    <font fontName="Arial" size="5"/>
+                </textElement>
+                <text><![CDATA[Salera St, Pagadian City, Zamboanga Peninsula]]></text>
+            </staticText>
+        </band>
+    </title>
+    <pageHeader>
+        <band height="14" splitType="Stretch">
+            <staticText>
+                <reportElement x="-12" y="4" width="82" height="10" uuid="5c737bbc-013e-417b-8d57-b1da16e2eec3">
+                    <property name="com.jaspersoft.studio.unit.y" value="px"/>
+                </reportElement>
+                <textElement>
+                    <font fontName="Arial" size="6" isBold="true"/>
+                </textElement>
+                <text><![CDATA[DATE ASSESSED:]]></text>
+            </staticText>
+            <line>
+                <reportElement x="-20" y="0" width="226" height="1" uuid="2301df61-b472-4825-a9b8-f4377105dc11">
+                    <property name="com.jaspersoft.studio.unit.y" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.width" value="px"/>
+                </reportElement>
+            </line>
+            <line>
+                <reportElement x="-20" y="13" width="226" height="1" uuid="753a78f0-38ae-458f-a763-5067609e67ea">
+                    <property name="com.jaspersoft.studio.unit.y" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.width" value="px"/>
+                </reportElement>
+            </line>
+            <textField>
+                <reportElement x="44" y="3" width="61" height="8" uuid="2f10ccef-a050-414b-b61b-bb80b2df2d25">
+                    <property name="com.jaspersoft.studio.unit.x" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <textElement>
+                    <font fontName="Arial" size="6" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{date_assessed}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageHeader>
+    <columnHeader>
+        <band height="11" splitType="Stretch">
+            <staticText>
+                <reportElement x="-10" y="2" width="24" height="6" uuid="89af8707-4a8f-414e-835e-92775226a73e">
+                    <property name="com.jaspersoft.studio.unit.y" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <textElement>
+                    <font fontName="Arial" size="5" isBold="true"/>
+                </textElement>
+                <text><![CDATA[SALE ID]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="19" y="2" width="50" height="6" uuid="1c6dea3c-75fa-4c83-8c73-ccb6571a7ebb">
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.y" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.x" value="px"/>
+                </reportElement>
+                <textElement>
+                    <font fontName="Arial" size="5" isBold="true"/>
+                </textElement>
+                <text><![CDATA[PRODUCT NAME]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="105" y="2" width="20" height="6" uuid="70e12ecd-96a5-4f39-b9ec-fce0aa809a58">
+                    <property name="com.jaspersoft.studio.unit.y" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.x" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <textElement>
+                    <font fontName="Arial" size="5" isBold="true"/>
+                </textElement>
+                <text><![CDATA[PRICE]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="140" y="2" width="11" height="7" uuid="39883627-1f0f-4c9f-a82a-f39b0440c974">
+                    <property name="com.jaspersoft.studio.unit.width" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.x" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.y" value="px"/>
+                </reportElement>
+                <textElement>
+                    <font fontName="Arial" size="5" isBold="true"/>
+                </textElement>
+                <text><![CDATA[QTY]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="165" y="2" width="35" height="6" uuid="0b56de1b-7ae0-402d-96eb-33366374146b">
+                    <property name="com.jaspersoft.studio.unit.x" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.y" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <textElement>
+                    <font fontName="Arial" size="5" isBold="true"/>
+                </textElement>
+                <text><![CDATA[SUB TOTAL]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="11" splitType="Stretch">
+            <property name="com.jaspersoft.studio.unit.height" value="px"/>
+            <textField>
+                <reportElement x="-15" y="3" width="34" height="6" uuid="8591aa59-eb18-4e2e-a6ea-520bef27d986">
+                    <property name="com.jaspersoft.studio.unit.width" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <textElement textAlignment="Center">
+                    <font fontName="Arial" size="5"/>
+                </textElement>
+                <textFieldExpression><![CDATA[]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="19" y="3" width="80" height="6" uuid="52b20651-fe23-4a38-acb8-ac49e997e657">
+                    <property name="com.jaspersoft.studio.unit.width" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <textElement>
+                    <font fontName="Arial" size="5"/>
+                </textElement>
+                <textFieldExpression><![CDATA[]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="100" y="3" width="30" height="6" uuid="e15394eb-3e99-4d4e-9d8c-ed910bca9287">
+                    <property name="com.jaspersoft.studio.unit.x" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.width" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <textElement textAlignment="Center">
+                    <font fontName="Arial" size="5"/>
+                </textElement>
+                <textFieldExpression><![CDATA[]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="135" y="3" width="20" height="6" uuid="00084a02-5a60-4b39-9349-89cb5edaa98f">
+                    <property name="com.jaspersoft.studio.unit.x" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.width" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <textElement textAlignment="Center">
+                    <font fontName="Arial" size="5"/>
+                </textElement>
+                <textFieldExpression><![CDATA[]]></textFieldExpression>
+            </textField>
+            <line>
+                <reportElement x="-20" y="0" width="226" height="1" forecolor="#4F4D4D" uuid="15c71c3d-8bf4-4b57-8ef5-8a990a30bae4">
+                    <property name="com.jaspersoft.studio.unit.y" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+            </line>
+            <textField>
+                <reportElement x="160" y="3" width="40" height="6" uuid="de5f20da-0c3a-430c-bbf6-1a93573d7824">
+                    <property name="com.jaspersoft.studio.unit.x" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.width" value="px"/>
+                </reportElement>
+                <textElement textAlignment="Center">
+                    <font fontName="Arial" size="5"/>
+                </textElement>
+                <textFieldExpression><![CDATA[]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+    <summary>
+        <band height="21" splitType="Stretch">
+            <staticText>
+                <reportElement x="-12" y="10" width="50" height="8" uuid="190ea0b5-bc97-4b8c-b57e-1c9f0a737311">
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.y" value="px"/>
+                </reportElement>
+                <textElement>
+                    <font fontName="Arial" size="6" isBold="true"/>
+                </textElement>
+                <text><![CDATA[PROFIT GAIN:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="30" y="10" width="50" height="8" uuid="6147288b-27aa-48b1-ae7c-a86a12eeb4a8">
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.y" value="px"/>
+                </reportElement>
+                <textElement>
+                    <font fontName="Arial" size="6" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="90" y="10" width="27" height="8" uuid="d3db6380-2885-4376-bc27-e662a7bce764">
+                    <property name="com.jaspersoft.studio.unit.x" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.y" value="px"/>
+                </reportElement>
+                <textElement>
+                    <font fontName="Arial" size="6" isBold="true"/>
+                </textElement>
+                <text><![CDATA[TOTAL :]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="116" y="10" width="51" height="8" uuid="d0eeeb39-47bc-47f8-b130-f46aada3cd9c">
+                    <property name="com.jaspersoft.studio.unit.x" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.y" value="px"/>
+                </reportElement>
+                <textElement>
+                    <font fontName="Arial" size="6" isBold="true"/>
+                </textElement>
+            </textField>
+            <line>
+                <reportElement x="-20" y="0" width="226" height="1" forecolor="#575252" uuid="4e425e89-804b-4aa7-8268-f15fd9c088e2">
+                    <property name="com.jaspersoft.studio.unit.y" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.width" value="px"/>
+                </reportElement>
+            </line>
+            <textField>
+                <reportElement x="170" y="11" width="33" height="6" uuid="3d88703f-50fd-4821-88c9-c9c49c9c9475">
+                    <property name="com.jaspersoft.studio.unit.width" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.x" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.y" value="px"/>
+                </reportElement>
+                <textElement>
+                    <font fontName="Arial" size="4" isBold="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA["User:  "+ $P{user_identify}]]></textFieldExpression>
+            </textField>
+        </band>
+    </summary>
+</jasperReport>

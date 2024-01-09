@@ -1,7 +1,3 @@
-@font-face {
-    font-family: 'Bebas Neue', sans-serif;
-    src: url('Oswald-VariableFont_wght.ttf');
-}
 
 .button {
     -fx-background-color: #ffffff;

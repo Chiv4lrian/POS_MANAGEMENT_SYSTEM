@@ -8,7 +8,7 @@ public class DBConnect {
 
     public Connection getConnection(){
         String databaseUser = "root";
-        String databasePassword = "pass12345";
+        String databasePassword = "shitload";
         String url = "jdbc:mysql://localhost:3306/pos_records";
 
         try{
