@@ -18,9 +18,9 @@ Features:
 *** Reports Generation: Generate reports on sales, inventory, and customer activities to gain valuable insights.
 ___________________________________________
 Developed by:
-    Designer/Documentation : Ana Capunol             
-    Designer : Javier Fernandez                      
-    Programmer : Keshley Nitz T. Martinez          
+    Designer/Documentation : Ana           
+    Designer : Javier                    
+    Programmer : Martinez          
 __________________________________________
 Feedback:
 
